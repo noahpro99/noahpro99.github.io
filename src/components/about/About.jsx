@@ -24,7 +24,9 @@ const About = () => {
 
           <div className='col-sm'>
             <p>
-              I began my story as a homeschooler whose public school experience wasn't letting me progress in STEM as fast as I could. From there I excelled by myself and did well in high school. I started taking community college classes early and planned on transferring to Virginia Tech. While doing all of this, I maintained my hobbies and interests. I love to dance ballet, do personal programming projects, and I became an Eagle Scout then. Now at Virginia Tech, I have been able to thrive as a full-time student double majoring in my interests of computer science and physics. While in college I've maintained an internship where I've gotten to learn what the professional workflow is, as well as how to be helpful and stay relevant. I strive one day to be a leader on a project that will impact the world for the better. I know I want to work on a team that I enjoy and can depend on. I can't wait to keep working my way up to where that dream becomes a reality.
+              I have been building things and solving puzzles ever since I can remember. It makes me excited to work on something meaningful with others that will have a lasting impact. My goal is to be a leader on a team project that will impact the world for the better. I am currently in college studying both Computer Science and Physics at Virginia Tech continuing to push my learning capabilities to make this come true.
+
+              <br /><br />While being a full-time student and over the summer I worked as an intern for Fischer Jordan.  This experience put me on the fast track to excel in the professional workflow. I was able to thrive while being helpful and staying relevant. During my internship, I would never shy away from a problem even if I didn't have the skills at first. I will take what I learned with me and continue to grow as a professional. I have no doubt that if I keep at it, nothing can stop me from becoming the best version of myself.
             </p>
             <a href="mailto:noahpro@gmail.com" className="btn btn-primary">Let's Connect</a>
           </div>

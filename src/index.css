@@ -43,7 +43,7 @@ body {
     color: var(--color-white);
     line-height: 1.7;
     background-image: url(../src/assets/bg-texture.png);
-    padding-top: 9px;
+    padding-top: 70px;
 }
 
 /* General styles */

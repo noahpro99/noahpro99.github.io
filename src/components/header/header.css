@@ -1,6 +1,6 @@
 header {
     height: 100vh;
-    padding-top: 7rem;
+    padding-top: 1rem;
     overflow: hidden;
 
 }
@@ -24,21 +24,13 @@ header {
 /* Header Socials */
 .header__socials {
     display: flex;
-    flex-direction: column;
-    align-items: center;
+    /* align-items: center; */
     gap: 0.8rem;
-    position: absolute;
-    left: 0;
-    bottom: 3rem;
-}
-
-.header__socials::after {
-    content: '';
-    width: 1px;
-    height: 2rem;
-    background: var(--color-primary);
-
-
+    /* position: absolute; */
+    /* left: 0; */
+    /* bottom: 3rem; */
+    justify-content: center;
+    margin-top: 1rem;
 }
 
 /* ME */
@@ -79,9 +71,6 @@ header {
         height: 100vh;
     }
 
-    .header__socials,
-    .scroll__down {
-        display: none;
-    }
+
 
 }
