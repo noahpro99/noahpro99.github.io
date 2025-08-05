@@ -24,15 +24,15 @@ export function Navigation() {
       <nav className="flex items-center justify-between px-8 py-6">
         <div className="flex items-center space-x-8">
           <div className="flex items-center space-x-3">
-            <img
-              src="/logo.jpg"
-              alt="Noah Provenzano"
-              className="w-10 h-10 rounded-lg object-cover"
-            />
             <a
               href="/"
-              className="text-night hover:text-coral transition-colors font-medium"
+              className="text-night hover:text-coral transition-colors font-medium flex items-center gap-2"
             >
+              <img
+                src="/logo.jpg"
+                alt="Noah Provenzano"
+                className="w-10 h-10 rounded-lg object-cover shadow-md"
+              />
               HOME
             </a>
           </div>
