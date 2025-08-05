@@ -278,61 +278,11 @@ export default function Home() {
                         : "opacity-0 translate-y-8"
                     }`}
                   >
-                    <button
-                      onClick={() => {
-                        const footerElement = document.getElementById("footer");
-                        if (footerElement) {
-                          footerElement.scrollIntoView({ behavior: "smooth" });
-                        }
-                      }}
-                      className="group w-full bg-jet rounded-2xl p-6 text-center hover:bg-jet/80 transition-all duration-300 cursor-pointer border border-dim-gray/20 hover:border-coral/30 hover:shadow-lg hover:shadow-coral/10 hover:scale-[1.02] transform-gpu relative overflow-hidden"
-                    >
-                      <div className="absolute inset-0 bg-gradient-to-br from-coral/5 via-transparent to-coral/5 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
-                      <div className="relative z-10">
-                        <div className="mb-6">
-                          <div className="w-48 mx-auto bg-dim-gray rounded-xl flex items-center justify-center group-hover:ring-2 group-hover:ring-coral/20 transition-all duration-300">
-                            <img
-                              src="/images/suit-smile.jpg"
-                              alt="Noah Provenzano"
-                              className="w-full h-full object-cover rounded-xl group-hover:scale-105 transition-transform duration-300"
-                            />
-                          </div>
-                        </div>
-                        <h3 className="text-lg font-semibold mb-2 group-hover:text-coral transition-colors duration-300">
-                          Noah Provenzano
-                        </h3>
-                        <p className="text-dim-gray text-sm mb-4 group-hover:text-white transition-colors duration-300">
-                          Graduate Student & Researcher
-                        </p>
-                        <div className="flex justify-center gap-3">
-                          <a
-                            href="https://github.com/noahpro99"
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            className="text-dim-gray hover:text-coral transition-colors"
-                            onClick={(e) => e.stopPropagation()}
-                          >
-                            <GithubIcon className="w-5 h-5" />
-                          </a>
-                          <a
-                            href="https://www.linkedin.com/in/noah-provenzano-90"
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            className="text-dim-gray hover:text-coral transition-colors"
-                            onClick={(e) => e.stopPropagation()}
-                          >
-                            <LinkedinIcon className="w-5 h-5" />
-                          </a>
-                          <a
-                            href="mailto:noahpro@gmail.com"
-                            className="text-dim-gray hover:text-coral transition-colors"
-                            onClick={(e) => e.stopPropagation()}
-                          >
-                            <Mail className="w-5 h-5" />
-                          </a>
-                        </div>
-                      </div>
-                    </button>
+                    <img
+                      src="/images/suit-smile.jpg"
+                      alt="Noah Provenzano"
+                      className="w-full h-full object-cover rounded-xl group-hover:scale-105 transition-transform duration-300"
+                    />
                   </div>
                 </div>
 
