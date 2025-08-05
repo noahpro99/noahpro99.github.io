@@ -12,8 +12,11 @@ import {
   ArrowRight,
   ExternalLink,
   Phone,
+  Calendar,
+  MapPin,
 } from "lucide-react";
 import { ContentCard } from "../components/ContentCard";
+import { HorizontalTimeline } from "../components/Timeline";
 import {
   getFrontPageContent,
   technicalSkills,
@@ -82,15 +85,15 @@ function Navigation() {
     <nav className="flex items-center justify-between px-8 py-6">
       <div className="flex items-center space-x-8">
         <div className="flex items-center space-x-3">
-          <img
-            src="/logo.jpg"
-            alt="Noah Provenzano"
-            className="w-10 h-10 rounded-lg object-cover"
-          />
           <a
             href="#"
-            className="text-night hover:text-coral transition-colors font-medium"
+            className="text-night hover:text-coral transition-colors font-medium flex items-center gap-2"
           >
+            <img
+              src="/logo.jpg"
+              alt="Noah Provenzano"
+              className="w-10 h-10 rounded-lg object-cover"
+            />
             HOME
           </a>
         </div>
@@ -144,7 +147,7 @@ function HeroSection() {
           <h1 className="text-6xl md:text-7xl lg:text-8xl font-bold leading-tight mb-8">
             Noah Provenzano
             <br />
-            <span className="text-dim-gray text-4xl md:text-5xl lg:text-6xl font-normal">
+            <span className="text-dim-gray text-4xl md:text-5xl font-normal">
               Computer Science Graduate Student
             </span>
           </h1>
@@ -204,56 +207,6 @@ function HeroSection() {
               </a>
             </div>
           </div>
-        </div>
-      </div>
-    </div>
-  );
-}
-
-function TimelineItem({
-  title,
-  subtitle,
-  description,
-  date,
-  isActive,
-  side,
-}: {
-  title: string;
-  subtitle: string;
-  description: string;
-  date: string;
-  isActive: boolean;
-  side: "left" | "right";
-}) {
-  const visibleElements = useScrollAnimation();
-  const isVisible = visibleElements.has(
-    `timeline-${title.replace(/\s+/g, "-").toLowerCase()}`
-  );
-
-  return (
-    <div
-      className={`relative flex items-center ${side === "right" ? "md:justify-end" : ""}`}
-    >
-      <div
-        className={`absolute left-0 md:left-1/2 md:transform md:-translate-x-1/2 w-8 h-8 ${isActive ? "bg-coral" : "bg-white"} rounded-full border-4 border-night`}
-      ></div>
-      <div
-        id={`timeline-${title.replace(/\s+/g, "-").toLowerCase()}`}
-        data-animate
-        className={`ml-16 md:ml-0 md:w-1/2 ${side === "right" ? "md:pl-8" : "md:pr-8"} transition-all duration-1000 ${
-          isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
-        }`}
-      >
-        <div className="bg-jet rounded-xl p-6">
-          <span
-            className={`${isActive ? "text-coral" : "text-white"} text-sm font-medium`}
-          >
-            {date}
-          </span>
-          <h3 className="text-lg font-semibold mt-1">{title}</h3>
-          <p className="text-dim-gray text-sm mt-2">
-            {subtitle} • {description}
-          </p>
         </div>
       </div>
     </div>
@@ -347,108 +300,13 @@ export default function Home() {
         </div>
       </div>
 
-      {/* Skills Section - White background */}
-      <div className="bg-white py-20">
-        <div className="max-w-6xl mx-auto px-8">
-          <div
-            id="skills-title"
-            data-animate
-            className={`text-center mb-16 transition-all duration-1000 ${
-              visibleElements.has("skills-title")
-                ? "opacity-100 translate-y-0"
-                : "opacity-0 translate-y-8"
-            }`}
-          >
-            <h2 className="text-3xl md:text-4xl font-bold text-night mb-4">
-              Technical Skills
-            </h2>
-            <p className="text-dim-gray text-lg">
-              Technologies and tools I work with
-            </p>
-          </div>
-
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {technicalSkills.map((category, categoryIndex) => (
-              <div
-                key={category.title}
-                id={`skill-${category.title.replace(/\s+/g, "-").toLowerCase()}`}
-                data-animate
-                className={`transition-all duration-1000 ${
-                  visibleElements.has(
-                    `skill-${category.title.replace(/\s+/g, "-").toLowerCase()}`
-                  )
-                    ? "opacity-100 translate-y-0"
-                    : "opacity-0 translate-y-8"
-                }`}
-                style={{ transitionDelay: `${categoryIndex * 150}ms` }}
-              >
-                <div className="bg-jet rounded-2xl p-6 h-full">
-                  <h3 className="text-lg font-semibold text-white mb-4">
-                    {category.title}
-                  </h3>
-                  <div className="space-y-4">
-                    {category.skills.map((skill, skillIndex) => {
-                      const linkedProject = skill.projectId
-                        ? getContentById(skill.projectId)
-                        : null;
-
-                      return (
-                        <div key={skill.name} className="space-y-2">
-                          <div className="flex items-center justify-between">
-                            <span className="text-coral font-medium text-sm">
-                              {skill.name}
-                            </span>
-                            {linkedProject && (
-                              <button
-                                onClick={() => {
-                                  if (linkedProject.type === "blog") {
-                                    window.location.href = `/blog/${linkedProject.id}`;
-                                  } else if (linkedProject.type === "project") {
-                                    window.location.href = `/project/${linkedProject.id}`;
-                                  } else if (linkedProject.link) {
-                                    window.open(linkedProject.link, "_blank");
-                                  }
-                                }}
-                                className="text-dim-gray hover:text-coral transition-colors"
-                              >
-                                <ExternalLink className="w-3 h-3" />
-                              </button>
-                            )}
-                          </div>
-                          <p className="text-dim-gray text-xs leading-relaxed">
-                            {skill.description}
-                          </p>
-                        </div>
-                      );
-                    })}
-                  </div>
-                </div>
-              </div>
-            ))}
-          </div>
-        </div>
-      </div>
-
-      {/* Timeline Section - Dark rounded container */}
+      {/* Skills & Timeline Section - Dark rounded container */}
       <div className="relative p-4 md:p-8">
         <div className="bg-night rounded-[2rem] md:rounded-[3rem] text-white overflow-hidden">
           <div className="px-8 py-20">
             <div className="max-w-6xl mx-auto">
-              <div
-                id="timeline-title"
-                data-animate
-                className={`text-center mb-16 transition-all duration-1000 ${
-                  visibleElements.has("timeline-title")
-                    ? "opacity-100 translate-y-0"
-                    : "opacity-0 translate-y-8"
-                }`}
-              >
-                <h2 className="text-3xl md:text-4xl font-bold">
-                  Journey Timeline
-                </h2>
-              </div>
-
-              <div className="grid grid-cols-1 lg:grid-cols-4 gap-8">
+              {/* Photo and Skills Section */}
+              <div className="grid grid-cols-1 lg:grid-cols-4 gap-8 mb-20">
                 {/* Photo Section */}
                 <div className="lg:col-span-1">
                   <div
@@ -467,10 +325,9 @@ export default function Home() {
                           footerElement.scrollIntoView({ behavior: "smooth" });
                         }
                       }}
-                      className="w-full bg-jet rounded-2xl p-6 text-center hover:bg-jet/80 transition-colors cursor-pointer"
+                      className="w-full bg-jet rounded-2xl p-6 text-center hover:bg-jet/80 transition-colors cursor-pointer border border-dim-gray/20"
                     >
                       <div className="mb-6">
-                        {/* Placeholder for your photo - replace with actual path */}
                         <div className="w-48 mx-auto bg-dim-gray rounded-xl flex items-center justify-center">
                           <img
                             src="/images/suit-smile.jpg"
@@ -516,124 +373,94 @@ export default function Home() {
                   </div>
                 </div>
 
-                {/* Timeline Content */}
+                {/* Skills Section */}
                 <div className="lg:col-span-3">
-                  <div className="relative">
-                    <div className="absolute left-4 md:left-8 w-0.5 h-full bg-dim-gray"></div>
+                  <div
+                    id="skills-title"
+                    data-animate
+                    className={`mb-8 transition-all duration-1000 ${
+                      visibleElements.has("skills-title")
+                        ? "opacity-100 translate-y-0"
+                        : "opacity-0 translate-y-8"
+                    }`}
+                  >
+                    <h2 className="text-3xl md:text-4xl font-bold text-white mb-4">
+                      Technical Skills
+                    </h2>
+                    <p className="text-dim-gray text-lg">
+                      Technologies and tools I work with
+                    </p>
+                  </div>
 
-                    <div className="space-y-12">
-                      <div className="relative flex items-start">
-                        <div className="absolute left-0 md:left-4 w-8 h-8 bg-coral rounded-full border-4 border-night"></div>
-                        <div className="ml-16 md:ml-20">
-                          <div
-                            id="timeline-ms-computer-science"
-                            data-animate
-                            className={`bg-jet rounded-xl p-6 transition-all duration-1000 ${
-                              visibleElements.has(
-                                "timeline-ms-computer-science"
-                              )
-                                ? "opacity-100 translate-y-0"
-                                : "opacity-0 translate-y-8"
-                            }`}
-                          >
-                            <span className="text-coral text-sm font-medium">
-                              2024 - Present
-                            </span>
-                            <h3 className="text-lg font-semibold mt-1">
-                              MS Computer Science
-                            </h3>
-                            <p className="text-dim-gray text-sm mt-2">
-                              Virginia Tech • Research in LLM reasoning under
-                              Dr. Tu Vu
-                            </p>
+                  <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6">
+                    {technicalSkills.map((category, categoryIndex) => (
+                      <div
+                        key={category.title}
+                        id={`skill-${category.title.replace(/\s+/g, "-").toLowerCase()}`}
+                        data-animate
+                        className={`transition-all duration-1000 ${
+                          visibleElements.has(
+                            `skill-${category.title.replace(/\s+/g, "-").toLowerCase()}`
+                          )
+                            ? "opacity-100 translate-y-0"
+                            : "opacity-0 translate-y-8"
+                        }`}
+                        style={{ transitionDelay: `${categoryIndex * 150}ms` }}
+                      >
+                        <div className="bg-jet rounded-2xl p-6 h-full border border-dim-gray/20">
+                          <h3 className="text-lg font-semibold text-white mb-4">
+                            {category.title}
+                          </h3>
+                          <div className="space-y-4">
+                            {category.skills.map((skill, skillIndex) => {
+                              const linkedProject = skill.projectId
+                                ? getContentById(skill.projectId)
+                                : null;
+
+                              return (
+                                <div key={skill.name} className="space-y-2">
+                                  <div className="flex items-center justify-between">
+                                    <span className="text-coral font-medium text-sm">
+                                      {skill.name}
+                                    </span>
+                                    {linkedProject && (
+                                      <button
+                                        onClick={() => {
+                                          if (linkedProject.type === "blog") {
+                                            window.location.href = `/blog/${linkedProject.id}`;
+                                          } else if (
+                                            linkedProject.type === "project"
+                                          ) {
+                                            window.location.href = `/project/${linkedProject.id}`;
+                                          } else if (linkedProject.link) {
+                                            window.open(
+                                              linkedProject.link,
+                                              "_blank"
+                                            );
+                                          }
+                                        }}
+                                        className="text-dim-gray hover:text-coral transition-colors"
+                                      >
+                                        <ExternalLink className="w-3 h-3" />
+                                      </button>
+                                    )}
+                                  </div>
+                                  <p className="text-dim-gray text-xs leading-relaxed">
+                                    {skill.description}
+                                  </p>
+                                </div>
+                              );
+                            })}
                           </div>
                         </div>
                       </div>
-
-                      <div className="relative flex items-start">
-                        <div className="absolute left-0 md:left-4 w-8 h-8 bg-white rounded-full border-4 border-night"></div>
-                        <div className="ml-16 md:ml-20">
-                          <div
-                            id="timeline-bs-computer-science-&-physics"
-                            data-animate
-                            className={`bg-jet rounded-xl p-6 transition-all duration-1000 ${
-                              visibleElements.has(
-                                "timeline-bs-computer-science-&-physics"
-                              )
-                                ? "opacity-100 translate-y-0"
-                                : "opacity-0 translate-y-8"
-                            }`}
-                          >
-                            <span className="text-white text-sm font-medium">
-                              2021 - 2024
-                            </span>
-                            <h3 className="text-lg font-semibold mt-1">
-                              BS Computer Science & Physics
-                            </h3>
-                            <p className="text-dim-gray text-sm mt-2">
-                              Virginia Tech • Dean's List with Distinction
-                            </p>
-                          </div>
-                        </div>
-                      </div>
-
-                      <div className="relative flex items-start">
-                        <div className="absolute left-0 md:left-4 w-8 h-8 bg-coral rounded-full border-4 border-night"></div>
-                        <div className="ml-16 md:ml-20">
-                          <div
-                            id="timeline-research-assistant"
-                            data-animate
-                            className={`bg-jet rounded-xl p-6 transition-all duration-1000 ${
-                              visibleElements.has("timeline-research-assistant")
-                                ? "opacity-100 translate-y-0"
-                                : "opacity-0 translate-y-8"
-                            }`}
-                          >
-                            <span className="text-coral text-sm font-medium">
-                              2023 - 2024
-                            </span>
-                            <h3 className="text-lg font-semibold mt-1">
-                              Research Assistant
-                            </h3>
-                            <p className="text-dim-gray text-sm mt-2">
-                              Hume Center VT • Multi-agent RL & LLM covert
-                              encoding
-                            </p>
-                          </div>
-                        </div>
-                      </div>
-
-                      <div className="relative flex items-start">
-                        <div className="absolute left-0 md:left-4 w-8 h-8 bg-white rounded-full border-4 border-night"></div>
-                        <div className="ml-16 md:ml-20">
-                          <div
-                            id="timeline-software-engineering-intern"
-                            data-animate
-                            className={`bg-jet rounded-xl p-6 transition-all duration-1000 ${
-                              visibleElements.has(
-                                "timeline-software-engineering-intern"
-                              )
-                                ? "opacity-100 translate-y-0"
-                                : "opacity-0 translate-y-8"
-                            }`}
-                          >
-                            <span className="text-white text-sm font-medium">
-                              2021 - 2023
-                            </span>
-                            <h3 className="text-lg font-semibold mt-1">
-                              Software Engineering Intern
-                            </h3>
-                            <p className="text-dim-gray text-sm mt-2">
-                              Fischer Jordan • Predictive modeling & full-stack
-                              development
-                            </p>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
+                    ))}
                   </div>
                 </div>
               </div>
+
+              {/* Horizontal Timeline */}
+              <HorizontalTimeline visibleElements={visibleElements} />
             </div>
           </div>
         </div>
