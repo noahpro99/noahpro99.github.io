@@ -140,10 +140,11 @@ function HeroSection() {
           <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
             <button
               onClick={handleContactClick}
-              className="bg-coral hover:bg-coral/90 text-white px-8 py-4 rounded-full font-medium transition-colors flex items-center gap-2"
+              className="group relative bg-coral hover:bg-coral/90 text-white px-8 py-4 rounded-full font-medium transition-all duration-300 flex items-center gap-2 shadow-lg hover:shadow-xl hover:shadow-coral/25 hover:scale-105 transform-gpu cursor-pointer hover:animate-none before:absolute before:inset-0 before:rounded-full before:bg-gradient-to-r before:from-coral/20 before:to-transparent before:opacity-0 hover:before:opacity-100 before:transition-opacity before:duration-300"
             >
-              Contact Me
-              <ArrowRight className="w-5 h-5" />
+              <span className="relative z-10">Contact Me</span>
+              <ArrowRight className="w-5 h-5 relative z-10 group-hover:translate-x-1 transition-transform duration-300" />
+              <div className="absolute inset-0 rounded-full bg-gradient-to-r from-coral via-coral/80 to-coral opacity-0 group-hover:opacity-100 transition-opacity duration-300 blur-sm" />
             </button>
             <div className="flex gap-4">
               <a
@@ -284,49 +285,52 @@ export default function Home() {
                           footerElement.scrollIntoView({ behavior: "smooth" });
                         }
                       }}
-                      className="w-full bg-jet rounded-2xl p-6 text-center hover:bg-jet/80 transition-colors cursor-pointer border border-dim-gray/20"
+                      className="group w-full bg-jet rounded-2xl p-6 text-center hover:bg-jet/80 transition-all duration-300 cursor-pointer border border-dim-gray/20 hover:border-coral/30 hover:shadow-lg hover:shadow-coral/10 hover:scale-[1.02] transform-gpu relative overflow-hidden"
                     >
-                      <div className="mb-6">
-                        <div className="w-48 mx-auto bg-dim-gray rounded-xl flex items-center justify-center">
-                          <img
-                            src="/images/suit-smile.jpg"
-                            alt="Noah Provenzano"
-                            className="w-full h-full object-cover rounded-xl"
-                          />
+                      <div className="absolute inset-0 bg-gradient-to-br from-coral/5 via-transparent to-coral/5 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+                      <div className="relative z-10">
+                        <div className="mb-6">
+                          <div className="w-48 mx-auto bg-dim-gray rounded-xl flex items-center justify-center group-hover:ring-2 group-hover:ring-coral/20 transition-all duration-300">
+                            <img
+                              src="/images/suit-smile.jpg"
+                              alt="Noah Provenzano"
+                              className="w-full h-full object-cover rounded-xl group-hover:scale-105 transition-transform duration-300"
+                            />
+                          </div>
                         </div>
-                      </div>
-                      <h3 className="text-lg font-semibold mb-2">
-                        Noah Provenzano
-                      </h3>
-                      <p className="text-dim-gray text-sm mb-4">
-                        Graduate Student & Researcher
-                      </p>
-                      <div className="flex justify-center gap-3">
-                        <a
-                          href="https://github.com/noahpro99"
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          className="text-dim-gray hover:text-coral transition-colors"
-                          onClick={(e) => e.stopPropagation()}
-                        >
-                          <GithubIcon className="w-5 h-5" />
-                        </a>
-                        <a
-                          href="https://www.linkedin.com/in/noah-provenzano-90"
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          className="text-dim-gray hover:text-coral transition-colors"
-                          onClick={(e) => e.stopPropagation()}
-                        >
-                          <LinkedinIcon className="w-5 h-5" />
-                        </a>
-                        <a
-                          href="mailto:noahpro@gmail.com"
-                          className="text-dim-gray hover:text-coral transition-colors"
-                          onClick={(e) => e.stopPropagation()}
-                        >
-                          <Mail className="w-5 h-5" />
-                        </a>
+                        <h3 className="text-lg font-semibold mb-2 group-hover:text-coral transition-colors duration-300">
+                          Noah Provenzano
+                        </h3>
+                        <p className="text-dim-gray text-sm mb-4 group-hover:text-white transition-colors duration-300">
+                          Graduate Student & Researcher
+                        </p>
+                        <div className="flex justify-center gap-3">
+                          <a
+                            href="https://github.com/noahpro99"
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="text-dim-gray hover:text-coral transition-colors"
+                            onClick={(e) => e.stopPropagation()}
+                          >
+                            <GithubIcon className="w-5 h-5" />
+                          </a>
+                          <a
+                            href="https://www.linkedin.com/in/noah-provenzano-90"
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="text-dim-gray hover:text-coral transition-colors"
+                            onClick={(e) => e.stopPropagation()}
+                          >
+                            <LinkedinIcon className="w-5 h-5" />
+                          </a>
+                          <a
+                            href="mailto:noahpro@gmail.com"
+                            className="text-dim-gray hover:text-coral transition-colors"
+                            onClick={(e) => e.stopPropagation()}
+                          >
+                            <Mail className="w-5 h-5" />
+                          </a>
+                        </div>
                       </div>
                     </button>
                   </div>

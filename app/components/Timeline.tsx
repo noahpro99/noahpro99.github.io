@@ -96,9 +96,9 @@ export function HorizontalTimeline({
       case "education":
         return "bg-coral";
       case "work":
-        return "bg-blue-400";
+        return "bg-jet";
       case "research":
-        return "bg-emerald-400";
+        return "bg-dim-gray";
       default:
         return "bg-coral";
     }
@@ -188,11 +188,11 @@ export function HorizontalTimeline({
             <span className="text-sm text-dim-gray font-medium">Education</span>
           </div>
           <div className="flex items-center gap-2">
-            <div className="w-4 h-4 bg-blue-400 rounded-lg shadow-sm"></div>
+            <div className="w-4 h-4 bg-jet rounded-lg shadow-sm"></div>
             <span className="text-sm text-dim-gray font-medium">Work</span>
           </div>
           <div className="flex items-center gap-2">
-            <div className="w-4 h-4 bg-emerald-400 rounded-lg shadow-sm"></div>
+            <div className="w-4 h-4 bg-dim-gray rounded-lg shadow-sm"></div>
             <span className="text-sm text-dim-gray font-medium">Research</span>
           </div>
           <div className="flex items-center gap-2">
