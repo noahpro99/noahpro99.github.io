@@ -40,7 +40,13 @@ export function ContentCard({
       <div
         className="bg-jet rounded-2xl overflow-hidden hover:bg-jet/80 transition-all cursor-pointer group h-full flex flex-col"
         onClick={() => {
-          window.location.href = `/content/${item.id}`;
+          if (item.type === "project" && item.githubRepo) {
+            // Open GitHub projects in a new tab
+            window.open(`https://github.com/${item.githubRepo}`, "_blank");
+          } else {
+            // Navigate to content page for blogs and other content
+            window.location.href = `/content/${item.id}`;
+          }
         }}
       >
         {/* Image Section */}

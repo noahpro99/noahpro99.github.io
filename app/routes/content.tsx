@@ -64,33 +64,6 @@ export default function ContentPost({ params }: Route.ComponentProps) {
           );
           setLoading(false);
         });
-    } else if (item.type === "project" && item.githubRepo) {
-      // Load project README from GitHub
-      const [owner, repo] = item.githubRepo.split("/");
-      const readmeUrl = `https://raw.githubusercontent.com/${owner}/${repo}/main/README.md`;
-
-      fetch(readmeUrl)
-        .then((response) => {
-          if (!response.ok) {
-            // Try master branch if main doesn't exist
-            return fetch(
-              `https://raw.githubusercontent.com/${owner}/${repo}/master/README.md`
-            );
-          }
-          return response;
-        })
-        .then((response) => response.text())
-        .then((text) => {
-          setMarkdownContent(text);
-          setLoading(false);
-        })
-        .catch((error) => {
-          console.error("Error loading README:", error);
-          setMarkdownContent(
-            `# ${item.title}\n\n${item.description}\n\n*Unable to load project README from GitHub.*`
-          );
-          setLoading(false);
-        });
     } else {
       // Fallback content
       setMarkdownContent(
