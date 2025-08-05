@@ -17,6 +17,7 @@ import {
 } from "lucide-react";
 import { ContentCard } from "../components/ContentCard";
 import { HorizontalTimeline } from "../components/Timeline";
+import { Navigation, Footer } from "../components/shared";
 import {
   getFrontPageContent,
   technicalSkills,
@@ -79,48 +80,6 @@ function useScrollAnimation() {
 }
 
 // Components
-
-function Navigation() {
-  return (
-    <nav className="flex items-center justify-between px-8 py-6">
-      <div className="flex items-center space-x-8">
-        <div className="flex items-center space-x-3">
-          <a
-            href="#"
-            className="text-night hover:text-coral transition-colors font-medium flex items-center gap-2"
-          >
-            <img
-              src="/logo.jpg"
-              alt="Noah Provenzano"
-              className="w-10 h-10 rounded-lg object-cover"
-            />
-            HOME
-          </a>
-        </div>
-      </div>
-      <div className="flex items-center space-x-8">
-        <a
-          href="/blog-projects"
-          className="text-dim-gray hover:text-coral transition-colors font-medium"
-        >
-          BLOG & PROJECTS
-        </a>
-        <a
-          href="#footer"
-          onClick={(e) => {
-            e.preventDefault();
-            document
-              .getElementById("footer")
-              ?.scrollIntoView({ behavior: "smooth" });
-          }}
-          className="text-dim-gray hover:text-coral transition-colors font-medium"
-        >
-          CONTACT
-        </a>
-      </div>
-    </nav>
-  );
-}
 
 function HeroSection() {
   const visibleElements = useScrollAnimation();
@@ -466,67 +425,7 @@ export default function Home() {
         </div>
       </div>
 
-      {/* Footer - White background */}
-      <div className="bg-white py-16">
-        <div
-          id="footer"
-          data-animate
-          className={`text-center max-w-4xl mx-auto px-8 transition-all duration-1000 ${
-            visibleElements.has("footer")
-              ? "opacity-100 translate-y-0"
-              : "opacity-0 translate-y-8"
-          }`}
-        >
-          <div className="mb-8">
-            <h3 className="text-2xl font-bold text-night mb-4">
-              Let's Connect
-            </h3>
-            <p className="text-dim-gray mb-6">
-              Always interested in new opportunities and collaborations
-            </p>
-          </div>
-
-          <div className="flex flex-col sm:flex-row justify-center items-center gap-6 mb-8">
-            <a
-              href="mailto:noahpro@gmail.com"
-              className="text-night hover:text-coral transition-colors font-medium flex items-center gap-2"
-            >
-              <Mail className="w-5 h-5" />
-              noahpro@gmail.com
-            </a>
-            <a
-              href="tel:540-315-6063"
-              className="text-night hover:text-coral transition-colors font-medium flex items-center gap-2"
-            >
-              <Phone className="w-5 h-5" />
-              (540) 315-6063
-            </a>
-          </div>
-
-          <div className="flex justify-center space-x-6 mb-8">
-            <a
-              href="https://github.com/noahpro99"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="text-dim-gray hover:text-coral transition-colors flex items-center gap-2"
-            >
-              <GithubIcon className="w-5 h-5" />
-              GitHub
-            </a>
-            <a
-              href="https://www.linkedin.com/in/noah-provenzano-90"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="text-dim-gray hover:text-coral transition-colors flex items-center gap-2"
-            >
-              <LinkedinIcon className="w-5 h-5" />
-              LinkedIn
-            </a>
-          </div>
-
-          <p className="text-xs text-dim-gray">© 2025 Noah Provenzano</p>
-        </div>
-      </div>
+      <Footer />
     </div>
   );
 }

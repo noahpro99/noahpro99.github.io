@@ -1,4 +1,4 @@
-import { ExternalLink } from "lucide-react";
+import { ExternalLink, Mail, Phone } from "lucide-react";
 
 // Custom brand icon components
 export function GithubIcon({ className }: { className?: string }) {
@@ -69,13 +69,30 @@ export function Navigation() {
 // Footer component
 export function Footer() {
   return (
-    <div className="bg-white py-16">
+    <div className="bg-white py-16" id="footer">
       <div className="text-center max-w-4xl mx-auto px-8">
         <div className="mb-8">
           <h3 className="text-2xl font-bold text-night mb-4">Let's Connect</h3>
           <p className="text-dim-gray mb-6">
             Always interested in new opportunities and collaborations
           </p>
+        </div>
+
+        <div className="flex flex-col sm:flex-row justify-center items-center gap-6 mb-8">
+          <a
+            href="mailto:noahpro@gmail.com"
+            className="text-night hover:text-coral transition-colors font-medium flex items-center gap-2"
+          >
+            <Mail className="w-5 h-5" />
+            noahpro@gmail.com
+          </a>
+          <a
+            href="tel:540-315-6063"
+            className="text-night hover:text-coral transition-colors font-medium flex items-center gap-2"
+          >
+            <Phone className="w-5 h-5" />
+            (540) 315-6063
+          </a>
         </div>
 
         <div className="flex justify-center space-x-6 mb-8">

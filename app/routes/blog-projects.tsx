@@ -53,6 +53,11 @@ export default function BlogProjects() {
     return true;
   });
 
+  const projectsLength = allContent.filter(
+    (item) => item.type === "project"
+  ).length;
+  const blogLength = allContent.filter((item) => item.type === "blog").length;
+
   return (
     <div className="min-h-screen bg-white text-night">
       <Navigation />
