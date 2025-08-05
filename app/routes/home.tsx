@@ -141,18 +141,13 @@ function HeroSection() {
               : "opacity-0 translate-y-8"
           }`}
         >
-          <button
-            onClick={handleContactClick}
-            className="cursor-pointer text-left w-full hover:opacity-80 transition-opacity"
-          >
-            <h1 className="text-6xl md:text-7xl lg:text-8xl font-bold leading-tight mb-8">
-              Noah Provenzano
-              <br />
-              <span className="text-dim-gray text-4xl md:text-5xl lg:text-6xl font-normal">
-                Computer Science Graduate Student
-              </span>
-            </h1>
-          </button>
+          <h1 className="text-6xl md:text-7xl lg:text-8xl font-bold leading-tight mb-8">
+            Noah Provenzano
+            <br />
+            <span className="text-dim-gray text-4xl md:text-5xl lg:text-6xl font-normal">
+              Computer Science Graduate Student
+            </span>
+          </h1>
         </div>
 
         <div
@@ -164,16 +159,11 @@ function HeroSection() {
               : "opacity-0 translate-y-8"
           }`}
         >
-          <button
-            onClick={handleContactClick}
-            className="cursor-pointer text-left w-full hover:opacity-80 transition-opacity"
-          >
-            <p className="text-dim-gray text-lg max-w-2xl mx-auto mb-12 leading-relaxed">
-              Master's student at Virginia Tech passionate about leveraging
-              technology to develop innovative solutions. Seeking opportunities
-              in software engineering and research roles.
-            </p>
-          </button>
+          <p className="text-dim-gray text-lg max-w-2xl mx-auto mb-12 leading-relaxed">
+            Master's student at Virginia Tech passionate about leveraging
+            technology to develop innovative solutions. Seeking opportunities in
+            software engineering and research roles.
+          </p>
         </div>
 
         <div
