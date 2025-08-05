@@ -13,6 +13,12 @@ import {
   ExternalLink,
   Phone,
 } from "lucide-react";
+import { ContentCard } from "../components/ContentCard";
+import {
+  getFrontPageContent,
+  technicalSkills,
+  getContentById,
+} from "../config/content";
 
 // Custom brand icon components to replace deprecated Lucide brand icons
 function GithubIcon({ className }: { className?: string }) {
@@ -42,98 +48,6 @@ export function meta({}: Route.MetaArgs) {
   ];
 }
 
-// Types
-interface ContentItem {
-  id: string;
-  type: "project" | "blog";
-  title: string;
-  description: string;
-  date: string;
-  category: string;
-  badge?: string;
-  link?: string;
-  icon: "lightbulb" | "card" | "globe" | "book" | "research" | "ai" | "code";
-}
-
-// Data
-const contentItems: ContentItem[] = [
-  {
-    id: "1",
-    type: "project",
-    title: "Mind",
-    description:
-      "AI-powered micro learning app selected for 2025 ACC InVenture Competition",
-    date: "2025",
-    category: "AI/Education",
-    badge: "2025",
-    icon: "lightbulb",
-  },
-  {
-    id: "2",
-    type: "blog",
-    title: "Multi-Agent Reinforcement Learning in Swarm Behavior",
-    description:
-      "Exploring how reward structures influence emergent behaviors in predator-prey scenarios and quantifying effects on time-to-prey-capture.",
-    date: "Dec 2024",
-    category: "Research",
-    icon: "research",
-  },
-  {
-    id: "3",
-    type: "project",
-    title: "Uncover Card Game",
-    description:
-      "Online clue-based card game with 1350+ matches played and 200+ registered users",
-    date: "2024",
-    category: "Web Development",
-    link: "https://uncovercardgame.com",
-    icon: "card",
-  },
-  {
-    id: "4",
-    type: "blog",
-    title: "Covert Encoding in Large Language Models",
-    description:
-      "Investigating the trade-offs between encoding capacity and text quality in LLM steganography techniques.",
-    date: "Nov 2024",
-    category: "AI/ML",
-    icon: "ai",
-  },
-  {
-    id: "5",
-    type: "project",
-    title: "3Dera",
-    description:
-      "1st place at HooHacks UVA - 3D VR historical scenes with AI-powered narration",
-    date: "2024",
-    category: "VR/AI",
-    badge: "🏆 Winner",
-    icon: "globe",
-  },
-  {
-    id: "6",
-    type: "blog",
-    title: "Building Scalable Educational Platforms",
-    description:
-      "Lessons learned from leading a team of nine students on CodeKids educational resources platform.",
-    date: "Oct 2024",
-    category: "Development",
-    icon: "code",
-  },
-  {
-    id: "7",
-    type: "project",
-    title: "CodeKids",
-    description:
-      "Team lead for CS educational resources platform serving K-12 students",
-    date: "2024",
-    category: "Education",
-    badge: "VT Research",
-    link: "https://codekids.cs.vt.edu/",
-    icon: "book",
-  },
-];
-
 // Animation hook for scroll-triggered animations
 function useScrollAnimation() {
   const [visibleElements, setVisibleElements] = useState<Set<string>>(
@@ -162,61 +76,40 @@ function useScrollAnimation() {
 }
 
 // Components
-function IconComponent({
-  icon,
-  className,
-}: {
-  icon: ContentItem["icon"];
-  className?: string;
-}) {
-  const iconMap = {
-    lightbulb: Lightbulb,
-    card: CreditCard,
-    globe: Globe,
-    book: BookOpen,
-    research: CheckCircle,
-    ai: Zap,
-    code: Code,
-  };
-
-  const IconComponent = iconMap[icon];
-
-  return <IconComponent className={className} />;
-}
 
 function Navigation() {
   return (
     <nav className="flex items-center justify-between px-8 py-6">
       <div className="flex items-center space-x-8">
-        <a
-          href="#"
-          className="text-night hover:text-coral transition-colors font-medium"
-        >
-          HOME
-        </a>
-        <a
-          href="#"
-          className="text-dim-gray hover:text-coral transition-colors font-medium"
-        >
-          ABOUT
-        </a>
-      </div>
-      <div className="flex items-center">
-        <img
-          src="/logo.jpg"
-          alt="Noah Provenzano"
-          className="w-10 h-10 rounded-lg object-cover"
-        />
+        <div className="flex items-center space-x-3">
+          <img
+            src="/logo.jpg"
+            alt="Noah Provenzano"
+            className="w-10 h-10 rounded-lg object-cover"
+          />
+          <a
+            href="#"
+            className="text-night hover:text-coral transition-colors font-medium"
+          >
+            HOME
+          </a>
+        </div>
       </div>
       <div className="flex items-center space-x-8">
         <a
-          href="#"
+          href="/blog-projects"
           className="text-dim-gray hover:text-coral transition-colors font-medium"
         >
-          WORK
+          BLOG & PROJECTS
         </a>
         <a
-          href="#"
+          href="#footer"
+          onClick={(e) => {
+            e.preventDefault();
+            document
+              .getElementById("footer")
+              ?.scrollIntoView({ behavior: "smooth" });
+          }}
           className="text-dim-gray hover:text-coral transition-colors font-medium"
         >
           CONTACT
@@ -299,71 +192,6 @@ function HeroSection() {
                 <LinkedinIcon className="w-4 h-4" />
                 LinkedIn
               </a>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  );
-}
-
-function ContentCard({ item, index }: { item: ContentItem; index: number }) {
-  const visibleElements = useScrollAnimation();
-  const isVisible = visibleElements.has(`content-${item.id}`);
-
-  const iconBg = item.type === "project" ? "bg-coral" : "bg-white";
-  const iconColor = item.type === "project" ? "text-white" : "text-night";
-
-  return (
-    <div
-      id={`content-${item.id}`}
-      data-animate
-      className={`transition-all duration-1000 ${
-        isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
-      }`}
-      style={{ transitionDelay: `${index * 150}ms` }}
-    >
-      <div className="bg-jet rounded-2xl p-6 hover:bg-jet/80 transition-all cursor-pointer group">
-        <div className="flex items-start gap-4">
-          <div
-            className={`w-12 h-12 ${iconBg} rounded-xl flex items-center justify-center flex-shrink-0 group-hover:scale-110 transition-transform`}
-          >
-            <IconComponent
-              icon={item.icon}
-              className={`w-6 h-6 ${iconColor}`}
-            />
-          </div>
-
-          <div className="flex-1 min-w-0">
-            <div className="flex items-center justify-between mb-2">
-              <span className="text-coral text-sm font-medium">
-                {item.category}
-              </span>
-              {item.badge && (
-                <span className="bg-coral/20 text-coral text-xs px-2 py-1 rounded-full">
-                  {item.badge}
-                </span>
-              )}
-            </div>
-
-            <h3 className="text-lg font-semibold text-white mb-2 group-hover:text-coral transition-colors">
-              {item.title}
-            </h3>
-
-            <p className="text-dim-gray text-sm mb-3 line-clamp-2">
-              {item.description}
-            </p>
-
-            <div className="flex items-center justify-between">
-              <span className="text-xs text-dim-gray">{item.date}</span>
-              <div className="flex items-center gap-2">
-                <span className="text-xs text-dim-gray capitalize">
-                  {item.type}
-                </span>
-                {item.link && (
-                  <ExternalLink className="w-3 h-3 text-dim-gray group-hover:text-coral transition-colors" />
-                )}
-              </div>
             </div>
           </div>
         </div>
@@ -459,9 +287,107 @@ export default function Home() {
             </p>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {contentItems.map((item, index) => (
-              <ContentCard key={item.id} item={item} index={index} />
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-12">
+            {getFrontPageContent().map((item, index) => (
+              <ContentCard
+                key={item.id}
+                item={item}
+                index={index}
+                visibleElements={visibleElements}
+              />
+            ))}
+          </div>
+
+          {/* See All Button */}
+          <div className="text-center">
+            <a
+              href="/blog-projects"
+              className="inline-flex items-center gap-2 bg-coral hover:bg-coral/90 text-white px-8 py-4 rounded-full font-medium transition-colors"
+            >
+              See All Projects & Blog Posts
+              <ArrowRight className="w-5 h-5" />
+            </a>
+          </div>
+        </div>
+      </div>
+
+      {/* Skills Section - White background */}
+      <div className="bg-white py-20">
+        <div className="max-w-6xl mx-auto px-8">
+          <div
+            id="skills-title"
+            data-animate
+            className={`text-center mb-16 transition-all duration-1000 ${
+              visibleElements.has("skills-title")
+                ? "opacity-100 translate-y-0"
+                : "opacity-0 translate-y-8"
+            }`}
+          >
+            <h2 className="text-3xl md:text-4xl font-bold text-night mb-4">
+              Technical Skills
+            </h2>
+            <p className="text-dim-gray text-lg">
+              Technologies and tools I work with
+            </p>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+            {technicalSkills.map((category, categoryIndex) => (
+              <div
+                key={category.title}
+                id={`skill-${category.title.replace(/\s+/g, "-").toLowerCase()}`}
+                data-animate
+                className={`transition-all duration-1000 ${
+                  visibleElements.has(
+                    `skill-${category.title.replace(/\s+/g, "-").toLowerCase()}`
+                  )
+                    ? "opacity-100 translate-y-0"
+                    : "opacity-0 translate-y-8"
+                }`}
+                style={{ transitionDelay: `${categoryIndex * 150}ms` }}
+              >
+                <div className="bg-jet rounded-2xl p-6 h-full">
+                  <h3 className="text-lg font-semibold text-white mb-4">
+                    {category.title}
+                  </h3>
+                  <div className="space-y-4">
+                    {category.skills.map((skill, skillIndex) => {
+                      const linkedProject = skill.projectId
+                        ? getContentById(skill.projectId)
+                        : null;
+
+                      return (
+                        <div key={skill.name} className="space-y-2">
+                          <div className="flex items-center justify-between">
+                            <span className="text-coral font-medium text-sm">
+                              {skill.name}
+                            </span>
+                            {linkedProject && (
+                              <button
+                                onClick={() => {
+                                  if (linkedProject.type === "blog") {
+                                    window.location.href = `/blog/${linkedProject.id}`;
+                                  } else if (linkedProject.type === "project") {
+                                    window.location.href = `/project/${linkedProject.id}`;
+                                  } else if (linkedProject.link) {
+                                    window.open(linkedProject.link, "_blank");
+                                  }
+                                }}
+                                className="text-dim-gray hover:text-coral transition-colors"
+                              >
+                                <ExternalLink className="w-3 h-3" />
+                              </button>
+                            )}
+                          </div>
+                          <p className="text-dim-gray text-xs leading-relaxed">
+                            {skill.description}
+                          </p>
+                        </div>
+                      );
+                    })}
+                  </div>
+                </div>
+              </div>
             ))}
           </div>
         </div>
@@ -501,7 +427,7 @@ export default function Home() {
                     <div className="bg-jet rounded-2xl p-6 text-center">
                       <div className="mb-6">
                         {/* Placeholder for your photo - replace with actual path */}
-                        <div className="w-48 h-64 mx-auto bg-dim-gray rounded-xl flex items-center justify-center">
+                        <div className="w-48 mx-auto bg-dim-gray rounded-xl flex items-center justify-center">
                           <img
                             src="/images/suit-smile.jpg"
                             alt="Noah Provenzano"
