@@ -2,7 +2,7 @@ import type { Route } from "./+types/blog-projects";
 import { useState, useEffect } from "react";
 import { ContentCard } from "../components/ContentCard";
 import { allContent } from "../config/content";
-import { Navigation } from "../components/shared";
+import { Navigation, Footer } from "../components/shared";
 
 export function meta({}: Route.MetaArgs) {
   return [
@@ -146,6 +146,8 @@ export default function BlogProjects() {
           </div>
         </div>
       </div>
+
+      <Footer />
     </div>
   );
 }

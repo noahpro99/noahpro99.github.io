@@ -122,6 +122,13 @@ function Navigation() {
 function HeroSection() {
   const visibleElements = useScrollAnimation();
 
+  const handleContactClick = () => {
+    const footerElement = document.getElementById("footer");
+    if (footerElement) {
+      footerElement.scrollIntoView({ behavior: "smooth" });
+    }
+  };
+
   return (
     <div className="flex flex-col items-center justify-center px-8 py-20">
       <div className="text-center max-w-4xl">
@@ -134,13 +141,18 @@ function HeroSection() {
               : "opacity-0 translate-y-8"
           }`}
         >
-          <h1 className="text-6xl md:text-7xl lg:text-8xl font-bold leading-tight mb-8">
-            Noah Provenzano
-            <br />
-            <span className="text-dim-gray text-4xl md:text-5xl lg:text-6xl font-normal">
-              Computer Science Graduate Student
-            </span>
-          </h1>
+          <button
+            onClick={handleContactClick}
+            className="cursor-pointer text-left w-full hover:opacity-80 transition-opacity"
+          >
+            <h1 className="text-6xl md:text-7xl lg:text-8xl font-bold leading-tight mb-8">
+              Noah Provenzano
+              <br />
+              <span className="text-dim-gray text-4xl md:text-5xl lg:text-6xl font-normal">
+                Computer Science Graduate Student
+              </span>
+            </h1>
+          </button>
         </div>
 
         <div
@@ -152,11 +164,16 @@ function HeroSection() {
               : "opacity-0 translate-y-8"
           }`}
         >
-          <p className="text-dim-gray text-lg max-w-2xl mx-auto mb-12 leading-relaxed">
-            Master's student at Virginia Tech passionate about leveraging
-            technology to develop innovative solutions. Seeking opportunities in
-            software engineering and research roles.
-          </p>
+          <button
+            onClick={handleContactClick}
+            className="cursor-pointer text-left w-full hover:opacity-80 transition-opacity"
+          >
+            <p className="text-dim-gray text-lg max-w-2xl mx-auto mb-12 leading-relaxed">
+              Master's student at Virginia Tech passionate about leveraging
+              technology to develop innovative solutions. Seeking opportunities
+              in software engineering and research roles.
+            </p>
+          </button>
         </div>
 
         <div
@@ -169,7 +186,10 @@ function HeroSection() {
           }`}
         >
           <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
-            <button className="bg-coral hover:bg-coral/90 text-white px-8 py-4 rounded-full font-medium transition-colors flex items-center gap-2">
+            <button
+              onClick={handleContactClick}
+              className="bg-coral hover:bg-coral/90 text-white px-8 py-4 rounded-full font-medium transition-colors flex items-center gap-2"
+            >
               Contact Me
               <ArrowRight className="w-5 h-5" />
             </button>
@@ -252,6 +272,32 @@ function TimelineItem({
 
 export default function Home() {
   const visibleElements = useScrollAnimation();
+
+  // Handle hash navigation (like /#footer)
+  useEffect(() => {
+    const handleHashNavigation = () => {
+      const hash = window.location.hash;
+      if (hash) {
+        const element = document.getElementById(hash.substring(1));
+        if (element) {
+          // Small delay to ensure page is fully loaded
+          setTimeout(() => {
+            element.scrollIntoView({ behavior: "smooth" });
+          }, 100);
+        }
+      }
+    };
+
+    // Handle hash on initial load
+    handleHashNavigation();
+
+    // Handle hash changes
+    window.addEventListener("hashchange", handleHashNavigation);
+
+    return () => {
+      window.removeEventListener("hashchange", handleHashNavigation);
+    };
+  }, []);
 
   return (
     <div className="min-h-screen bg-white text-night">
@@ -424,7 +470,15 @@ export default function Home() {
                         : "opacity-0 translate-y-8"
                     }`}
                   >
-                    <div className="bg-jet rounded-2xl p-6 text-center">
+                    <button
+                      onClick={() => {
+                        const footerElement = document.getElementById("footer");
+                        if (footerElement) {
+                          footerElement.scrollIntoView({ behavior: "smooth" });
+                        }
+                      }}
+                      className="w-full bg-jet rounded-2xl p-6 text-center hover:bg-jet/80 transition-colors cursor-pointer"
+                    >
                       <div className="mb-6">
                         {/* Placeholder for your photo - replace with actual path */}
                         <div className="w-48 mx-auto bg-dim-gray rounded-xl flex items-center justify-center">
@@ -447,6 +501,7 @@ export default function Home() {
                           target="_blank"
                           rel="noopener noreferrer"
                           className="text-dim-gray hover:text-coral transition-colors"
+                          onClick={(e) => e.stopPropagation()}
                         >
                           <GithubIcon className="w-5 h-5" />
                         </a>
@@ -455,17 +510,19 @@ export default function Home() {
                           target="_blank"
                           rel="noopener noreferrer"
                           className="text-dim-gray hover:text-coral transition-colors"
+                          onClick={(e) => e.stopPropagation()}
                         >
                           <LinkedinIcon className="w-5 h-5" />
                         </a>
                         <a
                           href="mailto:noahpro@gmail.com"
                           className="text-dim-gray hover:text-coral transition-colors"
+                          onClick={(e) => e.stopPropagation()}
                         >
                           <Mail className="w-5 h-5" />
                         </a>
                       </div>
-                    </div>
+                    </button>
                   </div>
                 </div>
 

@@ -46,6 +46,16 @@ export function Navigation() {
           </a>
           <a
             href="/#footer"
+            onClick={(e) => {
+              const footerElement = document.getElementById("footer");
+              if (footerElement) {
+                // If footer exists on current page, scroll to it
+                e.preventDefault();
+                footerElement.scrollIntoView({ behavior: "smooth" });
+              }
+              // If footer doesn't exist, let the default navigation happen to /#footer
+              // The browser will automatically scroll to the anchor when the page loads
+            }}
             className="text-dim-gray hover:text-coral transition-colors font-medium"
           >
             CONTACT
