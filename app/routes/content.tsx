@@ -9,6 +9,7 @@ import {
   NotFound,
   GithubIcon,
 } from "../components/shared";
+import type { ContentItem } from "~/components/ContentCard";
 
 export function meta({ params }: Route.MetaArgs) {
   const content = getContentById(params.id);
@@ -35,7 +36,7 @@ export function meta({ params }: Route.MetaArgs) {
 export default function ContentPost({ params }: Route.ComponentProps) {
   const [markdownContent, setMarkdownContent] = useState<string>("");
   const [loading, setLoading] = useState(true);
-  const [content, setContent] = useState<any>(null);
+  const [content, setContent] = useState<ContentItem | null>(null);
 
   useEffect(() => {
     const contentId = params.id;
@@ -108,6 +109,25 @@ export default function ContentPost({ params }: Route.ComponentProps) {
         <div className="bg-night rounded-[2rem] md:rounded-[3rem] text-white overflow-hidden">
           <div className="px-8 py-20">
             <article className="max-w-4xl mx-auto">
+              {/* Back to posts link */}
+              <div className="mb-8">
+                <a
+                  href="/blog-projects"
+                  className="text-dim-gray hover:text-white text-sm transition-colors flex items-center gap-2"
+                >
+                  <svg
+                    className="w-4 h-4"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    strokeWidth="2"
+                  >
+                    <path d="m15 18-6-6 6-6" />
+                  </svg>
+                  Back to all posts
+                </a>
+              </div>
+
               {/* Content Header */}
               <div className="mb-12 text-center">
                 <div className="flex items-center justify-center gap-4 mb-6">
@@ -126,6 +146,11 @@ export default function ContentPost({ params }: Route.ComponentProps) {
                 <p className="text-dim-gray text-lg max-w-2xl mx-auto mb-8">
                   {content.description}
                 </p>
+
+                {/* Author and Date */}
+                <div className="text-dim-gray text-sm mb-8">
+                  <span>By Noah Provenzano • {content.date}</span>
+                </div>
 
                 {/* Content Links */}
                 <div className="flex justify-center gap-4">

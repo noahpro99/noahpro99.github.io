@@ -9,6 +9,8 @@ export const allContent: ContentItem[] = [
       "A deep dive into reverse engineering HP's OMEN Gaming Hub to understand fan control and creating a Linux kernel patch for proper hardware support.",
     date: "Jul 2025",
     category: "Systems Programming",
+    image:
+      "/blog/how-i-ended-up-sending-in-my-first-linux-kernel-patch/EC-highlighted.png",
     blogPath:
       "/blog/how-i-ended-up-sending-in-my-first-linux-kernel-patch/blog.md",
     showOnFrontPage: true,
