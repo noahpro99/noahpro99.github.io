@@ -17,7 +17,7 @@ import {
 } from "lucide-react";
 import { ContentCard } from "../components/ContentCard";
 import { HorizontalTimeline } from "../components/Timeline";
-import { Navigation, Footer } from "../components/shared";
+import { Navigation, Footer, CTAButton } from "../components/shared";
 import {
   getFrontPageContent,
   technicalSkills,
@@ -138,14 +138,13 @@ function HeroSection() {
           }`}
         >
           <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
-            <button
+            <CTAButton
               onClick={handleContactClick}
-              className="group relative bg-coral hover:bg-coral/90 text-white px-8 py-4 rounded-full font-medium transition-all duration-300 flex items-center gap-2 shadow-lg hover:shadow-xl hover:shadow-coral/25 hover:scale-105 transform-gpu cursor-pointer hover:animate-none before:absolute before:inset-0 before:rounded-full before:bg-gradient-to-r before:from-coral/20 before:to-transparent before:opacity-0 hover:before:opacity-100 before:transition-opacity before:duration-300"
+              variant="primary"
+              animated={true}
             >
-              <span className="relative z-10">Contact Me</span>
-              <ArrowRight className="w-5 h-5 relative z-10 group-hover:translate-x-1 transition-transform duration-300" />
-              <div className="absolute inset-0 rounded-full bg-gradient-to-r from-coral via-coral/80 to-coral opacity-0 group-hover:opacity-100 transition-opacity duration-300 blur-sm" />
-            </button>
+              Contact Me
+            </CTAButton>
             <div className="flex gap-4">
               <a
                 href="https://github.com/noahpro99"
@@ -249,13 +248,9 @@ export default function Home() {
 
           {/* See All Button */}
           <div className="text-center">
-            <a
-              href="/blog-projects"
-              className="inline-flex items-center gap-2 bg-coral hover:bg-coral/90 text-white px-8 py-4 rounded-full font-medium transition-colors"
-            >
+            <CTAButton href="/blog-projects" variant="primary" animated={true}>
               See All Projects & Blog Posts
-              <ArrowRight className="w-5 h-5" />
-            </a>
+            </CTAButton>
           </div>
         </div>
       </div>
