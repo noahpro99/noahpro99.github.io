@@ -34,7 +34,7 @@ export const allContent: ContentItem[] = [
     title: "Uncover",
     description:
       "Online clue-based card game with 1350+ matches played and 200+ registered users",
-    date: "Mar 2024",
+    date: "Sep 2024",
     category: "Web Development",
     showOnFrontPage: true,
     image: "/blog/uncover-card-game/gameplay.png",
