@@ -319,46 +319,15 @@ export default function Home() {
                           <h3 className="text-lg font-semibold text-white mb-4">
                             {category.title}
                           </h3>
-                          <div className="space-y-4">
-                            {category.skills.map((skill, skillIndex) => {
-                              const linkedProject = skill.projectId
-                                ? getContentById(skill.projectId)
-                                : null;
-
-                              return (
-                                <div key={skill.name} className="space-y-2">
-                                  <div className="flex items-center justify-between">
-                                    <span className="text-coral font-medium text-sm">
-                                      {skill.name}
-                                    </span>
-                                    {linkedProject && (
-                                      <button
-                                        onClick={() => {
-                                          if (linkedProject.type === "blog") {
-                                            window.location.href = `/blog/${linkedProject.id}`;
-                                          } else if (
-                                            linkedProject.type === "project"
-                                          ) {
-                                            window.location.href = `/project/${linkedProject.id}`;
-                                          } else if (linkedProject.link) {
-                                            window.open(
-                                              linkedProject.link,
-                                              "_blank"
-                                            );
-                                          }
-                                        }}
-                                        className="text-dim-gray hover:text-coral transition-colors"
-                                      >
-                                        <ExternalLink className="w-3 h-3" />
-                                      </button>
-                                    )}
-                                  </div>
-                                  <p className="text-dim-gray text-xs leading-relaxed">
-                                    {skill.description}
-                                  </p>
-                                </div>
-                              );
-                            })}
+                          <div className="flex flex-wrap gap-2">
+                            {category.skills.map((skill, skillIndex) => (
+                              <span 
+                                key={skill} 
+                                className="bg-coral text-dim-gray px-3 py-1 rounded-full text-sm font-medium"
+                              >
+                                {skill}
+                              </span>
+                            ))}
                           </div>
                         </div>
                       </div>

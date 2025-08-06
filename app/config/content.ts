@@ -1,5 +1,8 @@
 import type { ContentItem } from "../components/ContentCard";
 
+// Re-export ContentItem for other components
+export type { ContentItem };
+
 export const allContent: ContentItem[] = [
   {
     id: "how-i-ended-up-sending-in-my-first-linux-kernel-patch",
@@ -14,6 +17,7 @@ export const allContent: ContentItem[] = [
     blogPath:
       "/blog/how-i-ended-up-sending-in-my-first-linux-kernel-patch/blog.md",
     showOnFrontPage: true,
+    showOnTimeline: true,
   },
   {
     id: "intuition-for-the-transformer-model",
@@ -21,12 +25,13 @@ export const allContent: ContentItem[] = [
     title: "Intuition for the Transformer Model",
     description:
       "A visual and intuitive explanation of the transformer model architecture and its components.",
-    date: "Dec 2024",
+    date: "Sep 2023",
     category: "Research",
     image:
       "/blog/intuition-for-the-transformer-model/transformer-encoder-decoder-example-with-attention.png",
     blogPath: "/blog/intuition-for-the-transformer-model/blog.md",
     showOnFrontPage: true,
+    showOnTimeline: true,
   },
   {
     id: "uncover-card-game",
@@ -38,6 +43,7 @@ export const allContent: ContentItem[] = [
     category: "Web Development",
     image: "/blog/uncover-card-game/gameplay.png",
     blogPath: "/blog/uncover-card-game/blog.md",
+    showOnTimeline: true,
   },
   {
     id: "3Dera",
@@ -51,6 +57,7 @@ export const allContent: ContentItem[] = [
     showOnFrontPage: true,
     image: "http://img.youtube.com/vi/L3gGZ3T9t98/0.jpg",
     githubRepo: "noahpro99/3Dera",
+    showOnTimeline: true,
   },
   {
     id: "Forge",
@@ -63,110 +70,87 @@ export const allContent: ContentItem[] = [
     link: "https://github.com/noahpro99/Forge",
     image: "https://github.com/noahpro99/Forge/blob/main/img/demo.png?raw=true",
     githubRepo: "noahpro99/Forge",
+    showOnTimeline: true,
   },
   {
     id: "micrograd-rs",
     type: "project",
-    title:
-      "A tiny autograd engine for learning purposes in Rust. Based on the Python version by Andrej Karpathy.",
+    title: "micrograd-rs",
     description:
-      "A web-based platform for creating and sharing 3D models and environments.",
+      "A tiny autograd engine for learning purposes in Rust. Based on the Python version by Andrej Karpathy.",
     date: "Apr 2024",
     category: "AI & Machine Learning",
     link: "https://github.com/noahpro99/micrograd-rs",
     image:
       "https://github.com/noahpro99/micrograd-rs/blob/main/images/image.png?raw=true",
     githubRepo: "noahpro99/micrograd-rs",
+    showOnTimeline: true,
   },
   {
     id: "robust-swarm",
     type: "project",
-    title:
-      "A reinforcement learning-based agent that dynamically optimizes paths to keep drone swarms mission-cohesive, even amid interference.",
+    title: "Robust Swarm",
     description:
-      "A web-based platform for creating and sharing 3D models and environments.",
+      "A reinforcement learning-based agent that dynamically optimizes paths to keep drone swarms mission-cohesive, even amid interference.",
     date: "Mar 2025",
     category: "AI & Machine Learning",
     link: "https://github.com/noahpro99/robust-swarm",
     image:
       "https://github.com/noahpro99/robust-swarm/blob/main/images/diagram.png?raw=true",
     githubRepo: "noahpro99/robust-swarm",
+    showOnTimeline: true,
+  },
+  {
+    id: "codekids",
+    type: "project",
+    title: "CodeKids",
+    description:
+      "An educational platform with interactive books to teach programming concepts to children.",
+    date: "Jan 2025",
+    category: "Web Development",
+    link: "https://codekids.cs.vt.edu/",
+    image: "/images/codekids-ss.png",
+    githubRepo: "codekids-vt/codekids",
+    showOnTimeline: true,
   },
 ];
 
-// Enhanced skills configuration with descriptions and project links
-export interface Skill {
-  name: string;
-  description: string;
-  projectLink?: string;
-  projectId?: string;
-}
-
+// Skills configuration with simple lists
 export interface SkillCategory {
   title: string;
-  skills: Skill[];
+  skills: string[];
 }
 
 export const technicalSkills: SkillCategory[] = [
   {
-    title: "AI & Machine Learning",
+    title: "Programming & Tools",
     skills: [
-      {
-        name: "Python",
-        description:
-          "5+ years building ML models, research automation, and data analysis pipelines",
-        projectId: "multi-agent-reinforcement-learning",
-      },
-      {
-        name: "PyTorch",
-        description:
-          "Deep learning research including multi-agent RL and computer vision models",
-        projectId: "multi-agent-reinforcement-learning",
-      },
-      {
-        name: "Reinforcement Learning",
-        description:
-          "Research in multi-agent systems and swarm behavior modeling",
-        projectId: "multi-agent-reinforcement-learning",
-      },
+      "Python (NumPy, Pandas, TensorFlow)",
+      "TypeScript",
+      "Java",
+      "C",
+      "React",
+      "SQL",
+      "Rust",
+      "Linux",
+      "Docker",
+      "Git",
     ],
   },
   {
-    title: "Full-Stack Development",
+    title: "Data Analysis",
     skills: [
-      {
-        name: "React & TypeScript",
-        description:
-          "Modern web applications with type safety and responsive design",
-        projectId: "mind-app",
-      },
-      {
-        name: "Node.js",
-        description:
-          "Backend APIs, real-time systems, and microservices architecture",
-        projectId: "uncover-card-game",
-      },
-      {
-        name: "Database Design",
-        description:
-          "PostgreSQL, MongoDB, and Redis for scalable data solutions",
-      },
+      "Excel/Sheets statistical models",
+      "Pivot tables and formulas",
+      "Microsoft/Google products",
+      "AppsScript",
     ],
   },
   {
-    title: "Research & Analytics",
+    title: "3D Design & Simulation",
     skills: [
-      {
-        name: "Statistical Analysis",
-        description:
-          "R and Python for experimental design and data interpretation",
-        projectId: "machine-learning-physics",
-      },
-      {
-        name: "Scientific Computing",
-        description: "Computational physics simulations and numerical methods",
-        projectId: "machine-learning-physics",
-      },
+      "3D CAD and printing (Onshape/SolidWorks)",
+      "3D simulation/rendering (Blender)",
     ],
   },
 ];
@@ -188,6 +172,39 @@ export function getContentById(id: string): ContentItem | undefined {
   return allContent.find((item) => item.id === id);
 }
 
+export function getTimelineContent(): ContentItem[] {
+  return allContent
+    .filter((item) => item.showOnTimeline)
+    .sort((a, b) => {
+      // Parse years and months for sorting
+      const parseDate = (dateStr: string) => {
+        const dateParts = dateStr.split(" ");
+        const year = parseInt(dateParts.pop() || "2024");
+        const monthStr = dateParts[0];
+
+        const monthMap: { [key: string]: number } = {
+          Jan: 0,
+          Feb: 1,
+          Mar: 2,
+          Apr: 3,
+          May: 4,
+          Jun: 5,
+          Jul: 6,
+          Aug: 7,
+          Sep: 8,
+          Oct: 9,
+          Nov: 10,
+          Dec: 11,
+        };
+
+        const month = monthMap[monthStr] || 0;
+        return year * 12 + month; // Convert to months for easy comparison
+      };
+
+      return parseDate(a.date) - parseDate(b.date); // Sort by date ascending
+    });
+}
+
 // Timeline configuration
 export interface TimelineEvent {
   id: string;
@@ -199,17 +216,6 @@ export interface TimelineEvent {
   type: "education" | "work" | "research";
   location: string;
   current?: boolean;
-  contentIds?: string[];
-}
-
-export interface TimelineItem {
-  id: string;
-  title: string;
-  year: number;
-  type: "project" | "blog" | "achievement";
-  description: string;
-  link?: string;
-  contentId?: string;
 }
 
 export const timelineEvents: TimelineEvent[] = [
@@ -219,17 +225,28 @@ export const timelineEvents: TimelineEvent[] = [
     subtitle: "Virginia Tech",
     description: "Research in LLM reasoning under Dr. Tu Vu",
     startYear: 2024,
+    endYear: 2026,
     type: "education",
+    location: "Falls Church, VA",
+    current: true,
+  },
+  {
+    id: "gta",
+    title: "Graduate Teaching Assistant",
+    subtitle: "Virginia Tech",
+    description:
+      "Instructed CS 2505 Computer Organization and CS 3214 Computer Systems",
+    startYear: 2024,
+    type: "work",
     location: "Blacksburg, VA",
     current: true,
-    contentIds: ["multi-agent-reinforcement-learning"],
   },
   {
     id: "bs-cs-physics",
     title: "BS Computer Science & Physics",
     subtitle: "Virginia Tech",
-    description: "Dean's List with Distinction",
-    startYear: 2021,
+    description: "Dean's List with Distinction, Sigma Pi Sigma, Tau Sigma",
+    startYear: 2020,
     endYear: 2024,
     type: "education",
     location: "Blacksburg, VA",
@@ -238,49 +255,31 @@ export const timelineEvents: TimelineEvent[] = [
     id: "research-assistant",
     title: "Research Assistant",
     subtitle: "Hume Center VT",
-    description: "Multi-agent RL & LLM covert encoding",
+    description: "Multi-agent RL & LLM covert encoding under Dr. Maice Costa",
     startYear: 2023,
     endYear: 2024,
     type: "research",
-    location: "Virginia Tech",
-    contentIds: ["multi-agent-reinforcement-learning"],
+    location: "Blacksburg, VA",
   },
   {
     id: "swe-intern",
-    title: "Software Engineering Intern",
-    subtitle: "Fischer Jordan",
-    description: "Predictive modeling & full-stack development",
+    title: "Data and Software Engineer",
+    subtitle: "FischerJordan",
+    description: "Predictive modeling, website monitoring, dev-ops management",
     startYear: 2021,
-    endYear: 2023,
+    endYear: 2022,
     type: "work",
-    location: "Richmond, VA",
-    contentIds: ["omenix", "uncover-card-game"],
-  },
-];
-
-export const timelineItems: TimelineItem[] = [
-  {
-    id: "multi-agent-rl",
-    title: "Multi-Agent RL Research",
-    year: 2023,
-    type: "blog",
-    description: "Research project on multi-agent reinforcement learning",
-    contentId: "multi-agent-reinforcement-learning",
+    location: "New York, NY (Remote)",
   },
   {
-    id: "omenix-project",
-    title: "Omenix Platform",
-    year: 2024,
-    type: "project",
-    description: "Advanced project management and collaboration platform",
-    contentId: "omenix",
-  },
-  {
-    id: "uncover-game",
-    title: "Uncover Card Game",
-    year: 2024,
-    type: "project",
-    description: "Online clue-based card game with 1350+ matches played",
-    contentId: "uncover-card-game",
+    id: "nrcc",
+    title: "Associate's Degree",
+    subtitle: "New River Valley Community College",
+    description:
+      "A.S. Computer Science, Outstanding Student Award, Phi Theta Kappa",
+    startYear: 2019,
+    endYear: 2020,
+    type: "education",
+    location: "Christiansburg, VA",
   },
 ];
