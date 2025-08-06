@@ -39,7 +39,7 @@ export function ContentCard({
       style={{ transitionDelay: `${index * 150}ms` }}
     >
       <div
-        className="bg-jet rounded-2xl overflow-hidden hover:bg-jet/80 transition-all cursor-pointer group h-full flex flex-col"
+        className="bg-jet rounded-lg sm:rounded-xl md:rounded-2xl overflow-hidden hover:bg-jet/80 transition-all cursor-pointer group h-full flex flex-col"
         onClick={() => {
           if (item.type === "project" && item.githubRepo) {
             // Open GitHub projects in a new tab
@@ -51,7 +51,7 @@ export function ContentCard({
         }}
       >
         {/* Image Section */}
-        <div className="relative h-48 w-full">
+        <div className="relative h-32 sm:h-36 md:h-40 lg:h-48 w-full">
           {item.image ? (
             <img
               src={item.image}
@@ -65,16 +65,18 @@ export function ContentCard({
             />
           ) : (
             <div className="w-full h-full bg-dim-gray flex items-center justify-center">
-              <span className="text-white text-sm">Image Coming Soon</span>
+              <span className="text-white text-xs sm:text-sm">
+                Image Coming Soon
+              </span>
             </div>
           )}
           <div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
         </div>
 
         {/* Content Section */}
-        <div className="p-6 flex-1 flex flex-col">
-          <div className="flex items-center justify-between mb-3">
-            <span className="text-coral text-sm font-medium">
+        <div className="p-3 sm:p-4 md:p-6 flex-1 flex flex-col">
+          <div className="flex items-center justify-between mb-2 md:mb-3">
+            <span className="text-coral text-xs sm:text-sm font-medium">
               {item.category}
             </span>
             {item.badge && (
@@ -84,11 +86,11 @@ export function ContentCard({
             )}
           </div>
 
-          <h3 className="text-lg font-semibold text-white mb-3 group-hover:text-coral transition-colors leading-tight">
+          <h3 className="text-sm sm:text-base md:text-lg font-semibold text-white mb-2 md:mb-3 group-hover:text-coral transition-colors leading-tight">
             {item.title}
           </h3>
 
-          <p className="text-dim-gray text-sm mb-4 leading-relaxed flex-1">
+          <p className="text-dim-gray text-xs sm:text-sm mb-3 md:mb-4 leading-relaxed flex-1">
             {item.description}
           </p>
 

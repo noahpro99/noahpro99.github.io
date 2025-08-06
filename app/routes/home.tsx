@@ -68,7 +68,10 @@ function useScrollAnimation() {
           }
         });
       },
-      { threshold: 0.1, rootMargin: "50px" }
+      {
+        threshold: 0.05, // Reduced threshold for faster triggering
+        rootMargin: "100px", // Increased root margin for earlier triggering
+      }
     );
 
     const elements = document.querySelectorAll("[data-animate]");
@@ -93,7 +96,7 @@ function HeroSection() {
   };
 
   return (
-    <div className="flex flex-col items-center justify-center px-8 py-20">
+    <div className="flex flex-col items-center justify-center px-3 sm:px-4 md:px-8 py-8 sm:py-12 md:py-20">
       <div className="text-center max-w-4xl">
         <div
           id="hero-title"
@@ -104,10 +107,10 @@ function HeroSection() {
               : "opacity-0 translate-y-8"
           }`}
         >
-          <h1 className="text-6xl md:text-7xl lg:text-8xl font-bold leading-tight mb-8">
+          <h1 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl xl:text-6xl 2xl:text-7xl 3xl:text-8xl font-bold leading-tight mb-4 sm:mb-6 md:mb-8">
             Noah Provenzano
             <br />
-            <span className="text-dim-gray text-4xl md:text-5xl font-normal">
+            <span className="text-dim-gray text-lg sm:text-xl md:text-2xl lg:text-3xl xl:text-4xl 2xl:text-5xl font-normal">
               Computer Science Graduate Student
             </span>
           </h1>
@@ -122,7 +125,7 @@ function HeroSection() {
               : "opacity-0 translate-y-8"
           }`}
         >
-          <p className="text-dim-gray text-lg max-w-2xl mx-auto mb-12 leading-relaxed">
+          <p className="text-dim-gray text-sm sm:text-base md:text-lg max-w-2xl mx-auto mb-6 sm:mb-8 md:mb-12 leading-relaxed px-2 sm:px-4">
             Master's student at Virginia Tech passionate about leveraging
             technology to develop innovative solutions. Seeking opportunities in
             software engineering and research roles.
@@ -138,7 +141,7 @@ function HeroSection() {
               : "opacity-0 translate-y-8"
           }`}
         >
-          <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
+          <div className="flex flex-col gap-4 justify-center items-center">
             <CTAButton
               onClick={handleContactClick}
               variant="primary"
@@ -146,23 +149,23 @@ function HeroSection() {
             >
               Contact Me
             </CTAButton>
-            <div className="flex gap-4">
+            <div className="flex gap-4 sm:gap-6">
               <a
                 href="https://github.com/noahpro99"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="text-dim-gray hover:text-coral transition-colors flex items-center gap-2"
+                className="text-dim-gray hover:text-coral transition-colors flex items-center gap-2 text-xs sm:text-sm md:text-base"
               >
-                <GithubIcon className="w-4 h-4" />
+                <GithubIcon className="w-3 h-3 sm:w-4 sm:h-4" />
                 GitHub
               </a>
               <a
                 href="https://www.linkedin.com/in/noah-provenzano-90"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="text-dim-gray hover:text-coral transition-colors flex items-center gap-2"
+                className="text-dim-gray hover:text-coral transition-colors flex items-center gap-2 text-xs sm:text-sm md:text-base"
               >
-                <LinkedinIcon className="w-4 h-4" />
+                <LinkedinIcon className="w-3 h-3 sm:w-4 sm:h-4" />
                 LinkedIn
               </a>
             </div>
@@ -209,34 +212,34 @@ export default function Home() {
         <Navigation />
       </div>
 
-      {/* Hero Section - Dark rounded container */}
-      <div className="relative px-4 md:px-8 pb-4 md:pb-8">
-        <div className="bg-night rounded-[2rem] md:rounded-[3rem] text-white overflow-hidden">
+      {/* Hero Section - Dark rounded container - Mobile optimized */}
+      <div className="relative px-1 sm:px-2 md:px-4 lg:px-8 pb-1 sm:pb-2 md:pb-4 lg:pb-8">
+        <div className="bg-night rounded-2xl sm:rounded-2xl md:rounded-2xl lg:rounded-[2rem] xl:rounded-[3rem] text-white overflow-hidden">
           <HeroSection />
         </div>
       </div>
 
       {/* Content Feed - White background section */}
-      <div className="bg-white py-20">
-        <div className="max-w-6xl mx-auto px-8">
+      <div className="bg-white py-8 sm:py-12 md:py-20">
+        <div className="max-w-6xl mx-auto px-3 sm:px-4 md:px-8">
           <div
             id="content-title"
             data-animate
-            className={`text-center mb-16 transition-all duration-1000 ${
+            className={`text-center mb-8 sm:mb-12 md:mb-16 transition-all duration-1000 ${
               visibleElements.has("content-title")
                 ? "opacity-100 translate-y-0"
                 : "opacity-0 translate-y-8"
             }`}
           >
-            <h2 className="text-3xl md:text-4xl font-bold text-night mb-4">
+            <h2 className="text-xl sm:text-2xl md:text-3xl lg:text-4xl font-bold text-night mb-2 sm:mb-3 md:mb-4">
               Projects & Insights
             </h2>
-            <p className="text-dim-gray text-lg">
+            <p className="text-dim-gray text-sm sm:text-base md:text-lg px-2 sm:px-4">
               A collection of my work, research, and thoughts on technology
             </p>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-12">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 sm:gap-4 md:gap-6 mb-6 sm:mb-8 md:mb-12">
             {getFrontPageContent().map((item, index) => (
               <ContentCard
                 key={item.id}
@@ -256,19 +259,19 @@ export default function Home() {
         </div>
       </div>
 
-      {/* Skills & Timeline Section - Dark rounded container */}
-      <div className="relative p-4 md:p-8">
-        <div className="bg-night rounded-[2rem] md:rounded-[3rem] text-white overflow-hidden">
-          <div className="px-8 py-20">
+      {/* Skills & Timeline Section - Dark rounded container - Mobile optimized */}
+      <div className="relative p-1 sm:p-2 md:p-4 lg:p-8">
+        <div className="bg-night rounded-2xl sm:rounded-2xl md:rounded-2xl lg:rounded-[2rem] xl:rounded-[3rem] text-white overflow-hidden">
+          <div className="px-3 sm:px-4 md:px-8 py-8 sm:py-12 md:py-20">
             <div className="max-w-6xl mx-auto">
               {/* Photo and Skills Section */}
-              <div className="grid grid-cols-1 lg:grid-cols-4 gap-8 mb-20">
+              <div className="grid grid-cols-1 lg:grid-cols-4 gap-4 sm:gap-6 md:gap-8 mb-8 sm:mb-12 md:mb-20">
                 {/* Photo Section */}
-                <div className="lg:col-span-1">
+                <div className="lg:col-span-1 order-2 lg:order-1">
                   <div
                     id="timeline-photo"
                     data-animate
-                    className={`sticky top-8 transition-all duration-1000 ${
+                    className={`lg:sticky lg:top-8 transition-all duration-1000 ${
                       visibleElements.has("timeline-photo")
                         ? "opacity-100 translate-y-0"
                         : "opacity-0 translate-y-8"
@@ -277,31 +280,31 @@ export default function Home() {
                     <img
                       src="/images/suit-smile.jpg"
                       alt="Noah Provenzano"
-                      className="w-full h-full object-cover rounded-xl group-hover:scale-105 transition-transform duration-300"
+                      className="w-full h-48 sm:h-64 md:h-80 lg:h-full object-cover object-top rounded-lg sm:rounded-xl group-hover:scale-105 transition-transform duration-300"
                     />
                   </div>
                 </div>
 
                 {/* Skills Section */}
-                <div className="lg:col-span-3">
+                <div className="lg:col-span-3 order-1 lg:order-2">
                   <div
                     id="skills-title"
                     data-animate
-                    className={`mb-8 transition-all duration-1000 ${
+                    className={`mb-4 sm:mb-6 md:mb-8 transition-all duration-1000 ${
                       visibleElements.has("skills-title")
                         ? "opacity-100 translate-y-0"
                         : "opacity-0 translate-y-8"
                     }`}
                   >
-                    <h2 className="text-3xl md:text-4xl font-bold text-white mb-4">
+                    <h2 className="text-xl sm:text-2xl md:text-3xl lg:text-4xl font-bold text-white mb-2 sm:mb-3 md:mb-4">
                       Technical Skills
                     </h2>
-                    <p className="text-dim-gray text-lg">
+                    <p className="text-dim-gray text-sm sm:text-base md:text-lg">
                       Technologies and tools I work with
                     </p>
                   </div>
 
-                  <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6">
+                  <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-3 sm:gap-4 md:gap-6">
                     {technicalSkills.map((category, categoryIndex) => (
                       <div
                         key={category.title}
@@ -316,19 +319,19 @@ export default function Home() {
                         }`}
                         style={{ transitionDelay: `${categoryIndex * 150}ms` }}
                       >
-                        <div className="bg-jet rounded-2xl p-6 h-full border border-dim-gray/20">
-                          <h3 className="text-lg font-semibold text-white mb-4">
+                        <div className="bg-jet rounded-lg sm:rounded-xl md:rounded-2xl p-3 sm:p-4 md:p-6 h-full border border-dim-gray/20">
+                          <h3 className="text-sm sm:text-base md:text-lg font-semibold text-white mb-2 sm:mb-3 md:mb-4">
                             {category.title}
                           </h3>
-                          <div className="flex flex-wrap gap-2">
+                          <div className="flex flex-wrap gap-1.5 sm:gap-2">
                             {category.skills.map((skill, skillIndex) => (
                               <span
                                 key={skill.name}
-                                className="bg-coral text-jet px-3 py-1 rounded-xl text-sm font-medium flex items-center gap-2"
+                                className="bg-coral text-jet px-2 sm:px-2 md:px-3 py-1 rounded-md sm:rounded-lg md:rounded-xl text-xs sm:text-xs md:text-sm font-medium flex items-center gap-1 sm:gap-1 md:gap-2"
                               >
                                 <SkillIcon
                                   type={skill.icon}
-                                  className="w-4 h-4"
+                                  className="w-2.5 h-2.5 sm:w-3 sm:h-3 md:w-4 md:h-4"
                                 />
                                 {skill.name}
                               </span>

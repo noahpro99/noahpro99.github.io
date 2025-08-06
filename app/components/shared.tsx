@@ -3,8 +3,11 @@ import {
   Mail,
   Phone,
   ArrowRight,
+  Menu,
+  X,
   type LucideIcon,
 } from "lucide-react";
+import { useState, useEffect } from "react";
 
 // Custom brand icon components
 export function GithubIcon({ className }: { className?: string }) {
@@ -46,7 +49,7 @@ export function CTAButton({
   animated = false,
 }: CTAButtonProps) {
   const baseClasses =
-    "inline-flex items-center gap-2 px-8 py-4 rounded-full font-medium transition-all duration-300 cursor-pointer";
+    "inline-flex items-center gap-2 px-4 sm:px-6 md:px-8 py-3 sm:py-4 rounded-full font-medium transition-all duration-300 cursor-pointer text-sm sm:text-base";
 
   const variantClasses = {
     primary: animated
@@ -62,7 +65,7 @@ export function CTAButton({
       )}
       <span className={animated ? "relative z-10" : ""}>{children}</span>
       <Icon
-        className={`w-5 h-5 ${animated ? "relative z-10 group-hover:translate-x-1 transition-transform duration-300" : ""}`}
+        className={`w-4 h-4 sm:w-5 sm:h-5 ${animated ? "relative z-10 group-hover:translate-x-1 transition-transform duration-300" : ""}`}
       />
     </>
   );
@@ -91,10 +94,21 @@ export function CTAButton({
 
 // Navigation component
 export function Navigation() {
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
+
+  const toggleMenu = () => {
+    setIsMenuOpen(!isMenuOpen);
+  };
+
+  const closeMenu = () => {
+    setIsMenuOpen(false);
+  };
+
   return (
-    <div className="bg-white">
-      <nav className="flex items-center justify-between px-8 py-6">
-        <div className="flex items-center space-x-8">
+    <>
+      <div className="bg-white">
+        <nav className="flex items-center justify-between px-4 md:px-8 py-4 md:py-6">
+          {/* Logo */}
           <div className="flex items-center space-x-3">
             <a
               href="/"
@@ -103,87 +117,193 @@ export function Navigation() {
               <img
                 src="/logo.jpg"
                 alt="Noah Provenzano"
-                className="w-10 h-10 rounded-lg object-cover shadow-md"
+                className="w-8 h-8 md:w-10 md:h-10 rounded-lg object-cover shadow-md"
               />
-              noahpro
+              <span className="text-sm md:text-base">noahpro</span>
             </a>
           </div>
-        </div>
-        <div className="flex items-center space-x-8">
-          <a
-            href="/blog-projects"
-            className="text-dim-gray hover:text-coral transition-colors font-medium"
+
+          {/* Desktop Navigation */}
+          <div className="hidden md:flex items-center space-x-8">
+            <a
+              href="/blog-projects"
+              className="text-dim-gray hover:text-coral transition-colors font-medium"
+            >
+              Blog & Projects
+            </a>
+            <a
+              href="/#footer"
+              onClick={(e) => {
+                const footerElement = document.getElementById("footer");
+                if (footerElement) {
+                  e.preventDefault();
+                  footerElement.scrollIntoView({ behavior: "smooth" });
+                }
+              }}
+              className="text-dim-gray hover:text-coral transition-colors font-medium"
+            >
+              Contact
+            </a>
+          </div>
+
+          {/* Mobile Menu Button */}
+          <button
+            onClick={toggleMenu}
+            className="md:hidden relative z-50 p-2 text-night hover:text-coral transition-colors"
+            aria-label="Toggle menu"
           >
-            Blog & Projects
-          </a>
-          <a
-            href="/#footer"
-            onClick={(e) => {
-              const footerElement = document.getElementById("footer");
-              if (footerElement) {
-                // If footer exists on current page, scroll to it
-                e.preventDefault();
-                footerElement.scrollIntoView({ behavior: "smooth" });
-              }
-              // If footer doesn't exist, let the default navigation happen to /#footer
-              // The browser will automatically scroll to the anchor when the page loads
-            }}
-            className="text-dim-gray hover:text-coral transition-colors font-medium"
-          >
-            Contact
-          </a>
+            <div className="w-6 h-6 relative">
+              {/* Animated hamburger icon */}
+              <span
+                className={`absolute block w-6 h-0.5 bg-current transform transition-all duration-300 ease-in-out ${
+                  isMenuOpen ? "rotate-45 top-2.5" : "top-1"
+                }`}
+              />
+              <span
+                className={`absolute block w-6 h-0.5 bg-current transform transition-all duration-300 ease-in-out top-2.5 ${
+                  isMenuOpen ? "opacity-0" : "opacity-100"
+                }`}
+              />
+              <span
+                className={`absolute block w-6 h-0.5 bg-current transform transition-all duration-300 ease-in-out ${
+                  isMenuOpen ? "-rotate-45 top-2.5" : "top-4"
+                }`}
+              />
+            </div>
+          </button>
+        </nav>
+      </div>
+
+      {/* Mobile Menu Overlay */}
+      <div
+        className={`fixed inset-0 bg-black/50 z-40 md:hidden transition-opacity duration-300 ${
+          isMenuOpen ? "opacity-100" : "opacity-0 pointer-events-none"
+        }`}
+        onClick={closeMenu}
+      />
+
+      {/* Mobile Menu */}
+      <div
+        className={`fixed top-0 right-0 h-full w-80 bg-white shadow-2xl z-50 md:hidden transform transition-transform duration-300 ease-in-out ${
+          isMenuOpen ? "translate-x-0" : "translate-x-full"
+        }`}
+      >
+        <div className="p-6 pt-20">
+          <nav className="space-y-6">
+            <a
+              href="/"
+              onClick={closeMenu}
+              className="block text-night hover:text-coral transition-colors font-medium text-lg"
+            >
+              Home
+            </a>
+            <a
+              href="/blog-projects"
+              onClick={closeMenu}
+              className="block text-night hover:text-coral transition-colors font-medium text-lg"
+            >
+              Blog & Projects
+            </a>
+            <a
+              href="/#footer"
+              onClick={(e) => {
+                const footerElement = document.getElementById("footer");
+                if (footerElement) {
+                  e.preventDefault();
+                  footerElement.scrollIntoView({ behavior: "smooth" });
+                }
+                closeMenu();
+              }}
+              className="block text-night hover:text-coral transition-colors font-medium text-lg"
+            >
+              Contact
+            </a>
+          </nav>
+
+          {/* Social Links in Mobile Menu */}
+          <div className="mt-12 pt-6 border-t border-dim-gray/20">
+            <div className="space-y-4">
+              <a
+                href="https://github.com/noahpro99"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="flex items-center gap-3 text-dim-gray hover:text-coral transition-colors"
+              >
+                <GithubIcon className="w-5 h-5" />
+                GitHub
+              </a>
+              <a
+                href="https://www.linkedin.com/in/noah-provenzano-90"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="flex items-center gap-3 text-dim-gray hover:text-coral transition-colors"
+              >
+                <LinkedinIcon className="w-5 h-5" />
+                LinkedIn
+              </a>
+              <a
+                href="mailto:noahpro@gmail.com"
+                className="flex items-center gap-3 text-dim-gray hover:text-coral transition-colors"
+              >
+                <Mail className="w-5 h-5" />
+                Email
+              </a>
+            </div>
+          </div>
         </div>
-      </nav>
-    </div>
+      </div>
+    </>
   );
 }
 
 // Footer component
 export function Footer() {
   return (
-    <div className="bg-white py-16" id="footer">
-      <div className="text-center max-w-4xl mx-auto px-8">
-        <div className="mb-8">
-          <h3 className="text-2xl font-bold text-night mb-4">Let's Connect</h3>
-          <p className="text-dim-gray mb-6">
+    <div className="bg-white py-8 sm:py-12 md:py-16" id="footer">
+      <div className="text-center max-w-4xl mx-auto px-3 sm:px-4 md:px-8">
+        <div className="mb-6 sm:mb-8">
+          <h3 className="text-xl sm:text-2xl font-bold text-night mb-3 sm:mb-4">
+            Let's Connect
+          </h3>
+          <p className="text-dim-gray mb-4 sm:mb-6 text-sm sm:text-base">
             Always interested in new opportunities and collaborations
           </p>
         </div>
 
-        <div className="flex flex-col sm:flex-row justify-center items-center gap-6 mb-8">
+        <div className="flex flex-col sm:flex-row justify-center items-center gap-4 sm:gap-6 mb-6 sm:mb-8">
           <a
             href="mailto:noahpro@gmail.com"
-            className="text-night hover:text-coral transition-colors font-medium flex items-center gap-2"
+            className="text-night hover:text-coral transition-colors font-medium flex items-center gap-2 text-sm sm:text-base"
           >
-            <Mail className="w-5 h-5" />
+            <Mail className="w-4 h-4 sm:w-5 sm:h-5" />
             noahpro@gmail.com
           </a>
           <a
             href="tel:540-315-6063"
-            className="text-night hover:text-coral transition-colors font-medium flex items-center gap-2"
+            className="text-night hover:text-coral transition-colors font-medium flex items-center gap-2 text-sm sm:text-base"
           >
-            <Phone className="w-5 h-5" />
+            <Phone className="w-4 h-4 sm:w-5 sm:h-5" />
             (540) 315-6063
           </a>
         </div>
 
-        <div className="flex justify-center space-x-6 mb-8">
+        <div className="flex justify-center space-x-4 sm:space-x-6 mb-6 sm:mb-8">
           <a
             href="https://github.com/noahpro99"
             target="_blank"
             rel="noopener noreferrer"
-            className="text-dim-gray hover:text-coral transition-colors flex items-center gap-2"
+            className="text-dim-gray hover:text-coral transition-colors flex items-center gap-2 text-sm sm:text-base"
           >
-            <GithubIcon className="w-5 h-5" />
+            <GithubIcon className="w-4 h-4 sm:w-5 sm:h-5" />
             GitHub
           </a>
           <a
             href="https://www.linkedin.com/in/noah-provenzano-90"
             target="_blank"
             rel="noopener noreferrer"
-            className="text-dim-gray hover:text-coral transition-colors flex items-center gap-2"
+            className="text-dim-gray hover:text-coral transition-colors flex items-center gap-2 text-sm sm:text-base"
           >
-            <LinkedinIcon className="w-5 h-5" />
+            <LinkedinIcon className="w-4 h-4 sm:w-5 sm:h-5" />
             LinkedIn
           </a>
         </div>

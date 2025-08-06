@@ -104,19 +104,19 @@ export default function ContentPost({ params }: Route.ComponentProps) {
     <div className="min-h-screen bg-white text-night">
       <Navigation />
 
-      {/* Content - Dark rounded container */}
-      <div className="relative px-4 md:px-8 pb-4 md:pb-8">
-        <div className="bg-night rounded-[2rem] md:rounded-[3rem] text-white overflow-hidden">
-          <div className="px-8 py-20">
+      {/* Content - Dark rounded container - Mobile optimized */}
+      <div className="relative px-1 sm:px-2 md:px-4 lg:px-8 pb-1 sm:pb-2 md:pb-4 lg:pb-8">
+        <div className="bg-night rounded-2xl sm:rounded-2xl md:rounded-2xl lg:rounded-[2rem] xl:rounded-[3rem] text-white overflow-hidden">
+          <div className="px-3 sm:px-4 md:px-8 py-8 sm:py-12 md:py-20">
             <article className="max-w-4xl mx-auto">
               {/* Back to posts link */}
-              <div className="mb-8">
+              <div className="mb-6 sm:mb-8">
                 <a
                   href="/blog-projects"
-                  className="text-dim-gray hover:text-white text-sm transition-colors flex items-center gap-2"
+                  className="text-dim-gray hover:text-white text-xs sm:text-sm transition-colors flex items-center gap-2"
                 >
                   <svg
-                    className="w-4 h-4"
+                    className="w-3 h-3 sm:w-4 sm:h-4"
                     viewBox="0 0 24 24"
                     fill="none"
                     stroke="currentColor"
@@ -129,9 +129,9 @@ export default function ContentPost({ params }: Route.ComponentProps) {
               </div>
 
               {/* Content Header */}
-              <div className="mb-12 text-center">
-                <div className="flex items-center justify-center gap-4 mb-6">
-                  <span className="text-coral text-sm font-medium">
+              <div className="mb-8 sm:mb-12 text-center">
+                <div className="flex flex-col sm:flex-row items-center justify-center gap-2 sm:gap-4 mb-4 sm:mb-6">
+                  <span className="text-coral text-xs sm:text-sm font-medium">
                     {content.category} • {content.date}
                   </span>
                   {content.badge && (
@@ -140,32 +140,32 @@ export default function ContentPost({ params }: Route.ComponentProps) {
                     </span>
                   )}
                 </div>
-                <h1 className="text-4xl md:text-5xl font-bold text-white mb-6 leading-tight">
+                <h1 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold text-white mb-4 sm:mb-6 leading-tight px-2">
                   {content.title}
                 </h1>
-                <p className="text-dim-gray text-lg max-w-2xl mx-auto mb-8">
+                <p className="text-dim-gray text-sm sm:text-base md:text-lg max-w-2xl mx-auto mb-6 sm:mb-8 px-2">
                   {content.description}
                 </p>
 
                 {/* Author and Date */}
-                <div className="text-dim-gray text-sm mb-8">
+                <div className="text-dim-gray text-xs sm:text-sm mb-6 sm:mb-8">
                   <span>By Noah Provenzano • {content.date}</span>
                 </div>
 
                 {/* Content Links */}
-                <div className="flex justify-center gap-4">
+                <div className="flex flex-col sm:flex-row justify-center gap-3 sm:gap-4 px-2">
                   {content.link && (
                     <a
                       href={content.link}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="bg-coral hover:bg-coral/90 text-white px-6 py-3 rounded-full font-medium transition-colors flex items-center gap-2"
+                      className="bg-coral hover:bg-coral/90 text-white px-4 sm:px-6 py-2 sm:py-3 rounded-full font-medium transition-colors flex items-center justify-center gap-2 text-sm sm:text-base"
                     >
                       {content.type === "project"
                         ? "View Live Project"
                         : "View External Link"}
                       <svg
-                        className="w-4 h-4"
+                        className="w-3 h-3 sm:w-4 sm:h-4"
                         viewBox="0 0 24 24"
                         fill="none"
                         stroke="currentColor"
@@ -180,9 +180,9 @@ export default function ContentPost({ params }: Route.ComponentProps) {
                       href={`https://github.com/${content.githubRepo}`}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="bg-jet hover:bg-jet/80 text-white px-6 py-3 rounded-full font-medium transition-colors flex items-center gap-2"
+                      className="bg-jet hover:bg-jet/80 text-white px-4 sm:px-6 py-2 sm:py-3 rounded-full font-medium transition-colors flex items-center justify-center gap-2 text-sm sm:text-base"
                     >
-                      <GithubIcon className="w-4 h-4" />
+                      <GithubIcon className="w-3 h-3 sm:w-4 sm:h-4" />
                       View Source
                     </a>
                   )}
@@ -190,57 +190,57 @@ export default function ContentPost({ params }: Route.ComponentProps) {
               </div>
 
               {/* Markdown Content */}
-              <div className="prose prose-lg prose-invert max-w-none">
+              <div className="prose prose-sm sm:prose-base md:prose-lg prose-invert max-w-none px-2 sm:px-0">
                 <ReactMarkdown
                   components={{
                     h1: ({ children }) => (
-                      <h2 className="text-2xl md:text-3xl font-semibold text-white mt-12 mb-6">
+                      <h2 className="text-xl sm:text-2xl md:text-3xl font-semibold text-white mt-8 sm:mt-12 mb-4 sm:mb-6">
                         {children}
                       </h2>
                     ),
                     h2: ({ children }) => (
-                      <h3 className="text-xl md:text-2xl font-semibold text-white mt-10 mb-4">
+                      <h3 className="text-lg sm:text-xl md:text-2xl font-semibold text-white mt-6 sm:mt-10 mb-3 sm:mb-4">
                         {children}
                       </h3>
                     ),
                     h3: ({ children }) => (
-                      <h4 className="text-lg md:text-xl font-semibold text-white mt-8 mb-3">
+                      <h4 className="text-base sm:text-lg md:text-xl font-semibold text-white mt-6 sm:mt-8 mb-2 sm:mb-3">
                         {children}
                       </h4>
                     ),
                     p: ({ children }) => (
-                      <p className="text-dim-gray leading-relaxed mb-6 text-base">
+                      <p className="text-dim-gray leading-relaxed mb-4 sm:mb-6 text-sm sm:text-base">
                         {children}
                       </p>
                     ),
                     ul: ({ children }) => (
-                      <ul className="text-dim-gray space-y-2 mb-6 list-disc list-inside">
+                      <ul className="text-dim-gray space-y-1 sm:space-y-2 mb-4 sm:mb-6 list-disc list-inside text-sm sm:text-base">
                         {children}
                       </ul>
                     ),
                     ol: ({ children }) => (
-                      <ol className="text-dim-gray space-y-2 mb-6 list-decimal list-inside">
+                      <ol className="text-dim-gray space-y-1 sm:space-y-2 mb-4 sm:mb-6 list-decimal list-inside text-sm sm:text-base">
                         {children}
                       </ol>
                     ),
                     code: ({ className, children }) => {
                       if (className?.includes("language-")) {
                         return (
-                          <pre className="bg-jet rounded-lg p-4 overflow-x-auto mb-6">
-                            <code className="text-white text-sm">
+                          <pre className="bg-jet rounded-lg p-3 sm:p-4 overflow-x-auto mb-4 sm:mb-6 scrollbar-thin">
+                            <code className="text-white text-xs sm:text-sm">
                               {children}
                             </code>
                           </pre>
                         );
                       }
                       return (
-                        <code className="bg-jet text-coral px-2 py-1 rounded text-sm">
+                        <code className="bg-jet text-coral px-1.5 sm:px-2 py-0.5 sm:py-1 rounded text-xs sm:text-sm">
                           {children}
                         </code>
                       );
                     },
                     blockquote: ({ children }) => (
-                      <blockquote className="border-l-4 border-coral pl-6 italic text-dim-gray mb-6">
+                      <blockquote className="border-l-4 border-coral pl-4 sm:pl-6 italic text-dim-gray mb-4 sm:mb-6 text-sm sm:text-base">
                         {children}
                       </blockquote>
                     ),
@@ -285,11 +285,11 @@ export default function ContentPost({ params }: Route.ComponentProps) {
                       }
 
                       return (
-                        <div className="my-8">
+                        <div className="my-4 sm:my-6 md:my-8">
                           <img
                             src={resolvedSrc}
                             alt={cleanAlt}
-                            className="rounded-lg mx-auto"
+                            className="rounded-lg mx-auto max-w-full h-auto"
                             style={
                               width
                                 ? { width: width, maxWidth: "100%" }
