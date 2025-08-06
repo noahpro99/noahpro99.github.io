@@ -1,27 +1,17 @@
 import type { ContentItem } from "../components/ContentCard";
 
-// Content configuration - centralized place for all projects and blog posts
 export const allContent: ContentItem[] = [
   {
-    id: "omenix",
-    type: "project",
-    title: "Omenix",
-    description: "Advanced project management and collaboration platform",
-    date: "2024",
-    category: "Web Development",
-    showOnFrontPage: true,
-    githubRepo: "noahpro99/omenix",
-  },
-  {
-    id: "multi-agent-reinforcement-learning",
+    id: "intuition-for-the-transformer-model",
     type: "blog",
-    title: "Multi-Agent Reinforcement Learning in Swarm Behavior",
+    title: "Intuition for the Transformer Model",
     description:
-      "Exploring how reward structures influence emergent behaviors in predator-prey scenarios and quantifying effects on time-to-prey-capture.",
+      "A visual and intuitive explanation of the transformer model architecture and its components.",
     date: "Dec 2024",
     category: "Research",
-    image: "/logo.jpg",
-    blogPath: "/blog/multi-agent-reinforcement-learning.md",
+    image:
+      "/blog/intuition-for-the-transformer-model/transformer-encoder-decoder-example-with-attention.png",
+    blogPath: "/blog/intuition-for-the-transformer-model/blog.md",
     showOnFrontPage: true,
   },
   {
