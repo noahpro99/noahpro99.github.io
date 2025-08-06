@@ -34,18 +34,24 @@ export function HorizontalTimeline({
   }, []);
 
   const startYear = 2019;
-  const endYear = 2026;
+  const endYear = 2027;
   const totalYears = endYear - startYear;
 
   const getEventWidth = (event: TimelineEvent) => {
-    const eventEndYear = event.endYear || endYear;
-    const duration = eventEndYear - event.startYear;
+    // Calculate precise start and end times including months
+    const startTime = event.startYear + event.startMonth / 12;
+    const endTime = event.endYear
+      ? event.endYear + (event.endMonth || 11) / 12
+      : endYear + 0.5;
+    const duration = endTime - startTime;
     const widthPercentage = (duration / totalYears) * 100;
     return Math.max(Math.min(widthPercentage, 95), 12); // Min 12%, max 95% to prevent overflow
   };
 
   const getEventLeft = (event: TimelineEvent) => {
-    const leftPercentage = ((event.startYear - startYear) / totalYears) * 100;
+    // Calculate precise start time including months
+    const startTime = event.startYear + event.startMonth / 12;
+    const leftPercentage = ((startTime - startYear) / totalYears) * 100;
     return Math.max(Math.min(leftPercentage, 95), 0); // Clamp between 0 and 95%
   };
 
@@ -340,7 +346,28 @@ export function HorizontalTimeline({
                       {event.description}
                     </p>
                     <p className="text-white text-xs font-medium">
-                      {event.startYear} - {event.endYear || "Present"}
+                      {(() => {
+                        const monthNames = [
+                          "Jan",
+                          "Feb",
+                          "Mar",
+                          "Apr",
+                          "May",
+                          "Jun",
+                          "Jul",
+                          "Aug",
+                          "Sep",
+                          "Oct",
+                          "Nov",
+                          "Dec",
+                        ];
+                        const startMonth = monthNames[event.startMonth];
+                        const endDisplay =
+                          event.endYear && event.endMonth !== undefined
+                            ? `${monthNames[event.endMonth]} ${event.endYear}`
+                            : "Present";
+                        return `${startMonth} ${event.startYear} - ${endDisplay}`;
+                      })()}
                     </p>
                   </div>
                 ) : null;

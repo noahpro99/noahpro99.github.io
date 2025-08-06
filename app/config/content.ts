@@ -118,39 +118,47 @@ export const allContent: ContentItem[] = [
 // Skills configuration with simple lists
 export interface SkillCategory {
   title: string;
-  skills: string[];
+  skills: SkillItem[];
+}
+
+interface SkillItem {
+  name: string;
+  icon: string;
 }
 
 export const technicalSkills: SkillCategory[] = [
   {
     title: "Programming & Tools",
     skills: [
-      "Python (NumPy, Pandas, TensorFlow)",
-      "TypeScript",
-      "Java",
-      "C",
-      "React",
-      "SQL",
-      "Rust",
-      "Linux",
-      "Docker",
-      "Git",
+      { name: "TypeScript", icon: "typescript" },
+      { name: "C", icon: "c" },
+      { name: "React", icon: "react" },
+      { name: "SQL", icon: "database" },
+      { name: "Rust", icon: "rust" },
+      { name: "Linux", icon: "linux" },
+      { name: "Docker", icon: "docker" },
+      { name: "Git", icon: "git" },
+      { name: "Apps Script", icon: "googleappsscript" },
     ],
   },
   {
-    title: "Data Analysis",
+    title: "AI & Machine Learning",
     skills: [
-      "Excel/Sheets statistical models",
-      "Pivot tables and formulas",
-      "Microsoft/Google products",
-      "AppsScript",
+      { name: "Python", icon: "python" },
+      { name: "TensorFlow", icon: "tensorflow" },
+      { name: "PyTorch", icon: "pytorch" },
+      { name: "Pandas", icon: "pandas" },
+      { name: "RLLib", icon: "rllib" },
+      { name: "Hugging Face", icon: "huggingface" },
+      { name: "Excel/Sheets Models", icon: "spreadsheet" },
     ],
   },
   {
     title: "3D Design & Simulation",
     skills: [
-      "3D CAD and printing (Onshape/SolidWorks)",
-      "3D simulation/rendering (Blender)",
+      { name: "3D CAD and printing (Onshape)", icon: "cube" },
+      { name: "3D simulation/rendering (Blender)", icon: "blender" },
+      { name: "Godot Game Engine", icon: "godotengine" },
     ],
   },
 ];
@@ -212,7 +220,9 @@ export interface TimelineEvent {
   subtitle: string;
   description: string;
   startYear: number;
+  startMonth: number; // 0-11 (Jan=0, Dec=11)
   endYear?: number;
+  endMonth?: number; // 0-11 (Jan=0, Dec=11)
   type: "education" | "work" | "research";
   location: string;
   current?: boolean;
@@ -225,7 +235,9 @@ export const timelineEvents: TimelineEvent[] = [
     subtitle: "Virginia Tech",
     description: "Research in LLM reasoning under Dr. Tu Vu",
     startYear: 2024,
+    startMonth: 7, // August
     endYear: 2026,
+    endMonth: 4, // May
     type: "education",
     location: "Falls Church, VA",
     current: true,
@@ -237,6 +249,9 @@ export const timelineEvents: TimelineEvent[] = [
     description:
       "Instructed CS 2505 Computer Organization and CS 3214 Computer Systems",
     startYear: 2024,
+    startMonth: 7, // August
+    endYear: 2026,
+    endMonth: 4, // May
     type: "work",
     location: "Blacksburg, VA",
     current: true,
@@ -247,7 +262,9 @@ export const timelineEvents: TimelineEvent[] = [
     subtitle: "Virginia Tech",
     description: "Dean's List with Distinction, Sigma Pi Sigma, Tau Sigma",
     startYear: 2020,
+    startMonth: 7, // August
     endYear: 2024,
+    endMonth: 4, // May
     type: "education",
     location: "Blacksburg, VA",
   },
@@ -257,7 +274,9 @@ export const timelineEvents: TimelineEvent[] = [
     subtitle: "Hume Center VT",
     description: "Multi-agent RL & LLM covert encoding under Dr. Maice Costa",
     startYear: 2023,
+    startMonth: 8, // September
     endYear: 2024,
+    endMonth: 7, // August
     type: "research",
     location: "Blacksburg, VA",
   },
@@ -267,7 +286,9 @@ export const timelineEvents: TimelineEvent[] = [
     subtitle: "FischerJordan",
     description: "Predictive modeling, website monitoring, dev-ops management",
     startYear: 2021,
+    startMonth: 6, // July
     endYear: 2022,
+    endMonth: 7, // August (continuing into next semester)
     type: "work",
     location: "New York, NY (Remote)",
   },
@@ -278,7 +299,9 @@ export const timelineEvents: TimelineEvent[] = [
     description:
       "A.S. Computer Science, Outstanding Student Award, Phi Theta Kappa",
     startYear: 2019,
+    startMonth: 7, // August
     endYear: 2020,
+    endMonth: 4, // May
     type: "education",
     location: "Christiansburg, VA",
   },

@@ -18,6 +18,7 @@ import {
 import { ContentCard } from "../components/ContentCard";
 import { HorizontalTimeline } from "../components/Timeline";
 import { Navigation, Footer, CTAButton } from "../components/shared";
+import { SkillIcon } from "../components/SkillIcon";
 import {
   getFrontPageContent,
   technicalSkills,
@@ -321,11 +322,15 @@ export default function Home() {
                           </h3>
                           <div className="flex flex-wrap gap-2">
                             {category.skills.map((skill, skillIndex) => (
-                              <span 
-                                key={skill} 
-                                className="bg-coral text-dim-gray px-3 py-1 rounded-full text-sm font-medium"
+                              <span
+                                key={skill.name}
+                                className="bg-coral text-jet px-3 py-1 rounded-xl text-sm font-medium flex items-center gap-2"
                               >
-                                {skill}
+                                <SkillIcon
+                                  type={skill.icon}
+                                  className="w-4 h-4"
+                                />
+                                {skill.name}
                               </span>
                             ))}
                           </div>
