@@ -2,6 +2,18 @@ import type { ContentItem } from "../components/ContentCard";
 
 export const allContent: ContentItem[] = [
   {
+    id: "how-i-ended-up-sending-in-my-first-linux-kernel-patch",
+    type: "blog",
+    title: "How I Ended Up Sending In My First Linux Kernel Patch",
+    description:
+      "A deep dive into reverse engineering HP's OMEN Gaming Hub to understand fan control and creating a Linux kernel patch for proper hardware support.",
+    date: "Jul 2025",
+    category: "Systems Programming",
+    blogPath:
+      "/blog/how-i-ended-up-sending-in-my-first-linux-kernel-patch/blog.md",
+    showOnFrontPage: true,
+  },
+  {
     id: "intuition-for-the-transformer-model",
     type: "blog",
     title: "Intuition for the Transformer Model",

@@ -243,10 +243,26 @@ export default function ContentPost({ params }: Route.ComponentProps) {
                         }
                       }
 
+                      // Handle relative paths for blog images
+                      let resolvedSrc = src;
+                      if (
+                        src &&
+                        src.startsWith("./") &&
+                        content.type === "blog" &&
+                        content.blogPath
+                      ) {
+                        // Extract the blog directory from the blogPath
+                        const blogDir = content.blogPath.replace(
+                          "/blog.md",
+                          ""
+                        );
+                        resolvedSrc = `${blogDir}/${src.slice(2)}`;
+                      }
+
                       return (
                         <div className="my-8">
                           <img
-                            src={src}
+                            src={resolvedSrc}
                             alt={cleanAlt}
                             className="rounded-lg mx-auto"
                             style={
