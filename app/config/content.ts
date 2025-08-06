@@ -30,15 +30,28 @@ export const allContent: ContentItem[] = [
   },
   {
     id: "uncover-card-game",
-    type: "project",
-    title: "Uncover Card Game",
+    type: "blog",
+    title: "Uncover",
     description:
       "Online clue-based card game with 1350+ matches played and 200+ registered users",
-    date: "2024",
+    date: "Mar 2024",
     category: "Web Development",
-    link: "https://uncovercardgame.com",
     showOnFrontPage: true,
-    githubRepo: "Rituraj003/Uncover-card-game",
+    image: "/blog/uncover-card-game/gameplay.png",
+    blogPath: "/blog/uncover-card-game/blog.md",
+  },
+  {
+    id: "3Dera",
+    type: "project",
+    title: "3D Era",
+    description:
+      "A web-based platform for creating and sharing 3D models and environments.",
+    date: "Mar 2024",
+    category: "Hackathon Project",
+    link: "https://github.com/noahpro99/3Dera",
+    showOnFrontPage: true,
+    image: "http://img.youtube.com/vi/L3gGZ3T9t98/0.jpg",
+    githubRepo: "noahpro99/3Dera",
   },
 ];
 
