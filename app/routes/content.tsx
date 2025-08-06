@@ -54,7 +54,21 @@ export default function ContentPost({ params }: Route.ComponentProps) {
       fetch(item.blogPath)
         .then((response) => response.text())
         .then((text) => {
-          setMarkdownContent(text);
+          // Process Pandoc-style image attributes
+          const processedText = text.replace(
+            /!\[([^\]]*)\]\(([^)]+)\)\{([^}]+)\}/g,
+            (match, alt, src, attrs) => {
+              // Extract width attribute
+              const widthMatch = attrs.match(/width=(\d+)%/);
+              if (widthMatch) {
+                const width = widthMatch[1];
+                // Store width in alt text with a special marker
+                return `![${alt}||width:${width}%](${src})`;
+              }
+              return `![${alt}](${src})`;
+            }
+          );
+          setMarkdownContent(processedText);
           setLoading(false);
         })
         .catch((error) => {
@@ -205,15 +219,45 @@ export default function ContentPost({ params }: Route.ComponentProps) {
                         {children}
                       </blockquote>
                     ),
-                    img: ({ src, alt }) => (
-                      <div className="my-8">
-                        <img
-                          src={src}
-                          alt={alt}
-                          className="rounded-lg mx-auto max-w-full"
-                        />
-                      </div>
+                    a: ({ href, children }) => (
+                      <a
+                        href={href}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="text-coral hover:text-coral/80 underline transition-colors"
+                      >
+                        {children}
+                      </a>
                     ),
+                    img: ({ src, alt, title }) => {
+                      // Parse width from processed alt text
+                      let width = undefined;
+                      let cleanAlt = alt;
+
+                      if (alt && alt.includes("||width:")) {
+                        const parts = alt.split("||width:");
+                        cleanAlt = parts[0];
+                        const widthPart = parts[1];
+                        if (widthPart) {
+                          width = widthPart;
+                        }
+                      }
+
+                      return (
+                        <div className="my-8">
+                          <img
+                            src={src}
+                            alt={cleanAlt}
+                            className="rounded-lg mx-auto"
+                            style={
+                              width
+                                ? { width: width, maxWidth: "100%" }
+                                : { maxWidth: "100%" }
+                            }
+                          />
+                        </div>
+                      );
+                    },
                   }}
                 >
                   {markdownContent}
