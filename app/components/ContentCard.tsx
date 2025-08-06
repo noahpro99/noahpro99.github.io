@@ -11,7 +11,7 @@ export interface ContentItem {
   link?: string;
   image?: string;
   blogPath?: string;
-  showOnFrontPage: boolean;
+  showOnFrontPage?: boolean;
   githubRepo?: string; // Format: "owner/repo"
 }
 

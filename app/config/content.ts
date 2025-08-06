@@ -36,7 +36,6 @@ export const allContent: ContentItem[] = [
       "Online clue-based card game with 1350+ matches played and 200+ registered users",
     date: "Sep 2024",
     category: "Web Development",
-    showOnFrontPage: true,
     image: "/blog/uncover-card-game/gameplay.png",
     blogPath: "/blog/uncover-card-game/blog.md",
   },
@@ -52,6 +51,46 @@ export const allContent: ContentItem[] = [
     showOnFrontPage: true,
     image: "http://img.youtube.com/vi/L3gGZ3T9t98/0.jpg",
     githubRepo: "noahpro99/3Dera",
+  },
+  {
+    id: "Forge",
+    type: "project",
+    title: "Forge",
+    description:
+      "A web-based platform for creating and sharing 3D models and environments.",
+    date: "Sep 2024",
+    category: "Hackathon Project",
+    link: "https://github.com/noahpro99/Forge",
+    image: "https://github.com/noahpro99/Forge/blob/main/img/demo.png?raw=true",
+    githubRepo: "noahpro99/Forge",
+  },
+  {
+    id: "micrograd-rs",
+    type: "project",
+    title:
+      "A tiny autograd engine for learning purposes in Rust. Based on the Python version by Andrej Karpathy.",
+    description:
+      "A web-based platform for creating and sharing 3D models and environments.",
+    date: "Apr 2024",
+    category: "AI & Machine Learning",
+    link: "https://github.com/noahpro99/micrograd-rs",
+    image:
+      "https://github.com/noahpro99/micrograd-rs/blob/main/images/image.png?raw=true",
+    githubRepo: "noahpro99/micrograd-rs",
+  },
+  {
+    id: "robust-swarm",
+    type: "project",
+    title:
+      "A reinforcement learning-based agent that dynamically optimizes paths to keep drone swarms mission-cohesive, even amid interference.",
+    description:
+      "A web-based platform for creating and sharing 3D models and environments.",
+    date: "Mar 2025",
+    category: "AI & Machine Learning",
+    link: "https://github.com/noahpro99/robust-swarm",
+    image:
+      "https://github.com/noahpro99/robust-swarm/blob/main/images/diagram.png?raw=true",
+    githubRepo: "noahpro99/robust-swarm",
   },
 ];
 

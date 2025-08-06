@@ -105,7 +105,7 @@ export function Navigation() {
                 alt="Noah Provenzano"
                 className="w-10 h-10 rounded-lg object-cover shadow-md"
               />
-              HOME
+              noahpro
             </a>
           </div>
         </div>
@@ -114,7 +114,7 @@ export function Navigation() {
             href="/blog-projects"
             className="text-dim-gray hover:text-coral transition-colors font-medium"
           >
-            BLOG & PROJECTS
+            Blog & Projects
           </a>
           <a
             href="/#footer"
@@ -130,7 +130,7 @@ export function Navigation() {
             }}
             className="text-dim-gray hover:text-coral transition-colors font-medium"
           >
-            CONTACT
+            Contact
           </a>
         </div>
       </nav>
