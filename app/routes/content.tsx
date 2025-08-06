@@ -208,6 +208,9 @@ export default function ContentPost({ params }: Route.ComponentProps) {
                         {children}
                       </h4>
                     ),
+                    strong: ({ children }) => (
+                      <strong className="text-coral">{children}</strong>
+                    ),
                     p: ({ children }) => (
                       <p className="text-dim-gray leading-relaxed mb-4 sm:mb-6 text-sm sm:text-base">
                         {children}
