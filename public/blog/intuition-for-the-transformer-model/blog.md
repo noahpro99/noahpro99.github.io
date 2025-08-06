@@ -4,7 +4,7 @@
 
 I was first introduced to the transformer model when I was listening to [Andrej Karpathy on the Lex Friedman Podcast](https://www.youtube.com/watch?v=cdiD-9MMpb0). Karparthy made it clear that after the transformer with the attention concept was introduced in [Attention is All You Need](https://arxiv.org/abs/1706.03762) by researchers at Google in 2017, the entire field has shifted to adopt it for almost all AI endeavors. I rushed to understand how the transformer worked. Personally, I found most of the representations of the transformer to be unnecessarily complicated. While they were imperative and technically correct, they didn’t capture the motivations and intuition for a great visual interpretation.
 
-![*Transformer architecture diagram from Attention is All You Need*](/public/blog/intuition-for-the-transformer-model/transformer-architecture.png){ width=50% }
+![*Transformer architecture diagram from Attention is All You Need*](/blog/intuition-for-the-transformer-model/transformer-architecture.png){ width=50% }
 
 My goal was to create a simple yet adequately representative visualization of the transformer that I could understand and share. This guide will break down the intuition for the three major unique steps in the transformer with specific visuals and then put it all together.
 
@@ -30,7 +30,7 @@ The researchers at google brain cleverly solved this problem in [Attention Is Al
 
 The intuition for the perturbations is as shown in the image. Imagine that you were given each pixel from an image as a shuffled stack of cards. It would be a challenge to try to put them all back in the right places, like a puzzle. If you perturb the color of each pixel in a specific pattern and keep reusing the same pattern for all images, the model will be able to learn the pattern. It will then be much easier to place all of the pixels in the correct locations.
 
-![*Positional encoding perturbations*](/public/blog/intuition-for-the-transformer-model/positional-movement.png)
+![*Positional encoding perturbations*](/blog/intuition-for-the-transformer-model/positional-movement.png)
 
 The same is true for textual inputs. The vector embedding of each word is shifted to different locations based on where it is in the input. In the image, you can see that the words gain an ordering while also keeping a subdued and offset version of their original offset from the origin. Since the positional encoding perturbations are the same in every training example, the model learns to determine the distance between words by comparing their distances.
 
