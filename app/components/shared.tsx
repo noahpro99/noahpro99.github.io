@@ -95,6 +95,11 @@ export function CTAButton({
 // Navigation component
 export function Navigation() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [isLoaded, setIsLoaded] = useState(false);
+
+  useEffect(() => {
+    setIsLoaded(true);
+  }, []);
 
   const toggleMenu = () => {
     setIsMenuOpen(!isMenuOpen);
@@ -109,15 +114,17 @@ export function Navigation() {
       <div className="bg-white">
         <nav className="flex items-center justify-between px-4 md:px-8 py-4 md:py-6">
           {/* Logo */}
-          <div className="flex items-center space-x-3">
+          <div
+            className={`flex items-center space-x-3 transform transition-all duration-700 ${isLoaded ? "translate-y-0 opacity-100" : "-translate-y-4 opacity-0"}`}
+          >
             <a
               href="/"
-              className="text-night hover:text-coral transition-colors font-medium flex items-center gap-2"
+              className="text-night hover:text-coral transition-colors font-medium flex items-center gap-2 group"
             >
               <img
                 src="/logo.jpg"
                 alt="Noah Provenzano"
-                className="w-8 h-8 md:w-10 md:h-10 rounded-lg object-cover shadow-md"
+                className="w-8 h-8 md:w-10 md:h-10 rounded-lg object-cover shadow-md transition-all duration-300 group-hover:scale-110 group-hover:rotate-12"
               />
               <span className="text-sm md:text-base">noahpro</span>
             </a>
@@ -127,7 +134,7 @@ export function Navigation() {
           <div className="hidden md:flex items-center space-x-8">
             <a
               href="/blog-projects"
-              className="text-dim-gray hover:text-coral transition-colors font-medium"
+              className={`text-dim-gray hover:text-coral transition-all duration-300 font-medium transform ${isLoaded ? "translate-y-0 opacity-100" : "-translate-y-4 opacity-0"}`}
             >
               Blog & Projects
             </a>
@@ -140,7 +147,7 @@ export function Navigation() {
                   footerElement.scrollIntoView({ behavior: "smooth" });
                 }
               }}
-              className="text-dim-gray hover:text-coral transition-colors font-medium"
+              className={`text-dim-gray hover:text-coral transition-all duration-300 font-medium transform ${isLoaded ? "translate-y-0 opacity-100" : "-translate-y-4 opacity-0"}`}
             >
               Contact
             </a>
@@ -149,7 +156,8 @@ export function Navigation() {
           {/* Mobile Menu Button */}
           <button
             onClick={toggleMenu}
-            className="md:hidden relative z-50 p-2 text-night hover:text-coral transition-colors"
+            className={`md:hidden relative z-50 p-2 text-night hover:text-coral transition-all duration-700 transform ${isLoaded ? "translate-y-0 opacity-100" : "-translate-y-4 opacity-0"}`}
+            style={{ transitionDelay: "450ms" }}
             aria-label="Toggle menu"
           >
             <div className="w-6 h-6 relative">
