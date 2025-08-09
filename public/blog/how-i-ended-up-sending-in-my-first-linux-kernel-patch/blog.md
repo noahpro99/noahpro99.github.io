@@ -12,7 +12,7 @@ Some online digging pointed me toward the **Embedded Controller (EC)**, a microc
 
 I tried taking multiple snapshots of the EC memory state, toggling settings on and off, and then diffing the results to filter out the noise. After hours of this, the only bytes that consistently changed were at addresses `0x11` and `0x14`. They seemed to directly reflect the fan speeds. But while I could write to these addresses on Windows to manually set the fans, they were completely unresponsive on Linux.
 
-I spent an embarrassing amount of time with tools like RWEverything on Windows, which gave me a real-time view of the EC's memory. My screen looked like a conspiracy theorist's board, with boxes drawn everywhere, tracking bytes as they flickered.
+I spent an embarrassing amount of time with tools like RWEverything on Windows, which gave me a real-time view of the EC's memory. My screen looked like a conspiracy theorist's board, with boxes drawn everywhere, tracking bytes as they flickered. My girlfriend said it looked like the refining from Severance.
 
 ![RWEverything Debugging](./EC-highlighted.png)
 
