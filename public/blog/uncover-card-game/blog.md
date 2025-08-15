@@ -44,7 +44,7 @@ Once a user’s timer "broke" entirely. It wasn't showing at all even after debu
 
 We shipped a **PWA**. On iOS, links from outside wouldn’t open the PWA, they’d open the site. We detect the context, nudge "open in app," and rely on **shared localStorage** so it still feels smooth. Our hosting wandered: frontend on **Vercel** with backend on **DigitalOcean**, then deploys on **Cloudflare**, and eventually I self-hosted the backend on a **Raspberry Pi** at home because… we could. We definitely found it best to ship the path of least resistance, then refactor the runway under the plane. I had to fight rust inside of docker to get it to not take 10 minutes to build on each push. Docker has a newer cachix for buildkit which ended up solving this for us.
 
-![Raspberry Pi](./raspberry-pi.png)
+![Raspberry Pi](./raspberry-pi.jpg){ width=50% }
 
 ## When to stop fixing what only devs see
 
