@@ -174,20 +174,6 @@ export function HorizontalTimeline({
   const handleItemClick = (item: ContentItem, event: React.MouseEvent) => {
     event.preventDefault();
     event.stopPropagation();
-
-    // If this item is already clicked, perform the action
-    if (clickedItem === item.id) {
-      if (item.type === "blog" && item.blogPath) {
-        window.location.href = `/content/${item.id}`;
-      } else if (item.type === "project" && item.link) {
-        window.open(item.link, "_blank");
-      } else if (item.githubRepo) {
-        window.open(`https://github.com/${item.githubRepo}`, "_blank");
-      }
-      return;
-    }
-
-    // Otherwise, show tooltip
     const rect = event.currentTarget.getBoundingClientRect();
     setClickedItem(item.id);
     setClickedEvent(null);
@@ -289,7 +275,7 @@ export function HorizontalTimeline({
               {/* Event bars */}
               <div className="relative h-16 sm:h-20 md:h-24 lg:h-32 mb-0">
                 {timelineEvents.map((event, index) => {
-                  const verticalOffset = (index % 3) * 8; // Smaller stagger for mobile
+                  const verticalOffset = (index % 4) * 12; // Spread events across more levels
                   return (
                     <div
                       key={event.id}
@@ -324,8 +310,7 @@ export function HorizontalTimeline({
               <div className="relative">
                 {timelineItems.map((item, index) => {
                   const leftPosition = getItemLeft(item);
-                  // Smaller vertical offset for mobile
-                  const verticalOffset = index % 2 === 0 ? 0 : 8;
+                  const verticalOffset = index % 2 === 0 ? 0 : 12;
 
                   return (
                     <div
@@ -334,7 +319,7 @@ export function HorizontalTimeline({
                       style={{
                         left: `${leftPosition}%`,
                         marginLeft: "-6px", // Half of mobile width
-                        top: `${-28 + verticalOffset}px`, // Adjusted for mobile
+                        top: `${-20 + verticalOffset}px`,
                       }}
                       onMouseEnter={(e) => handleItemHover(item, e)}
                       onMouseLeave={handleMouseLeave}
@@ -381,7 +366,7 @@ export function HorizontalTimeline({
         {(hoveredItem || hoveredEvent || clickedItem || clickedEvent) &&
           showTooltip && (
             <div
-              className={`absolute bg-night border-2 border-coral rounded-lg sm:rounded-xl p-2 sm:p-3 md:p-4 text-white text-xs sm:text-sm min-w-40 sm:min-w-48 md:min-w-64 max-w-60 sm:max-w-72 md:max-w-80 z-40 pointer-events-none shadow-2xl backdrop-blur-sm transition-all duration-200 ${
+              className={`absolute bg-night border-2 border-coral rounded-lg sm:rounded-xl p-2 sm:p-3 md:p-4 text-white text-xs sm:text-sm min-w-40 sm:min-w-48 md:min-w-64 max-w-60 sm:max-w-72 md:max-w-80 z-40 pointer-events-auto shadow-2xl backdrop-blur-sm transition-all duration-200 ${
                 showTooltip ? "opacity-100 scale-100" : "opacity-0 scale-95"
               }`}
               style={{
@@ -404,11 +389,34 @@ export function HorizontalTimeline({
                       <p className="text-dim-gray text-xs leading-relaxed mb-2">
                         {item.description}
                       </p>
-                      <p className="text-white text-xs font-medium">
-                        {clickedItem === item.id
-                          ? "Click again to navigate →"
-                          : "Click to view details →"}
-                      </p>
+                      {item.type === "blog" && item.blogPath && (
+                        <a
+                          href={`/content/${item.id}`}
+                          className="text-coral text-xs font-medium underline"
+                        >
+                          Read more →
+                        </a>
+                      )}
+                      {item.type === "project" && item.link && (
+                        <a
+                          href={item.link}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="text-coral text-xs font-medium underline"
+                        >
+                          Visit project →
+                        </a>
+                      )}
+                      {item.githubRepo && (
+                        <a
+                          href={`https://github.com/${item.githubRepo}`}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="text-coral text-xs font-medium underline"
+                        >
+                          View on GitHub →
+                        </a>
+                      )}
                     </div>
                   ) : null;
                 }
@@ -453,8 +461,8 @@ export function HorizontalTimeline({
                         })()}
                       </p>
                       {clickedEvent === event.id && (
-                        <p className="text-white text-xs font-medium mt-1">
-                          Click again to close
+                        <p className="text-dim-gray text-xs font-medium mt-1">
+                          Tap outside to close
                         </p>
                       )}
                     </div>
