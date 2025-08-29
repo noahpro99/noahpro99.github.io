@@ -1,4 +1,5 @@
 import { ExternalLink } from "lucide-react";
+import { useNavigate } from "react-router";
 
 export interface ContentItem {
   id: string;
@@ -27,6 +28,7 @@ export function ContentCard({
   index,
   visibleElements,
 }: ContentCardProps) {
+  const navigate = useNavigate();
   const isVisible = visibleElements.has(`content-${item.id}`);
 
   return (
@@ -39,14 +41,12 @@ export function ContentCard({
       style={{ transitionDelay: `${index * 150}ms` }}
     >
       <div
-        className="bg-jet rounded-lg sm:rounded-xl md:rounded-2xl overflow-hidden hover:bg-jet/80 transition-all cursor-pointer group h-full flex flex-col"
+        className="bg-jet rounded-xl sm:rounded-2xl md:rounded-3xl overflow-hidden hover:bg-jet/80 transition-all cursor-pointer group h-full flex flex-col"
         onClick={() => {
           if (item.type === "project" && item.githubRepo) {
-            // Open GitHub projects in a new tab
             window.open(`https://github.com/${item.githubRepo}`, "_blank");
           } else {
-            // Navigate to content page for blogs and other content
-            window.location.href = `/content/${item.id}`;
+            navigate(`/content/${item.id}`);
           }
         }}
       >

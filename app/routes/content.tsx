@@ -10,6 +10,7 @@ import {
   GithubIcon,
 } from "../components/shared";
 import type { ContentItem } from "~/components/ContentCard";
+import { Link } from "react-router";
 
 export function meta({ params }: Route.MetaArgs) {
   const content = getContentById(params.id);
@@ -111,8 +112,8 @@ export default function ContentPost({ params }: Route.ComponentProps) {
             <article className="max-w-4xl mx-auto">
               {/* Back to posts link */}
               <div className="mb-6 sm:mb-8">
-                <a
-                  href="/blog-projects"
+                <Link
+                  to="/blog-projects"
                   className="text-dim-gray hover:text-white text-xs sm:text-sm transition-colors flex items-center gap-2"
                 >
                   <svg
@@ -125,7 +126,7 @@ export default function ContentPost({ params }: Route.ComponentProps) {
                     <path d="m15 18-6-6 6-6" />
                   </svg>
                   Back to all posts
-                </a>
+                </Link>
               </div>
 
               {/* Content Header */}
@@ -154,7 +155,17 @@ export default function ContentPost({ params }: Route.ComponentProps) {
 
                 {/* Content Links */}
                 <div className="flex flex-col sm:flex-row justify-center gap-3 sm:gap-4 px-2">
-                  {content.link && (
+                  {content.githubRepo ? (
+                    <a
+                      href={`https://github.com/${content.githubRepo}`}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="bg-jet hover:bg-jet/80 text-white px-4 sm:px-6 py-2 sm:py-3 rounded-full font-medium transition-colors flex items-center justify-center gap-2 text-sm sm:text-base"
+                    >
+                      <GithubIcon className="w-3 h-3 sm:w-4 sm:h-4" />
+                      View on GitHub
+                    </a>
+                  ) : content.link ? (
                     <a
                       href={content.link}
                       target="_blank"
@@ -162,7 +173,7 @@ export default function ContentPost({ params }: Route.ComponentProps) {
                       className="bg-coral hover:bg-coral/90 text-white px-4 sm:px-6 py-2 sm:py-3 rounded-full font-medium transition-colors flex items-center justify-center gap-2 text-sm sm:text-base"
                     >
                       {content.type === "project"
-                        ? "View Live Project"
+                        ? "View Project"
                         : "View External Link"}
                       <svg
                         className="w-3 h-3 sm:w-4 sm:h-4"
@@ -174,18 +185,7 @@ export default function ContentPost({ params }: Route.ComponentProps) {
                         <path d="m7 7 10 10M7 17l10-10" />
                       </svg>
                     </a>
-                  )}
-                  {content.githubRepo && (
-                    <a
-                      href={`https://github.com/${content.githubRepo}`}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="bg-jet hover:bg-jet/80 text-white px-4 sm:px-6 py-2 sm:py-3 rounded-full font-medium transition-colors flex items-center justify-center gap-2 text-sm sm:text-base"
-                    >
-                      <GithubIcon className="w-3 h-3 sm:w-4 sm:h-4" />
-                      View Source
-                    </a>
-                  )}
+                  ) : null}
                 </div>
               </div>
 

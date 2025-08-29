@@ -8,6 +8,7 @@ import {
   type LucideIcon,
 } from "lucide-react";
 import { useState, useEffect } from "react";
+import { Link } from "react-router";
 
 // Custom brand icon components
 export function GithubIcon({ className }: { className?: string }) {
@@ -73,15 +74,23 @@ export function CTAButton({
   const classes = `${baseClasses} ${variantClasses[variant]} ${className}`;
 
   if (href) {
+    const isExternal = external || /^(https?:)?\/\//.test(href);
+    if (isExternal) {
+      return (
+        <a
+          href={href}
+          target="_blank"
+          rel="noopener noreferrer"
+          className={classes}
+        >
+          {content}
+        </a>
+      );
+    }
     return (
-      <a
-        href={href}
-        target={external ? "_blank" : undefined}
-        rel={external ? "noopener noreferrer" : undefined}
-        className={classes}
-      >
+      <Link to={href} className={classes}>
         {content}
-      </a>
+      </Link>
     );
   }
 
@@ -117,8 +126,8 @@ export function Navigation() {
           <div
             className={`flex items-center space-x-3 transform transition-all duration-700 ${isLoaded ? "translate-y-0 opacity-100" : "-translate-y-4 opacity-0"}`}
           >
-            <a
-              href="/"
+            <Link
+              to="/"
               className="text-night hover:text-coral transition-colors font-medium flex items-center gap-2 group"
             >
               <img
@@ -127,17 +136,17 @@ export function Navigation() {
                 className="w-8 h-8 md:w-10 md:h-10 rounded-lg object-cover shadow-md transition-all duration-300 group-hover:scale-110 group-hover:rotate-12"
               />
               <span className="text-sm md:text-base">noahpro</span>
-            </a>
+            </Link>
           </div>
 
           {/* Desktop Navigation */}
           <div className="hidden md:flex items-center space-x-8">
-            <a
-              href="/blog-projects"
+            <Link
+              to="/blog-projects"
               className={`text-dim-gray hover:text-coral transition-all duration-300 font-medium transform ${isLoaded ? "translate-y-0 opacity-100" : "-translate-y-4 opacity-0"}`}
             >
               Blog & Projects
-            </a>
+            </Link>
             <a
               href="/#footer"
               onClick={(e) => {
@@ -198,20 +207,20 @@ export function Navigation() {
       >
         <div className="p-6 pt-20">
           <nav className="space-y-6">
-            <a
-              href="/"
+            <Link
+              to="/"
               onClick={closeMenu}
               className="block text-night hover:text-coral transition-colors font-medium text-lg"
             >
               Home
-            </a>
-            <a
-              href="/blog-projects"
+            </Link>
+            <Link
+              to="/blog-projects"
               onClick={closeMenu}
               className="block text-night hover:text-coral transition-colors font-medium text-lg"
             >
               Blog & Projects
-            </a>
+            </Link>
             <a
               href="/#footer"
               onClick={(e) => {
@@ -268,15 +277,15 @@ export function Navigation() {
 export function Footer() {
   return (
     <div className="bg-white py-8 sm:py-12 md:py-16" id="footer">
-      <div className="text-center max-w-4xl mx-auto px-3 sm:px-4 md:px-8">
-        <div className="mb-6 sm:mb-8">
-          <h3 className="text-xl sm:text-2xl font-bold text-night mb-3 sm:mb-4">
-            Let's Connect
-          </h3>
-          <p className="text-dim-gray mb-4 sm:mb-6 text-sm sm:text-base">
-            Always interested in new opportunities and collaborations
-          </p>
-        </div>
+          <div className="text-center max-w-4xl mx-auto px-3 sm:px-4 md:px-8">
+            <div className="mb-6 sm:mb-8">
+              <h3 className="text-xl sm:text-2xl font-bold text-night mb-3 sm:mb-4">
+                Let's Connect
+              </h3>
+              <p className="text-dim-gray mb-4 sm:mb-6 text-sm sm:text-base">
+                Always interested in new opportunities and collaborations
+              </p>
+            </div>
 
         <div className="flex flex-col sm:flex-row justify-center items-center gap-4 sm:gap-6 mb-6 sm:mb-8">
           <a
@@ -345,12 +354,12 @@ export function NotFound({ type }: { type: "blog" | "project" }) {
         <p className="text-dim-gray mb-6">
           The {type} you're looking for doesn't exist.
         </p>
-        <a
-          href="/blog-projects"
+        <Link
+          to="/blog-projects"
           className="bg-coral hover:bg-coral/90 text-white px-6 py-3 rounded-full font-medium transition-colors"
         >
           Back to Blog & Projects
-        </a>
+        </Link>
       </div>
     </div>
   );
