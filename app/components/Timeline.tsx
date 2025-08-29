@@ -137,6 +137,38 @@ export function HorizontalTimeline({
     }
   };
 
+  // Layout: assign non-overlapping lanes to event bars based on their time span
+  const { eventLane, laneCount } = useMemo(() => {
+    type Box = { id: string; start: number; end: number };
+    const boxes: Box[] = timelineEvents
+      .map((e) => {
+        const left = getEventLeft(e);
+        const width = getEventWidth(e);
+        return { id: e.id, start: left, end: Math.min(100, left + width) };
+      })
+      .sort((a, b) => a.start - b.start);
+
+    const lanes: number[] = []; // last "end" percent per lane
+    const map: Record<string, number> = {};
+    const minGap = 0.5; // percentage spacing to avoid visual touching
+    for (const b of boxes) {
+      let placed = false;
+      for (let i = 0; i < lanes.length; i++) {
+        if (b.start >= lanes[i] + minGap) {
+          map[b.id] = i;
+          lanes[i] = b.end;
+          placed = true;
+          break;
+        }
+      }
+      if (!placed) {
+        map[b.id] = lanes.length;
+        lanes.push(b.end);
+      }
+    }
+    return { eventLane: map, laneCount: Math.max(1, lanes.length) };
+  }, []);
+
   // When active changes without a mouse event (e.g., default selection or resize),
   // try to locate the active element and update connector height.
   useEffect(() => {
@@ -212,9 +244,13 @@ export function HorizontalTimeline({
               <div className="absolute top-8 sm:top-10 md:top-12 lg:top-16 left-2 sm:left-3 md:left-6 right-2 sm:right-3 md:right-6 bg-dim-gray/20 rounded-full h-0.5"></div>
 
               {/* Event bars */}
-              <div className="relative h-16 sm:h-20 md:h-24 lg:h-32 mb-0">
+              <div
+                className="relative mb-0"
+                style={{ height: `${Math.max(64, laneCount * 16)}px` }}
+              >
                 {timelineEvents.map((event, index) => {
-                  const verticalOffset = (index % 4) * 10; // Spread events across more levels
+                  const lane = eventLane[event.id] ?? 0;
+                  const verticalOffset = lane * 12; // 12px per lane
                   return (
                     <div
                       key={event.id}
@@ -246,13 +282,7 @@ export function HorizontalTimeline({
                         }
                       }}
                     >
-                      <span className="truncate text-xs">
-                        {window.innerWidth < 640
-                          ? event.title.split(" ")[0]
-                          : window.innerWidth < 768
-                            ? event.title.split(" ").slice(0, 2).join(" ")
-                            : event.title}
-                      </span>
+                      <span className="truncate text-xs">{event.title}</span>
                       {event.current && (
                         <div className="ml-1 w-1 h-1 sm:w-1.5 sm:h-1.5 md:w-2 md:h-2 bg-white rounded-full animate-pulse"></div>
                       )}
