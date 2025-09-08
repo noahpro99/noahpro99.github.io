@@ -106,7 +106,7 @@ export const allContent: ContentItem[] = [
     title: "CodeKids",
     description:
       "An educational platform with interactive books to teach programming concepts to children.",
-    date: "Jan 2025",
+    date: "Nov 2023",
     category: "Web Development",
     link: "https://codekids.cs.vt.edu/",
     image: "/images/codekids-ss.png",
@@ -261,7 +261,7 @@ export const timelineEvents: TimelineEvent[] = [
     title: "BS Computer Science & Physics",
     subtitle: "Virginia Tech",
     description: "Dean's List with Distinction, Sigma Pi Sigma, Tau Sigma",
-    startYear: 2020,
+    startYear: 2021,
     startMonth: 7, // August
     endYear: 2024,
     endMonth: 4, // May
@@ -300,7 +300,7 @@ export const timelineEvents: TimelineEvent[] = [
       "A.S. Computer Science, Outstanding Student Award, Phi Theta Kappa",
     startYear: 2019,
     startMonth: 7, // August
-    endYear: 2020,
+    endYear: 2021,
     endMonth: 4, // May
     type: "education",
     location: "Christiansburg, VA",
