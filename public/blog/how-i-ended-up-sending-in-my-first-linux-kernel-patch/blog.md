@@ -66,4 +66,6 @@ My laptop was finally free.
 
 I submitted my [patch](https://lore.kernel.org/platform-driver-x86/20250731213529.27378-1-noahpro@gmail.com/T/#u) to the Linux kernel mailing list and hopefully it will be accepted in.
 
+I also created [Omenix](https://github.com/noahpro/omenix) a tray utility to make managing the fans easier with an auto mode based on temperature.
+
 This entire process, from knowing nothing about Embedded Controllers to submitting a patch to the Linux kernel, was a challenging but incredibly rewarding experience. It's a testament to the fact that with persistence and the open nature of Linux, you can dig in and fix things, making the hardware you own truly yours. Tinker, explore, and don't be afraid to get your hands dirty.
