@@ -334,7 +334,7 @@ export function Footer() {
 // Loading component
 export function LoadingSpinner({ message }: { message: string }) {
   return (
-    <div className="min-h-screen bg-white text-night flex items-center justify-center">
+    <div className="min-h-screen bg-night text-white flex items-center justify-center">
       <div className="text-center">
         <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-coral mx-auto mb-4"></div>
         <p className="text-dim-gray">{message}</p>
@@ -346,8 +346,8 @@ export function LoadingSpinner({ message }: { message: string }) {
 // Not found component
 export function NotFound({ type }: { type: "blog" | "project" }) {
   return (
-    <div className="min-h-screen bg-white text-night flex items-center justify-center">
-      <div className="text-center">
+    <div className="min-h-screen bg-night text-white flex items-center justify-center">
+      <div className="text-center px-4">
         <h1 className="text-2xl font-bold mb-4">
           {type === "blog" ? "Blog Post" : "Project"} Not Found
         </h1>
@@ -356,7 +356,7 @@ export function NotFound({ type }: { type: "blog" | "project" }) {
         </p>
         <Link
           to="/blog-projects"
-          className="bg-coral hover:bg-coral/90 text-white px-6 py-3 rounded-full font-medium transition-colors"
+          className="inline-flex items-center gap-2 bg-coral hover:bg-coral/90 text-white px-6 py-3 rounded-lg font-medium transition-colors"
         >
           Back to Blog & Projects
         </Link>

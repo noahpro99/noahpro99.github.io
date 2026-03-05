@@ -3,8 +3,6 @@ import { useEffect, useState } from "react";
 import ReactMarkdown from "react-markdown";
 import { getContentById } from "../config/content";
 import {
-  Navigation,
-  Footer,
   LoadingSpinner,
   NotFound,
   GithubIcon,
@@ -102,22 +100,18 @@ export default function ContentPost({ params }: Route.ComponentProps) {
   }
 
   return (
-    <div className="min-h-screen bg-white text-night">
-      <Navigation />
-
-      {/* Content - Dark rounded container - Mobile optimized */}
-      <div className="relative px-1 sm:px-2 md:px-4 lg:px-8 pb-1 sm:pb-2 md:pb-4 lg:pb-8">
-        <div className="bg-night rounded-2xl sm:rounded-2xl md:rounded-2xl lg:rounded-[2rem] xl:rounded-[3rem] text-white overflow-hidden">
-          <div className="px-3 sm:px-4 md:px-8 py-8 sm:py-12 md:py-20">
-            <article className="max-w-4xl mx-auto">
+    <div className="min-h-screen bg-night text-white">
+      {/* Content */}
+      <div className="relative px-4 py-6 sm:py-8">
+        <article className="max-w-4xl mx-auto">
               {/* Back to posts link */}
-              <div className="mb-6 sm:mb-8">
+              <div className="mb-4">
                 <Link
                   to="/blog-projects"
-                  className="text-dim-gray hover:text-white text-xs sm:text-sm transition-colors flex items-center gap-2"
+                  className="text-dim-gray hover:text-coral text-sm transition-colors flex items-center gap-2"
                 >
                   <svg
-                    className="w-3 h-3 sm:w-4 sm:h-4"
+                    className="w-4 h-4"
                     viewBox="0 0 24 24"
                     fill="none"
                     stroke="currentColor"
@@ -130,39 +124,35 @@ export default function ContentPost({ params }: Route.ComponentProps) {
               </div>
 
               {/* Content Header */}
-              <div className="mb-8 sm:mb-12 text-center">
-                <div className="flex flex-col sm:flex-row items-center justify-center gap-2 sm:gap-4 mb-4 sm:mb-6">
-                  <span className="text-coral text-xs sm:text-sm font-medium">
-                    {content.category} • {content.date}
+              <div className="mb-6">
+                <div className="flex items-center gap-3 mb-3">
+                  <span className="text-coral text-xs font-medium">
+                    {content.category}
                   </span>
+                  <span className="text-dim-gray text-xs">{content.date}</span>
                   {content.badge && (
-                    <span className="bg-coral/20 text-coral text-xs px-3 py-1 rounded-full">
+                    <span className="bg-coral/20 text-coral text-xs px-2 py-0.5 rounded">
                       {content.badge}
                     </span>
                   )}
                 </div>
-                <h1 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold text-white mb-4 sm:mb-6 leading-tight px-2">
+                <h1 className="text-2xl md:text-3xl font-bold text-white mb-3 leading-tight">
                   {content.title}
                 </h1>
-                <p className="text-dim-gray text-sm sm:text-base md:text-lg max-w-2xl mx-auto mb-6 sm:mb-8 px-2">
+                <p className="text-dim-gray text-sm leading-relaxed mb-4">
                   {content.description}
                 </p>
 
-                {/* Author and Date */}
-                <div className="text-dim-gray text-xs sm:text-sm mb-6 sm:mb-8">
-                  <span>By Noah Provenzano • {content.date}</span>
-                </div>
-
                 {/* Content Links */}
-                <div className="flex flex-col sm:flex-row justify-center gap-3 sm:gap-4 px-2">
+                <div className="flex gap-3">
                   {content.githubRepo ? (
                     <a
                       href={`https://github.com/${content.githubRepo}`}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="bg-jet hover:bg-jet/80 text-white px-4 sm:px-6 py-2 sm:py-3 rounded-full font-medium transition-colors flex items-center justify-center gap-2 text-sm sm:text-base"
+                      className="bg-jet/50 hover:bg-jet border border-dim-gray/20 hover:border-coral text-white px-4 py-2 rounded-lg font-medium transition-colors flex items-center gap-2 text-sm"
                     >
-                      <GithubIcon className="w-3 h-3 sm:w-4 sm:h-4" />
+                      <GithubIcon className="w-4 h-4" />
                       View on GitHub
                     </a>
                   ) : content.link ? (
@@ -170,13 +160,13 @@ export default function ContentPost({ params }: Route.ComponentProps) {
                       href={content.link}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="bg-coral hover:bg-coral/90 text-white px-4 sm:px-6 py-2 sm:py-3 rounded-full font-medium transition-colors flex items-center justify-center gap-2 text-sm sm:text-base"
+                      className="bg-coral hover:bg-coral/90 text-white px-4 py-2 rounded-lg font-medium transition-colors flex items-center gap-2 text-sm"
                     >
                       {content.type === "project"
                         ? "View Project"
                         : "View External Link"}
                       <svg
-                        className="w-3 h-3 sm:w-4 sm:h-4"
+                        className="w-4 h-4"
                         viewBox="0 0 24 24"
                         fill="none"
                         stroke="currentColor"
@@ -190,21 +180,21 @@ export default function ContentPost({ params }: Route.ComponentProps) {
               </div>
 
               {/* Markdown Content */}
-              <div className="prose prose-sm sm:prose-base md:prose-lg prose-invert max-w-none px-2 sm:px-0">
+              <div className="prose prose-sm prose-invert max-w-none">
                 <ReactMarkdown
                   components={{
                     h1: ({ children }) => (
-                      <h2 className="text-xl sm:text-2xl md:text-3xl font-semibold text-white mt-8 sm:mt-12 mb-4 sm:mb-6">
+                      <h2 className="text-xl font-semibold text-white mt-8 mb-4">
                         {children}
                       </h2>
                     ),
                     h2: ({ children }) => (
-                      <h3 className="text-lg sm:text-xl md:text-2xl font-semibold text-white mt-6 sm:mt-10 mb-3 sm:mb-4">
+                      <h3 className="text-lg font-semibold text-white mt-6 mb-3">
                         {children}
                       </h3>
                     ),
                     h3: ({ children }) => (
-                      <h4 className="text-base sm:text-lg md:text-xl font-semibold text-white mt-6 sm:mt-8 mb-2 sm:mb-3">
+                      <h4 className="text-base font-semibold text-white mt-6 mb-2">
                         {children}
                       </h4>
                     ),
@@ -212,38 +202,38 @@ export default function ContentPost({ params }: Route.ComponentProps) {
                       <strong className="text-coral">{children}</strong>
                     ),
                     p: ({ children }) => (
-                      <p className="text-dim-gray leading-relaxed mb-4 sm:mb-6 text-sm sm:text-base">
+                      <p className="text-dim-gray leading-relaxed mb-4 text-sm">
                         {children}
                       </p>
                     ),
                     ul: ({ children }) => (
-                      <ul className="text-dim-gray space-y-1 sm:space-y-2 mb-4 sm:mb-6 list-disc list-inside text-sm sm:text-base">
+                      <ul className="text-dim-gray space-y-1 mb-4 list-disc list-inside text-sm">
                         {children}
                       </ul>
                     ),
                     ol: ({ children }) => (
-                      <ol className="text-dim-gray space-y-1 sm:space-y-2 mb-4 sm:mb-6 list-decimal list-inside text-sm sm:text-base">
+                      <ol className="text-dim-gray space-y-1 mb-4 list-decimal list-inside text-sm">
                         {children}
                       </ol>
                     ),
                     code: ({ className, children }) => {
                       if (className?.includes("language-")) {
                         return (
-                          <pre className="bg-jet rounded-lg p-3 sm:p-4 overflow-x-auto mb-4 sm:mb-6 scrollbar-thin">
-                            <code className="text-white text-xs sm:text-sm">
+                          <pre className="bg-jet rounded-lg p-3 overflow-x-auto mb-4 scrollbar-thin">
+                            <code className="text-white text-xs">
                               {children}
                             </code>
                           </pre>
                         );
                       }
                       return (
-                        <code className="bg-jet text-coral px-1.5 sm:px-2 py-0.5 sm:py-1 rounded text-xs sm:text-sm">
+                        <code className="bg-jet text-coral px-1.5 py-0.5 rounded text-xs">
                           {children}
                         </code>
                       );
                     },
                     blockquote: ({ children }) => (
-                      <blockquote className="border-l-4 border-coral pl-4 sm:pl-6 italic text-dim-gray mb-4 sm:mb-6 text-sm sm:text-base">
+                      <blockquote className="border-l-4 border-coral pl-4 italic text-dim-gray mb-4 text-sm">
                         {children}
                       </blockquote>
                     ),
@@ -288,7 +278,7 @@ export default function ContentPost({ params }: Route.ComponentProps) {
                       }
 
                       return (
-                        <div className="my-4 sm:my-6 md:my-8">
+                        <div className="my-6">
                           <img
                             src={resolvedSrc}
                             alt={cleanAlt}
@@ -309,10 +299,6 @@ export default function ContentPost({ params }: Route.ComponentProps) {
               </div>
             </article>
           </div>
-        </div>
-      </div>
-
-      <Footer />
     </div>
   );
 }

@@ -1,8 +1,9 @@
 import type { Route } from "./+types/blog-projects";
 import { useState, useEffect } from "react";
+import { Link } from "react-router";
 import { ContentCard } from "../components/ContentCard";
 import { allContent } from "../config/content";
-import { Navigation, Footer } from "../components/shared";
+
 
 export function meta({}: Route.MetaArgs) {
   return [
@@ -62,47 +63,61 @@ export default function BlogProjects() {
   const blogLength = allContent.filter((item) => item.type === "blog").length;
 
   return (
-    <div className="min-h-screen bg-white text-night">
-      <Navigation />
+    <div className="min-h-screen bg-night text-white">
+      {/* Main Content */}
+      <div className="relative px-4 py-6 sm:py-8">
+        <div className="max-w-4xl mx-auto">
+              {/* Back to home link */}
+              <div className="mb-4">
+                <Link
+                  to="/"
+                  className="text-dim-gray hover:text-coral text-sm transition-colors flex items-center gap-2"
+                >
+                  <svg
+                    className="w-4 h-4"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    strokeWidth="2"
+                  >
+                    <path d="m15 18-6-6 6-6" />
+                  </svg>
+                  Back to home
+                </Link>
+              </div>
 
-      {/* Main Content - Dark rounded container - Mobile optimized */}
-      <div className="relative px-1 sm:px-2 md:px-4 lg:px-8 pb-1 sm:pb-2 md:pb-4 lg:pb-8">
-        <div className="bg-night rounded-2xl sm:rounded-2xl md:rounded-2xl lg:rounded-[2rem] xl:rounded-[3rem] text-white overflow-hidden">
-          <div className="px-3 sm:px-4 md:px-8 py-8 sm:py-12 md:py-20">
-            <div className="max-w-6xl mx-auto">
               {/* Header Section */}
               <div
                 id="page-title"
                 data-animate
-                className={`text-center mb-8 sm:mb-12 md:mb-16 transition-all duration-1000 ${
+                className={`mb-6 transition-all duration-1000 ${
                   visibleElements.has("page-title")
                     ? "opacity-100 translate-y-0"
                     : "opacity-0 translate-y-8"
                 }`}
               >
-                <h1 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold text-white mb-3 sm:mb-4 md:mb-6">
+                <h1 className="text-xl md:text-2xl font-bold text-white mb-2">
                   Blog & Projects
                 </h1>
-                <p className="text-dim-gray text-sm sm:text-base md:text-lg max-w-2xl mx-auto px-2 sm:px-4">
-                  A complete collection of my work, research, and thoughts on
-                  technology, AI, and software development.
+                <p className="text-sm text-dim-gray">
+                  A collection of my work and writing on technology and research.
                 </p>
               </div>
 
-              {/* Filter Buttons - Mobile optimized */}
+              {/* Filter Buttons */}
               <div
                 id="filter-buttons"
                 data-animate
-                className={`flex justify-center mb-8 sm:mb-12 transition-all duration-1000 ${
+                className={`flex justify-start mb-4 transition-all duration-1000 ${
                   visibleElements.has("filter-buttons")
                     ? "opacity-100 translate-y-0"
                     : "opacity-0 translate-y-8"
                 }`}
               >
-                <div className="flex flex-col sm:flex-row space-y-2 sm:space-y-0 sm:space-x-2 md:space-x-4 bg-jet rounded-lg sm:rounded-full p-2">
+                <div className="flex space-x-2 bg-jet rounded-lg p-1">
                   <button
                     onClick={() => setFilter("all")}
-                    className={`px-4 sm:px-6 py-2 rounded-lg sm:rounded-full text-xs sm:text-sm font-medium transition-all ${
+                    className={`px-4 py-1.5 rounded-md text-xs font-medium transition-all ${
                       filter === "all"
                         ? "bg-coral text-white"
                         : "text-dim-gray hover:text-white"
@@ -112,7 +127,7 @@ export default function BlogProjects() {
                   </button>
                   <button
                     onClick={() => setFilter("projects")}
-                    className={`px-4 sm:px-6 py-2 rounded-lg sm:rounded-full text-xs sm:text-sm font-medium transition-all ${
+                    className={`px-4 py-1.5 rounded-md text-xs font-medium transition-all ${
                       filter === "projects"
                         ? "bg-coral text-white"
                         : "text-dim-gray hover:text-white"
@@ -127,7 +142,7 @@ export default function BlogProjects() {
                   </button>
                   <button
                     onClick={() => setFilter("blog")}
-                    className={`px-4 sm:px-6 py-2 rounded-lg sm:rounded-full text-xs sm:text-sm font-medium transition-all ${
+                    className={`px-4 py-1.5 rounded-md text-xs font-medium transition-all ${
                       filter === "blog"
                         ? "bg-coral text-white"
                         : "text-dim-gray hover:text-white"
@@ -139,8 +154,8 @@ export default function BlogProjects() {
                 </div>
               </div>
 
-              {/* Content Grid - Mobile optimized */}
-              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 sm:gap-4 md:gap-6">
+              {/* Content Grid */}
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
                 {filteredItems.map((item, index) => (
                   <ContentCard
                     key={item.id}
@@ -152,10 +167,6 @@ export default function BlogProjects() {
               </div>
             </div>
           </div>
-        </div>
-      </div>
-
-      <Footer />
     </div>
   );
 }
