@@ -1,31 +1,18 @@
 import type { Route } from "./+types/home";
 import { useState, useEffect } from "react";
-import {
-  Lightbulb,
-  CreditCard,
-  Globe,
-  BookOpen,
-  CheckCircle,
-  Zap,
-  Code,
-  Mail,
-  ArrowRight,
-  ExternalLink,
-  Phone,
-  Calendar,
-  MapPin,
-} from "lucide-react";
-import { ContentCard } from "../components/ContentCard";
-import { HorizontalTimeline } from "../components/Timeline";
-import { Navigation, Footer, CTAButton } from "../components/shared";
-import { SkillIcon } from "../components/SkillIcon";
-import {
-  getFrontPageContent,
-  technicalSkills,
-  getContentById,
-} from "../config/content";
+import { BookOpen, Mail, ArrowRight, Phone } from "lucide-react";
+import { VerticalTimeline } from "../components/Timeline";
+import { getFrontPageContent } from "../config/content";
 
-// Custom brand icon components to replace deprecated Lucide brand icons
+// Social media icons
+function XIcon({ className }: { className?: string }) {
+  return (
+    <svg className={className} viewBox="0 0 24 24" fill="currentColor">
+      <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z" />
+    </svg>
+  );
+}
+
 function GithubIcon({ className }: { className?: string }) {
   return (
     <svg className={className} viewBox="0 0 24 24" fill="currentColor">
@@ -42,13 +29,29 @@ function LinkedinIcon({ className }: { className?: string }) {
   );
 }
 
+function MatrixIcon({ className }: { className?: string }) {
+  return (
+    <svg className={className} viewBox="0 0 24 24" fill="currentColor">
+      <path d="M.632.55v22.9H2.28V24H0V0h2.28v.55zm7.043 7.26v1.157h.033c.309-.443.683-.784 1.117-1.024.433-.245.936-.365 1.5-.365.54 0 1.033.107 1.481.314.448.208.785.582 1.02 1.108.254-.374.6-.706 1.034-.992.434-.287.95-.43 1.546-.43.453 0 .872.056 1.26.167.388.11.716.286.993.53.276.245.489.559.646.951.152.392.23.863.23 1.417v5.728h-2.349V11.52c0-.286-.01-.559-.032-.812a1.755 1.755 0 0 0-.18-.66 1.106 1.106 0 0 0-.438-.448c-.194-.11-.457-.166-.785-.166-.332 0-.6.064-.803.189a1.38 1.38 0 0 0-.48.499 1.946 1.946 0 0 0-.231.696 5.56 5.56 0 0 0-.06.817v4.957h-2.35v-4.93c0-.265-.004-.503-.019-.712a1.829 1.829 0 0 0-.155-.66 1.091 1.091 0 0 0-.424-.457c-.181-.112-.438-.166-.763-.166-.08 0-.199.014-.345.046a1.029 1.029 0 0 0-.428.201c-.134.11-.248.282-.342.516-.093.235-.14.57-.14 1.005v5.157H5.082V7.81zm15.693 15.64V.55H21.72V0H24v24h-2.28v-.55z" />
+    </svg>
+  );
+}
+
+function GoogleScholarIcon({ className }: { className?: string }) {
+  return (
+    <svg className={className} viewBox="0 0 24 24" fill="currentColor">
+      <path d="M5.242 13.769L0 9.5 12 0l12 9.5-5.242 4.269C17.548 11.249 14.978 9.5 12 9.5c-2.977 0-5.548 1.748-6.758 4.269zM12 10a7 7 0 1 0 0 14 7 7 0 0 0 0-14z" />
+    </svg>
+  );
+}
+
 export function meta({}: Route.MetaArgs) {
   return [
-    { title: "Noah Provenzano - Computer Science Graduate" },
+    { title: "Noah Provenzano - PhD Student" },
     {
       name: "description",
       content:
-        "Master's student at Virginia Tech passionate about software engineering and research",
+        "PhD student at Virginia Tech researching deep think techniques and advanced reasoning in LLMs",
     },
   ];
 }
@@ -56,7 +59,7 @@ export function meta({}: Route.MetaArgs) {
 // Animation hook for scroll-triggered animations
 function useScrollAnimation() {
   const [visibleElements, setVisibleElements] = useState<Set<string>>(
-    new Set()
+    new Set(),
   );
 
   useEffect(() => {
@@ -71,7 +74,7 @@ function useScrollAnimation() {
       {
         threshold: 0.05, // Reduced threshold for faster triggering
         rootMargin: "100px", // Increased root margin for earlier triggering
-      }
+      },
     );
 
     const elements = document.querySelectorAll("[data-animate]");
@@ -96,79 +99,211 @@ function HeroSection() {
   };
 
   return (
-    <div className="flex flex-col items-center justify-center px-3 sm:px-4 md:px-8 py-8 sm:py-12 md:py-20">
-      <div className="text-center max-w-4xl">
+    <div className="flex flex-col items-center justify-center px-4 py-4 sm:py-6">
+      <div className="max-w-3xl w-full">
         <div
-          id="hero-title"
+          id="hero-content"
           data-animate
           className={`transition-all duration-1000 ${
-            visibleElements.has("hero-title")
+            visibleElements.has("hero-content")
               ? "opacity-100 translate-y-0"
               : "opacity-0 translate-y-8"
           }`}
         >
-          <h1 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl xl:text-6xl 2xl:text-7xl 3xl:text-8xl font-bold leading-tight mb-4 sm:mb-6 md:mb-8">
-            Noah Provenzano
-            <br />
-            <span className="text-dim-gray text-lg sm:text-xl md:text-2xl lg:text-3xl xl:text-4xl 2xl:text-5xl font-normal">
-              Computer Science Graduate Student
-            </span>
-          </h1>
-        </div>
+          {/* Profile picture and info side by side, centered */}
+          <div className="flex flex-col sm:flex-row items-center gap-2 sm:gap-12 justify-center">
+            <div className="w-32 h-32 flex-shrink-0 overflow-hidden rounded-full border-2 border-coral shadow-lg">
+              <img
+                src="/images/headshot-smile.png"
+                alt="Noah Provenzano"
+                className="w-full h-full object-cover object-center scale-125"
+                style={{ objectPosition: "30% 80%" }}
+              />
+            </div>
+            <div className="text-center sm:text-left">
+              <h1 className="text-xl md:text-2xl font-bold mb-1 sm:mb-1">
+                Noah Provenzano
+              </h1>
+              <p className="text-dim-gray text-sm md:text-base mb-1.5">
+                PhD Student in Computer Science
+              </p>
+              <p className="text-dim-gray text-xs md:text-sm mb-3">
+                Virginia Tech
+              </p>
 
+              {/* Social links - icon only */}
+              <div className="flex gap-3 items-center justify-center sm:justify-start flex-wrap">
+                <a
+                  href="https://x.com/noahpro99"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-dim-gray hover:text-coral transition-colors inline-flex"
+                  aria-label="X (Twitter)"
+                >
+                  <XIcon className="w-5 h-5" />
+                </a>
+                <a
+                  href="https://github.com/noahpro99"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-dim-gray hover:text-coral transition-colors inline-flex"
+                  aria-label="GitHub"
+                >
+                  <GithubIcon className="w-5 h-5" />
+                </a>
+                <a
+                  href="https://www.linkedin.com/in/noah-provenzano-90"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-dim-gray hover:text-coral transition-colors inline-flex"
+                  aria-label="LinkedIn"
+                >
+                  <LinkedinIcon className="w-5 h-5" />
+                </a>
+                <a
+                  href="https://matrix.to/#/@noahpro:matrix.org"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-dim-gray hover:text-coral transition-colors inline-flex"
+                  aria-label="Matrix"
+                >
+                  <MatrixIcon className="w-5 h-5" />
+                </a>
+                <button
+                  className="text-dim-gray hover:text-coral transition-colors cursor-not-allowed opacity-50 inline-flex"
+                  aria-label="Google Scholar (Coming Soon)"
+                  disabled
+                >
+                  <GoogleScholarIcon className="w-5 h-5" />
+                </button>
+                <a
+                  href="mailto:noahpro@vt.edu"
+                  className="text-dim-gray hover:text-coral transition-colors inline-flex"
+                  aria-label="Email"
+                >
+                  <Mail className="w-5 h-5" />
+                </a>
+                <a
+                  href="tel:+15403156063"
+                  className="text-dim-gray hover:text-coral transition-colors inline-flex"
+                  aria-label="Phone"
+                >
+                  <Phone className="w-5 h-5" />
+                </a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+function ResearchSection({
+  visibleElements,
+}: {
+  visibleElements: Set<string>;
+}) {
+  return (
+    <div className="py-2 sm:py-3">
+      <div className="max-w-4xl mx-auto px-4">
         <div
-          id="hero-description"
+          id="research-title"
           data-animate
-          className={`transition-all duration-1000 delay-300 ${
-            visibleElements.has("hero-description")
+          className={`mb-3 sm:mb-4 transition-all duration-1000 ${
+            visibleElements.has("research-title")
               ? "opacity-100 translate-y-0"
               : "opacity-0 translate-y-8"
           }`}
         >
-          <p className="text-dim-gray text-sm sm:text-base md:text-lg max-w-2xl mx-auto mb-6 sm:mb-8 md:mb-12 leading-relaxed px-2 sm:px-4">
-            Master's student at Virginia Tech passionate about leveraging
-            technology to develop innovative solutions. Seeking opportunities in
-            software engineering and research roles.
+          <h2 className="text-xl md:text-2xl font-bold text-white mb-1.5 sm:mb-2">
+            Current Research
+          </h2>
+          <p className="text-sm text-dim-gray leading-relaxed">
+            I am researching deep think techniques and methods for advanced
+            reasoning in LLMs under{" "}
+            <a
+              href="https://tuvllms.github.io/"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-coral underline hover:text-coral/80 transition-colors"
+            >
+              Dr. Tu Vu
+            </a>{" "}
+            at Virginia Tech.
           </p>
         </div>
 
         <div
-          id="hero-cta"
+          id="research-papers"
           data-animate
-          className={`transition-all duration-1000 delay-500 ${
-            visibleElements.has("hero-cta")
+          className={`transition-all duration-1000 delay-300 ${
+            visibleElements.has("research-papers")
               ? "opacity-100 translate-y-0"
               : "opacity-0 translate-y-8"
           }`}
         >
-          <div className="flex flex-col gap-4 justify-center items-center">
-            <CTAButton
-              onClick={handleContactClick}
-              variant="primary"
-              animated={true}
+          <h3 className="text-lg font-bold text-white mb-3">Publications</h3>
+          <div className="space-y-3">
+            <a
+              href="https://arxiv.org/abs/2603.02479"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="block p-4 bg-jet/50 border border-dim-gray/20 rounded-lg hover:border-coral transition-all group"
             >
-              Contact Me
-            </CTAButton>
-            <div className="flex gap-4 sm:gap-6">
-              <a
-                href="https://github.com/noahpro99"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="text-dim-gray hover:text-coral transition-colors flex items-center gap-2 text-xs sm:text-sm md:text-base"
-              >
-                <GithubIcon className="w-3 h-3 sm:w-4 sm:h-4" />
-                GitHub
-              </a>
-              <a
-                href="https://www.linkedin.com/in/noah-provenzano-90"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="text-dim-gray hover:text-coral transition-colors flex items-center gap-2 text-xs sm:text-sm md:text-base"
-              >
-                <LinkedinIcon className="w-3 h-3 sm:w-4 sm:h-4" />
-                LinkedIn
-              </a>
-            </div>
+              <div className="flex items-start gap-3">
+                <BookOpen className="w-5 h-5 text-coral flex-shrink-0 mt-1" />
+                <div className="flex-1">
+                  <h4 className="font-semibold text-white group-hover:text-coral transition-colors mb-1">
+                    PRISM: Pushing the Frontier of Deep Think via Process Reward
+                    Model-Guided Inference
+                  </h4>
+                  <p className="text-xs text-dim-gray/80 mb-2">
+                    Rituraj Sharma, Weiyuan Chen,{" "}
+                    <span className="text-coral">Noah Provenzano</span>, Tu Vu
+                  </p>
+                  <p className="text-sm text-dim-gray leading-relaxed">
+                    Introduces PRISM, a Process Reward Model-guided inference
+                    algorithm that uses step-level verification to guide
+                    population refinement and solution aggregation in deep think
+                    systems, achieving 90.0% on AIME25 and reaching the
+                    compute-accuracy Pareto frontier.
+                  </p>
+                  <p className="text-xs text-coral mt-2">
+                    arXiv:2603.02479 • March 2026
+                  </p>
+                </div>
+              </div>
+            </a>
+            <a
+              href="https://arxiv.org/abs/2603.02766"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="block p-4 bg-jet/50 border border-dim-gray/20 rounded-lg hover:border-coral transition-all group"
+            >
+              <div className="flex items-start gap-3">
+                <BookOpen className="w-5 h-5 text-coral flex-shrink-0 mt-1" />
+                <div className="flex-1">
+                  <h4 className="font-semibold text-white group-hover:text-coral transition-colors mb-1">
+                    EvoSkill: Automated Skill Discovery for Multi-Agent Systems
+                  </h4>
+                  <p className="text-xs text-dim-gray/80 mb-2">
+                    Salaheddin Alzubi,{" "}
+                    <span className="text-coral">Noah Provenzano</span>, Jaydon
+                    Bingham, Weiyuan Chen, Tu Vu
+                  </p>
+                  <p className="text-sm text-dim-gray leading-relaxed">
+                    A self-evolving framework that automatically discovers and
+                    refines agent skills through iterative failure analysis,
+                    improving exact-match accuracy by 7.3% on OfficeQA and 12.1%
+                    on SealQA with demonstrated zero-shot transfer capabilities.
+                  </p>
+                  <p className="text-xs text-coral mt-2">
+                    arXiv:2603.02766 • March 2026
+                  </p>
+                </div>
+              </div>
+            </a>
           </div>
         </div>
       </div>
@@ -206,152 +341,110 @@ export default function Home() {
   }, []);
 
   return (
-    <div className="min-h-screen bg-white text-night">
-      {/* Navigation in white area */}
-      <div className="bg-white">
-        <Navigation />
+    <div className="min-h-screen bg-night text-white">
+      {/* Hero Section - Compact, no navigation */}
+      <div className="relative px-4 pt-4 sm:pt-6 pb-0">
+        <HeroSection />
       </div>
 
-      {/* Hero Section - Dark rounded container - Mobile optimized */}
-      <div className="relative px-1 sm:px-2 md:px-4 lg:px-8 pb-1 sm:pb-2 md:pb-4 lg:pb-8">
-        <div className="bg-night rounded-2xl sm:rounded-2xl md:rounded-2xl lg:rounded-[2rem] xl:rounded-[3rem] text-white overflow-hidden">
-          <HeroSection />
-        </div>
+      {/* Current Research Section */}
+      <ResearchSection visibleElements={visibleElements} />
+
+      {/* Timeline Section - Vertical, more compact */}
+      <div className="relative py-3 sm:py-4">
+        <VerticalTimeline visibleElements={visibleElements} />
       </div>
 
-      {/* Content Feed - White background section */}
-      <div className="bg-white py-8 sm:py-12 md:py-20">
-        <div className="max-w-6xl mx-auto px-3 sm:px-4 md:px-8">
+      {/* Personal Blog Section - Below everything else */}
+      <div className="py-3 sm:py-4 pb-8">
+        <div className="max-w-4xl mx-auto px-4">
           <div
-            id="content-title"
+            id="blog-title"
             data-animate
-            className={`text-center mb-8 sm:mb-12 md:mb-16 transition-all duration-1000 ${
-              visibleElements.has("content-title")
+            className={`mb-4 transition-all duration-1000 ${
+              visibleElements.has("blog-title")
                 ? "opacity-100 translate-y-0"
                 : "opacity-0 translate-y-8"
             }`}
           >
-            <h2 className="text-xl sm:text-2xl md:text-3xl lg:text-4xl font-bold text-night mb-2 sm:mb-3 md:mb-4">
-              Projects & Insights
+            <h2 className="text-xl md:text-2xl font-bold text-white mb-2">
+              Personal Blog & Projects
             </h2>
-            <p className="text-dim-gray text-sm sm:text-base md:text-lg px-2 sm:px-4">
-              A collection of my work, research, and thoughts on technology
-            </p>
           </div>
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 sm:gap-4 md:gap-6 mb-6 sm:mb-8 md:mb-12">
+          <div className="space-y-3 mb-4">
             {getFrontPageContent().map((item, index) => (
-              <ContentCard
+              <div
                 key={item.id}
-                item={item}
-                index={index}
-                visibleElements={visibleElements}
-              />
+                id={`blog-item-${item.id}`}
+                data-animate
+                className={`transition-all duration-1000 ${
+                  visibleElements.has(`blog-item-${item.id}`)
+                    ? "opacity-100 translate-x-0"
+                    : "opacity-0 -translate-x-4"
+                }`}
+                style={{ transitionDelay: `${index * 100}ms` }}
+              >
+                <a
+                  href={
+                    item.type === "blog" && item.blogPath
+                      ? `/content/${item.id}`
+                      : item.githubRepo
+                        ? `https://github.com/${item.githubRepo}`
+                        : item.link || `/content/${item.id}`
+                  }
+                  target={item.type === "project" ? "_blank" : undefined}
+                  rel={
+                    item.type === "project" ? "noopener noreferrer" : undefined
+                  }
+                  className="flex gap-3 bg-jet/50 rounded-lg p-3 border border-dim-gray/20 hover:border-coral transition-all group"
+                >
+                  {/* Image thumbnail */}
+                  {item.image && (
+                    <div className="w-20 h-20 flex-shrink-0 rounded overflow-hidden">
+                      <img
+                        src={item.image}
+                        alt={item.title}
+                        className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+                      />
+                    </div>
+                  )}
+
+                  {/* Content */}
+                  <div className="flex-1 min-w-0">
+                    <div className="flex justify-between items-start gap-4 mb-1">
+                      <div className="flex-1">
+                        <h3 className="font-bold text-white text-sm group-hover:text-coral transition-colors">
+                          {item.title}
+                        </h3>
+                        <p className="text-xs text-dim-gray/80 mt-0.5">
+                          {item.category}
+                        </p>
+                      </div>
+                      <span className="text-xs text-dim-gray whitespace-nowrap flex-shrink-0">
+                        {item.date}
+                      </span>
+                    </div>
+                    <p className="text-dim-gray text-xs leading-relaxed line-clamp-2">
+                      {item.description}
+                    </p>
+                  </div>
+                </a>
+              </div>
             ))}
           </div>
 
-          {/* See All Button */}
           <div className="text-center">
-            <CTAButton href="/blog-projects" variant="primary" animated={true}>
-              See All Projects & Blog Posts
-            </CTAButton>
+            <a
+              href="/blog-projects"
+              className="inline-flex items-center gap-2 px-4 py-2 text-sm text-dim-gray hover:text-coral border border-dim-gray/20 hover:border-coral rounded-lg transition-all"
+            >
+              <span>See All</span>
+              <ArrowRight className="w-4 h-4" />
+            </a>
           </div>
         </div>
       </div>
-
-      {/* Skills & Timeline Section - Dark rounded container - Mobile optimized */}
-      <div className="relative p-1 sm:p-2 md:p-4 lg:p-8">
-        <div className="bg-night rounded-2xl sm:rounded-2xl md:rounded-2xl lg:rounded-[2rem] xl:rounded-[3rem] text-white overflow-hidden">
-          <div className="px-3 sm:px-4 md:px-8 py-8 sm:py-12 md:py-20">
-            <div className="max-w-6xl mx-auto">
-              {/* Photo and Skills Section */}
-              <div className="grid grid-cols-1 lg:grid-cols-4 gap-4 sm:gap-6 md:gap-8 mb-8 sm:mb-12 md:mb-20">
-                {/* Photo Section */}
-                <div className="lg:col-span-1 order-2 lg:order-1">
-                  <div
-                    id="timeline-photo"
-                    data-animate
-                    className={`lg:sticky lg:top-8 transition-all duration-1000 ${
-                      visibleElements.has("timeline-photo")
-                        ? "opacity-100 translate-y-0"
-                        : "opacity-0 translate-y-8"
-                    }`}
-                  >
-                    <img
-                      src="/images/suit-smile.jpg"
-                      alt="Noah Provenzano"
-                      className="w-full h-48 sm:h-64 md:h-80 lg:h-full object-cover object-top rounded-lg sm:rounded-xl group-hover:scale-105 transition-transform duration-300"
-                    />
-                  </div>
-                </div>
-
-                {/* Skills Section */}
-                <div className="lg:col-span-3 order-1 lg:order-2">
-                  <div
-                    id="skills-title"
-                    data-animate
-                    className={`mb-4 sm:mb-6 md:mb-8 transition-all duration-1000 ${
-                      visibleElements.has("skills-title")
-                        ? "opacity-100 translate-y-0"
-                        : "opacity-0 translate-y-8"
-                    }`}
-                  >
-                    <h2 className="text-xl sm:text-2xl md:text-3xl lg:text-4xl font-bold text-white mb-2 sm:mb-3 md:mb-4">
-                      Technical Skills
-                    </h2>
-                    <p className="text-dim-gray text-sm sm:text-base md:text-lg">
-                      Technologies and tools I work with
-                    </p>
-                  </div>
-
-                  <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-3 sm:gap-4 md:gap-6">
-                    {technicalSkills.map((category, categoryIndex) => (
-                      <div
-                        key={category.title}
-                        id={`skill-${category.title.replace(/\s+/g, "-").toLowerCase()}`}
-                        data-animate
-                        className={`transition-all duration-1000 ${
-                          visibleElements.has(
-                            `skill-${category.title.replace(/\s+/g, "-").toLowerCase()}`
-                          )
-                            ? "opacity-100 translate-y-0"
-                            : "opacity-0 translate-y-8"
-                        }`}
-                        style={{ transitionDelay: `${categoryIndex * 150}ms` }}
-                      >
-                        <div className="bg-jet rounded-lg sm:rounded-xl md:rounded-2xl p-3 sm:p-4 md:p-6 h-full border border-dim-gray/20">
-                          <h3 className="text-sm sm:text-base md:text-lg font-semibold text-white mb-2 sm:mb-3 md:mb-4">
-                            {category.title}
-                          </h3>
-                          <div className="flex flex-wrap gap-1.5 sm:gap-2">
-                            {category.skills.map((skill, skillIndex) => (
-                              <span
-                                key={skill.name}
-                                className="bg-coral text-jet px-2 sm:px-2 md:px-3 py-1 rounded-md sm:rounded-lg md:rounded-xl text-xs sm:text-xs md:text-sm font-medium flex items-center gap-1 sm:gap-1 md:gap-2"
-                              >
-                                <SkillIcon
-                                  type={skill.icon}
-                                  className="w-2.5 h-2.5 sm:w-3 sm:h-3 md:w-4 md:h-4"
-                                />
-                                {skill.name}
-                              </span>
-                            ))}
-                          </div>
-                        </div>
-                      </div>
-                    ))}
-                  </div>
-                </div>
-              </div>
-
-              {/* Horizontal Timeline */}
-              <HorizontalTimeline visibleElements={visibleElements} />
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <Footer />
     </div>
   );
 }

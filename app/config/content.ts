@@ -230,10 +230,33 @@ export interface TimelineEvent {
 
 export const timelineEvents: TimelineEvent[] = [
   {
-    id: "ms-cs",
-    title: "MS Computer Science",
+    id: "graduate-researcher",
+    title: "Graduate Student Researcher — Virginia Tech",
     subtitle: "Virginia Tech",
-    description: "Research in LLM reasoning under Dr. Tu Vu",
+    description: "Researching advanced reasoning in large language models under Dr. Tu Vu (Google DeepMind, Faculty Researcher at Google), focusing on creative problem solving and parallel/multi-agent inference-time algorithms",
+    startYear: 2025,
+    startMonth: 1, // February
+    type: "research",
+    location: "Blacksburg, VA",
+    current: true,
+  },
+  {
+    id: "gta",
+    title: "Graduate Teaching Assistant — Virginia Tech",
+    subtitle: "Virginia Tech",
+    description:
+      "Instructed and assisted students in CS 2505 Computer Organization, CS 3214 Computer Systems, and CS 3114 Data Structures and Algorithms",
+    startYear: 2024,
+    startMonth: 7, // August
+    type: "work",
+    location: "Blacksburg, VA",
+    current: true,
+  },
+  {
+    id: "ms-cs",
+    title: "MS in Computer Science — Virginia Tech",
+    subtitle: "Virginia Tech",
+    description: "Conducting research under Dr. Tu Vu on advanced LLM reasoning training techniques. Graduate level classes include Machine Learning, Artificial Intelligence, and Advanced Algorithms",
     startYear: 2024,
     startMonth: 7, // August
     endYear: 2026,
@@ -243,36 +266,10 @@ export const timelineEvents: TimelineEvent[] = [
     current: true,
   },
   {
-    id: "gta",
-    title: "Graduate Teaching Assistant",
-    subtitle: "Virginia Tech",
-    description:
-      "Instructed CS 2505 Computer Organization and CS 3214 Computer Systems",
-    startYear: 2024,
-    startMonth: 7, // August
-    endYear: 2026,
-    endMonth: 4, // May
-    type: "work",
-    location: "Blacksburg, VA",
-    current: true,
-  },
-  {
-    id: "bs-cs-physics",
-    title: "BS Computer Science & Physics",
-    subtitle: "Virginia Tech",
-    description: "Dean's List with Distinction, Sigma Pi Sigma, Tau Sigma",
-    startYear: 2021,
-    startMonth: 7, // August
-    endYear: 2024,
-    endMonth: 4, // May
-    type: "education",
-    location: "Blacksburg, VA",
-  },
-  {
     id: "research-assistant",
-    title: "Research Assistant",
+    title: "Research Assistant — Hume Center VT",
     subtitle: "Hume Center VT",
-    description: "Multi-agent RL & LLM covert encoding under Dr. Maice Costa",
+    description: "Developed a multi-agent reinforcement learning environment analyzing how reward structure, observation noise, and update frequency influenced emergent swarm behavior. Implemented a covert encoding/decoding pipeline for LLMs in PyTorch, showing that higher bits-per-token negatively impacted textual similarity while preserving reliable message recovery",
     startYear: 2023,
     startMonth: 8, // September
     endYear: 2024,
@@ -281,23 +278,35 @@ export const timelineEvents: TimelineEvent[] = [
     location: "Blacksburg, VA",
   },
   {
-    id: "swe-intern",
-    title: "Data and Software Engineer",
-    subtitle: "FischerJordan",
-    description: "Predictive modeling, website monitoring, dev-ops management",
+    id: "bs-cs-physics",
+    title: "BS in CS & Physics — Virginia Tech",
+    subtitle: "Virginia Tech",
+    description: "Recognized on the Dean's List with Distinction. Member of Sigma Pi Sigma National Physics Honor Society and Tau Sigma National Honor Society. Awarded the Robert C. Richardson Physics Scholarship",
     startYear: 2021,
-    startMonth: 6, // July
-    endYear: 2022,
-    endMonth: 7, // August (continuing into next semester)
+    startMonth: 7, // August
+    endYear: 2024,
+    endMonth: 4, // May
+    type: "education",
+    location: "Blacksburg, VA",
+  },
+  {
+    id: "swe-intern",
+    title: "Internship — Fischer Jordan",
+    subtitle: "Fischer Jordan",
+    description: "Built predictive models achieving 75% accuracy. Spearheaded development of website monitoring service used by 3 client companies. Automated data collection and analysis for LinkedIn research project with 800 applicants. Managed dev-ops for 24-hour services running on EC2, internal servers, and crypto mine. Built full stack automated review system used by ~40-member firm",
+    startYear: 2021,
+    startMonth: 0, // January
+    endYear: 2023,
+    endMonth: 11, // December
     type: "work",
-    location: "New York, NY (Remote)",
+    location: "New York, NY",
   },
   {
     id: "nrcc",
-    title: "Associate's Degree",
+    title: "Associate's Degree — NRVCC",
     subtitle: "New River Valley Community College",
     description:
-      "A.S. Computer Science, Outstanding Student Award, Phi Theta Kappa",
+      "Completed A.S. with specialization in Computer Science. Received Outstanding Student Award in Computer Science. Honored as member of Phi Theta Kappa Honor Society with placement on President's and Dean's Lists",
     startYear: 2019,
     startMonth: 7, // August
     endYear: 2021,

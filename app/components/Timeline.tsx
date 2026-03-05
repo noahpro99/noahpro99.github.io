@@ -1,5 +1,6 @@
 import { useEffect, useMemo, useRef, useState } from "react";
 import { Link } from "react-router";
+import { GraduationCap, Briefcase, FlaskConical } from "lucide-react";
 import {
   getTimelineContent,
   timelineEvents,
@@ -9,6 +10,105 @@ import {
 
 interface HorizontalTimelineProps {
   visibleElements: Set<string>;
+}
+
+export function VerticalTimeline({
+  visibleElements,
+}: HorizontalTimelineProps) {
+  // Sort timeline events by date, most recent first
+  const sortedEvents = useMemo(() => {
+    return [...timelineEvents].sort((a, b) => {
+      const aTime = a.startYear * 12 + a.startMonth;
+      const bTime = b.startYear * 12 + b.startMonth;
+      return bTime - aTime; // Reverse chronological order
+    });
+  }, []);
+
+  const getEventIcon = (type: string) => {
+    switch (type) {
+      case "education":
+        return <GraduationCap className="w-5 h-5 text-coral" />;
+      case "work":
+        return <Briefcase className="w-5 h-5 text-coral" />;
+      case "research":
+        return <FlaskConical className="w-5 h-5 text-coral" />;
+      default:
+        return <GraduationCap className="w-5 h-5 text-coral" />;
+    }
+  };
+
+  const formatDateRange = (event: TimelineEvent) => {
+    const monthNames = [
+      "Jan", "Feb", "Mar", "Apr", "May", "Jun",
+      "Jul", "Aug", "Sep", "Oct", "Nov", "Dec",
+    ];
+    const startMonth = monthNames[event.startMonth];
+    const endDisplay =
+      event.endYear && event.endMonth !== undefined
+        ? `${monthNames[event.endMonth]} ${event.endYear}`
+        : "Present";
+    return `${startMonth} ${event.startYear} - ${endDisplay}`;
+  };
+
+  return (
+    <div className="max-w-4xl mx-auto px-4">
+      <div
+        id="vertical-timeline"
+        data-animate
+        className={`transition-all duration-1000 ${
+          visibleElements.has("vertical-timeline")
+            ? "opacity-100 translate-y-0"
+            : "opacity-0 translate-y-8"
+        }`}
+      >
+        <h3 className="text-xl md:text-2xl font-bold text-white mb-4">
+          Timeline
+        </h3>
+
+        <div className="relative">
+          {/* Timeline events */}
+          <div className="space-y-4">
+            {sortedEvents.map((event, index) => (
+              <div
+                key={event.id}
+                id={`timeline-event-${event.id}`}
+                data-animate
+                className={`relative pl-11 transition-all duration-1000 ${
+                  visibleElements.has(`timeline-event-${event.id}`)
+                    ? "opacity-100 translate-x-0"
+                    : "opacity-0 -translate-x-4"
+                }`}
+                style={{ transitionDelay: `${index * 100}ms` }}
+              >
+                {/* Timeline icon with background - positioned in left margin */}
+                <div className="absolute left-1 top-1.5 bg-night rounded-full p-1.5">
+                  {getEventIcon(event.type)}
+                </div>
+
+                {/* Connecting line to next item (except for last item) */}
+                {index < sortedEvents.length - 1 && (
+                  <div className="absolute left-5 top-11 w-0.5 h-[calc(100%+1rem)] bg-dim-gray/30"></div>
+                )}
+
+                {/* Event content */}
+                <div className="bg-jet/50 rounded-lg p-3 border border-dim-gray/20 hover:border-coral transition-colors">
+                  <div className="flex justify-between items-start gap-4 mb-1">
+                    <h4 className="font-bold text-white text-sm">{event.title}</h4>
+                    <span className="text-xs text-dim-gray whitespace-nowrap flex-shrink-0">
+                      {formatDateRange(event)}
+                    </span>
+                  </div>
+                  <p className="text-dim-gray text-xs leading-relaxed">
+                    {event.description}
+                  </p>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </div>
+    </div>
+  );
 }
 
 export function HorizontalTimeline({
