@@ -7,8 +7,8 @@ import {
   NotFound,
   GithubIcon,
 } from "../components/shared";
+import { Breadcrumb } from "../components/Breadcrumb";
 import type { ContentItem } from "~/components/ContentCard";
-import { Link } from "react-router";
 
 export function meta({ params }: Route.MetaArgs) {
   const content = getContentById(params.id);
@@ -104,24 +104,14 @@ export default function ContentPost({ params }: Route.ComponentProps) {
       {/* Content */}
       <div className="relative px-4 py-6 sm:py-8">
         <article className="max-w-4xl mx-auto">
-              {/* Back to posts link */}
-              <div className="mb-4">
-                <Link
-                  to="/blog-projects"
-                  className="text-dim-gray hover:text-coral text-sm transition-colors flex items-center gap-2"
-                >
-                  <svg
-                    className="w-4 h-4"
-                    viewBox="0 0 24 24"
-                    fill="none"
-                    stroke="currentColor"
-                    strokeWidth="2"
-                  >
-                    <path d="m15 18-6-6 6-6" />
-                  </svg>
-                  Back to all posts
-                </Link>
-              </div>
+              {/* Breadcrumb */}
+              <Breadcrumb
+                items={[
+                  { label: "Home", href: "/" },
+                  { label: "Blog & Projects", href: "/blog-projects" },
+                  { label: content.title },
+                ]}
+              />
 
               {/* Content Header */}
               <div className="mb-6">

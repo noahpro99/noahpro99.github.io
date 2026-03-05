@@ -1,7 +1,7 @@
 import type { Route } from "./+types/blog-projects";
 import { useState, useEffect } from "react";
-import { Link } from "react-router";
 import { ContentCard } from "../components/ContentCard";
+import { Breadcrumb } from "../components/Breadcrumb";
 import { allContent } from "../config/content";
 
 
@@ -67,24 +67,13 @@ export default function BlogProjects() {
       {/* Main Content */}
       <div className="relative px-4 py-6 sm:py-8">
         <div className="max-w-4xl mx-auto">
-              {/* Back to home link */}
-              <div className="mb-4">
-                <Link
-                  to="/"
-                  className="text-dim-gray hover:text-coral text-sm transition-colors flex items-center gap-2"
-                >
-                  <svg
-                    className="w-4 h-4"
-                    viewBox="0 0 24 24"
-                    fill="none"
-                    stroke="currentColor"
-                    strokeWidth="2"
-                  >
-                    <path d="m15 18-6-6 6-6" />
-                  </svg>
-                  Back to home
-                </Link>
-              </div>
+              {/* Breadcrumb */}
+              <Breadcrumb
+                items={[
+                  { label: "Home", href: "/" },
+                  { label: "Blog & Projects" },
+                ]}
+              />
 
               {/* Header Section */}
               <div
