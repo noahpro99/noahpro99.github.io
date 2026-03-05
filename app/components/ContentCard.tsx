@@ -35,10 +35,10 @@ export function ContentCard({
     <div
       id={`content-${item.id}`}
       data-animate
-      className={`transition-all duration-1000 ${
+      className={`transition-all duration-300 ${
         isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
       }`}
-      style={{ transitionDelay: `${index * 100}ms` }}
+      style={{ transitionDelay: `${index * 30}ms` }}
     >
       <div
         className="bg-jet/50 border border-dim-gray/20 rounded-lg p-4 hover:border-coral transition-all cursor-pointer group h-full flex flex-col"

@@ -11,24 +11,23 @@ interface BreadcrumbProps {
 
 export function Breadcrumb({ items }: BreadcrumbProps) {
   return (
-    <nav className="flex items-center flex-wrap gap-x-2 gap-y-1 text-sm mb-4 leading-tight">
+    <nav className="flex items-baseline flex-wrap gap-2 text-sm mb-4">
       {items.map((item, index) => (
-        <>
+        <span key={index} className="flex items-baseline gap-2">
           {item.href ? (
             <Link
-              key={`item-${index}`}
               to={item.href}
-              className="text-dim-gray hover:text-coral transition-colors inline-block"
+              className="text-dim-gray hover:text-coral transition-colors"
             >
               {item.label}
             </Link>
           ) : (
-            <span key={`item-${index}`} className="text-white inline-block">{item.label}</span>
+            <span className="text-white">{item.label}</span>
           )}
           {index < items.length - 1 && (
-            <span key={`sep-${index}`} className="text-dim-gray inline-block">/</span>
+            <span className="text-dim-gray">/</span>
           )}
-        </>
+        </span>
       ))}
     </nav>
   );

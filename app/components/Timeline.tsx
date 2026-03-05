@@ -55,7 +55,7 @@ export function VerticalTimeline({
       <div
         id="vertical-timeline"
         data-animate
-        className={`transition-all duration-1000 ${
+        className={`transition-all duration-300 ${
           visibleElements.has("vertical-timeline")
             ? "opacity-100 translate-y-0"
             : "opacity-0 translate-y-8"
@@ -73,12 +73,12 @@ export function VerticalTimeline({
                 key={event.id}
                 id={`timeline-event-${event.id}`}
                 data-animate
-                className={`relative pl-11 transition-all duration-1000 ${
+                className={`relative pl-11 transition-all duration-300 ${
                   visibleElements.has(`timeline-event-${event.id}`)
-                    ? "opacity-100 translate-x-0"
-                    : "opacity-0 -translate-x-4"
+                    ? "opacity-100 translate-y-0"
+                    : "opacity-0 translate-y-8"
                 }`}
-                style={{ transitionDelay: `${index * 100}ms` }}
+                style={{ transitionDelay: `${index * 30}ms` }}
               >
                 {/* Timeline icon with background - positioned in left margin */}
                 <div className="absolute left-1 top-1.5 bg-night rounded-full p-1.5">
@@ -305,7 +305,7 @@ export function HorizontalTimeline({
     <div
       id="horizontal-timeline"
       data-animate
-      className={`transition-all duration-1000 ${
+      className={`transition-all duration-300 ${
         visibleElements.has("horizontal-timeline")
           ? "opacity-100 translate-y-0"
           : "opacity-0 translate-y-8"

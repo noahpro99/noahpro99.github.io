@@ -72,13 +72,28 @@ function useScrollAnimation() {
         });
       },
       {
-        threshold: 0.05, // Reduced threshold for faster triggering
-        rootMargin: "100px", // Increased root margin for earlier triggering
+        threshold: 0.01, // Very low threshold for immediate triggering
+        rootMargin: "50px", // Small margin - trigger just before entering viewport
       },
     );
 
     const elements = document.querySelectorAll("[data-animate]");
-    elements.forEach((el) => observer.observe(el));
+    
+    // Immediately mark all currently visible elements as visible (no animation)
+    const initiallyVisible = new Set<string>();
+    elements.forEach((el) => {
+      const rect = el.getBoundingClientRect();
+      const isVisible = rect.top < window.innerHeight && rect.bottom > 0;
+      if (isVisible && el.id) {
+        initiallyVisible.add(el.id);
+      }
+      observer.observe(el);
+    });
+    
+    // Set initially visible elements immediately (no delay, no animation)
+    if (initiallyVisible.size > 0) {
+      setVisibleElements(initiallyVisible);
+    }
 
     return () => observer.disconnect();
   }, []);
@@ -104,7 +119,7 @@ function HeroSection() {
         <div
           id="hero-content"
           data-animate
-          className={`transition-all duration-1000 ${
+          className={`transition-all duration-300 ${
             visibleElements.has("hero-content")
               ? "opacity-100 translate-y-0"
               : "opacity-0 translate-y-8"
@@ -210,7 +225,7 @@ function ResearchSection({
         <div
           id="research-title"
           data-animate
-          className={`mb-3 sm:mb-4 transition-all duration-1000 ${
+          className={`mb-3 sm:mb-4 transition-all duration-300 ${
             visibleElements.has("research-title")
               ? "opacity-100 translate-y-0"
               : "opacity-0 translate-y-8"
@@ -237,7 +252,7 @@ function ResearchSection({
         <div
           id="research-papers"
           data-animate
-          className={`transition-all duration-1000 delay-300 ${
+          className={`transition-all duration-300 ${
             visibleElements.has("research-papers")
               ? "opacity-100 translate-y-0"
               : "opacity-0 translate-y-8"
@@ -361,7 +376,7 @@ export default function Home() {
           <div
             id="blog-title"
             data-animate
-            className={`mb-4 transition-all duration-1000 ${
+            className={`mb-4 transition-all duration-300 ${
               visibleElements.has("blog-title")
                 ? "opacity-100 translate-y-0"
                 : "opacity-0 translate-y-8"
@@ -378,12 +393,12 @@ export default function Home() {
                 key={item.id}
                 id={`blog-item-${item.id}`}
                 data-animate
-                className={`transition-all duration-1000 ${
+                className={`transition-all duration-300 ${
                   visibleElements.has(`blog-item-${item.id}`)
-                    ? "opacity-100 translate-x-0"
-                    : "opacity-0 -translate-x-4"
+                    ? "opacity-100 translate-y-0"
+                    : "opacity-0 translate-y-8"
                 }`}
-                style={{ transitionDelay: `${index * 100}ms` }}
+                style={{ transitionDelay: `${index * 30}ms` }}
               >
                 <a
                   href={

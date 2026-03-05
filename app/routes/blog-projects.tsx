@@ -32,13 +32,28 @@ function useScrollAnimation() {
         });
       },
       {
-        threshold: 0.05, // Reduced threshold for faster triggering
-        rootMargin: "100px", // Increased root margin for earlier triggering
+        threshold: 0.01, // Very low threshold for immediate triggering
+        rootMargin: "50px", // Small margin - trigger just before entering viewport
       }
     );
 
     const elements = document.querySelectorAll("[data-animate]");
-    elements.forEach((el) => observer.observe(el));
+    
+    // Immediately check which elements are already visible
+    const initiallyVisible = new Set<string>();
+    elements.forEach((el) => {
+      const rect = el.getBoundingClientRect();
+      const isVisible = rect.top < window.innerHeight && rect.bottom > 0;
+      if (isVisible && el.id) {
+        initiallyVisible.add(el.id);
+      }
+      observer.observe(el);
+    });
+    
+    // Set initially visible elements immediately (no delay, no animation)
+    if (initiallyVisible.size > 0) {
+      setVisibleElements(initiallyVisible);
+    }
 
     return () => observer.disconnect();
   }, []);
@@ -79,7 +94,7 @@ export default function BlogProjects() {
               <div
                 id="page-title"
                 data-animate
-                className={`mb-6 transition-all duration-1000 ${
+                className={`mb-6 transition-all duration-300 ${
                   visibleElements.has("page-title")
                     ? "opacity-100 translate-y-0"
                     : "opacity-0 translate-y-8"
@@ -97,7 +112,7 @@ export default function BlogProjects() {
               <div
                 id="filter-buttons"
                 data-animate
-                className={`flex justify-start mb-4 transition-all duration-1000 ${
+                className={`flex justify-start mb-4 transition-all duration-300 ${
                   visibleElements.has("filter-buttons")
                     ? "opacity-100 translate-y-0"
                     : "opacity-0 translate-y-8"
