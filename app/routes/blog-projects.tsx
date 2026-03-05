@@ -103,23 +103,23 @@ export default function BlogProjects() {
                     : "opacity-0 translate-y-8"
                 }`}
               >
-                <div className="flex space-x-2 bg-jet rounded-lg p-1">
+                <div className="flex gap-2">
                   <button
                     onClick={() => setFilter("all")}
-                    className={`px-4 py-1.5 rounded-md text-xs font-medium transition-all ${
+                    className={`px-3 py-1.5 rounded-lg text-xs font-medium transition-all ${
                       filter === "all"
                         ? "bg-coral text-white"
-                        : "text-dim-gray hover:text-white"
+                        : "bg-jet/50 text-dim-gray hover:text-white hover:border-coral border border-dim-gray/20"
                     }`}
                   >
                     All ({allContent.length})
                   </button>
                   <button
                     onClick={() => setFilter("projects")}
-                    className={`px-4 py-1.5 rounded-md text-xs font-medium transition-all ${
+                    className={`px-3 py-1.5 rounded-lg text-xs font-medium transition-all ${
                       filter === "projects"
                         ? "bg-coral text-white"
-                        : "text-dim-gray hover:text-white"
+                        : "bg-jet/50 text-dim-gray hover:text-white hover:border-coral border border-dim-gray/20"
                     }`}
                   >
                     Projects (
@@ -131,10 +131,10 @@ export default function BlogProjects() {
                   </button>
                   <button
                     onClick={() => setFilter("blog")}
-                    className={`px-4 py-1.5 rounded-md text-xs font-medium transition-all ${
+                    className={`px-3 py-1.5 rounded-lg text-xs font-medium transition-all ${
                       filter === "blog"
                         ? "bg-coral text-white"
-                        : "text-dim-gray hover:text-white"
+                        : "bg-jet/50 text-dim-gray hover:text-white hover:border-coral border border-dim-gray/20"
                     }`}
                   >
                     Blog (
