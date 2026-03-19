@@ -2,7 +2,7 @@
 
 ## The spark
 
-We started Uncover after I showed my friend **Rituraj** a board-less version of Clue that only uses the cards. It was ridiculously fun and there wasn’t a good way to play it online. So we built one. The loop is quick: investigate two things, pass the turn, think fast, read people. It’s deduction with a social heartbeat.
+We started Uncover after I showed my friend **[Rituraj](https://rituraj003.github.io/)** a board-less version of Clue that only uses the cards. It was ridiculously fun and there wasn’t a good way to play it online. So we built one. The loop is quick: investigate two things, pass the turn, think fast, read people. It’s deduction with a social heartbeat.
 
 ![Clue Suspect Physical Card Game](./clue-suspect-card-game.png){ width=50%}
 
@@ -10,7 +10,7 @@ The following are individual stories that capture some of the more interesting m
 
 ## The first prototype
 
-I spun up a **Rust Tonic** backend to own game state; Rituraj got a simple **Typescript React** frontend working. The very first UI was just a single horizontal row of cards you could reorder by dragging them around. Basically how your real-life hand works when you’re holding \~15–17 cards. Primitive but playable, exactly what we needed.
+I spun up a **Rust Tonic** backend to own game state; [Rituraj](https://rituraj003.github.io/) got a simple **Typescript React** frontend working. The very first UI was just a single horizontal row of cards you could reorder by dragging them around. Basically how your real-life hand works when you’re holding \~15–17 cards. Primitive but playable, exactly what we needed.
 
 ![v1 with the single row of cards](./old-in-a-line.png)
 
@@ -20,13 +20,13 @@ We wanted actions to show up for everyone **immediately**, so we chose **gRPC**.
 
 ## The "drag anywhere" moment
 
-I argued for **dragging cards anywhere** on a big play area with no rigid piles, just a sandbox. Rituraj was hesitant. We tried it and players loved it. It became the identity of Uncover: creative freedom with the constraint that there’s only one card per item. A small risk can definitely define the whole feel of your game.
+I argued for **dragging cards anywhere** on a big play area with no rigid piles, just a sandbox. [Rituraj](https://rituraj003.github.io/) was hesitant. We tried it and players loved it. It became the identity of Uncover: creative freedom with the constraint that there’s only one card per item. A small risk can definitely define the whole feel of your game.
 
 ![The freeform board mid-turn](./drag.png)
 
 ## Shuffle chaos, bot bliss
 
-I wrote the bots in **Rust** in two days—basically how _I_ play: solid deduction, no induction. They’re beatable but not pushovers, and writing them was stupidly fun. Meanwhile, we discovered our dealing **wasn’t truly shuffled** for a while. It looked random-ish, but there was a pattern; Rituraj subconsciously learned it and exploited it. We fixed it—and kept the story. Lesson: check the obvious (randomness is not a vibe, it’s a test).
+I wrote the bots in **Rust** in two days—basically how _I_ play: solid deduction, no induction. They’re beatable but not pushovers, and writing them was stupidly fun. Meanwhile, we discovered our dealing **wasn’t truly shuffled** for a while. It looked random-ish, but there was a pattern; [Rituraj](https://rituraj003.github.io/) subconsciously learned it and exploited it. We fixed it—and kept the story. Lesson: check the obvious (randomness is not a vibe, it’s a test).
 
 ![Game vs bots](./bots.png)
 
@@ -66,7 +66,7 @@ Build the thing _you_ want to play. Ship the smallest playable version, then sha
 
 Some special thanks to
 
-- **Rituraj** for being an amazing co-founder and friend
+- **[Rituraj](https://rituraj003.github.io/)** for being an amazing co-founder and friend
 - **Seth** and **Elijah** for playtesting and feedback
 - **Dan** for being first and longest customer
 
