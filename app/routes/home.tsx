@@ -184,13 +184,15 @@ function HeroSection() {
                 >
                   <MatrixIcon className="w-5 h-5" />
                 </a>
-                <button
-                  className="text-dim-gray hover:text-coral transition-colors cursor-not-allowed opacity-50 inline-flex"
-                  aria-label="Google Scholar (Coming Soon)"
-                  disabled
+                <a
+                  href="https://scholar.google.com/citations?user=IulCHfEAAAAJ"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-dim-gray hover:text-coral transition-colors inline-flex"
+                  aria-label="Google Scholar"
                 >
                   <GoogleScholarIcon className="w-5 h-5" />
-                </button>
+                </a>
                 <a
                   href="mailto:noahpro@vt.edu"
                   className="text-dim-gray hover:text-coral transition-colors inline-flex"
