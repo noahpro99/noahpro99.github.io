@@ -14,6 +14,8 @@ Compaction is lossy. Models forget the fine-grained details that mattered (faile
 
 ## The Idea
 
+![Speculative Compaction diagram](./method.png) { width=40% float=right }
+
 Call the agent with full prior context $M_1$ and the post-compaction agent $M_2$ (same model, different conversation states).
 
 1. Conversation fills up. The inner condenser produces summary $S$.
