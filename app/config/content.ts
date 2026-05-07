@@ -5,6 +5,18 @@ export type { ContentItem };
 
 export const allContent: ContentItem[] = [
   {
+    id: "speculative-compaction",
+    type: "blog",
+    title: "Speculative Compaction: Catching What Summaries Lose",
+    description:
+      "When an LLM agent's context fills up, compaction summarizes and discards the old turns — losing operational reasoning along the way. Speculative Compaction has the original full-context model review the post-compaction agent's first moves and inject targeted feedback. +17pp on SWE-bench Lite and LongBench-v2 with Kimi-K2.6.",
+    date: "May 2026",
+    category: "Research",
+    blogPath: "/blog/speculative-compaction/blog.md",
+    showOnFrontPage: true,
+    showOnTimeline: true,
+  },
+  {
     id: "how-i-ended-up-sending-in-my-first-linux-kernel-patch",
     type: "blog",
     title: "How I Ended Up Sending In My First Linux Kernel Patch",
