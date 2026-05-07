@@ -42,6 +42,10 @@ A natural alternative is to give $M_2$ a tool that grep's its pre-summary histor
 1. **Models are lazy with tools.** If the missing detail isn't blatantly relevant, $M_2$ won't bother to look, and the divergence happens precisely when $M_2$ doesn't realize something is missing. A proactive injection beats relying on $M_2$ to pull the correction itself.
 2. **The model is a fuzzy-find, not a grep.** $M_1$ over the full conversation is an excellent retriever; it surfaces relevance even when the query is implicit ("are they about to repeat a failed approach?"). A grep tool requires $M_2$ to know what string to search for. Most useful corrections aren't keyword-matchable.
 
+## Implementation
+
+SC is a [`CondenserBase`](https://github.com/All-Hands-AI/OpenHands) subclass in [OpenHands](https://github.com/All-Hands-AI/OpenHands), drop-in compatible with any OpenHands agent. Each task runs in an apptainer SIF sandbox with the SWE-bench testbed mounted. Models accessed via Virginia Tech ARC's hosted API (Kimi-K2.6, gpt-oss-120b) and on-cluster vLLM (Qwen3-Coder-30B-A3B-Instruct-FP8).
+
 ## Results
 
 ### SWE-bench Lite (dev), Kimi-K2.6, 64k context
