@@ -4,143 +4,93 @@ _May 2026 • Research_
 
 [Noah Provenzano](https://noahpro99.github.io/), advised by [Dr. Tu Vu](https://tuvllms.github.io/) — Virginia Tech
 
-> **TL;DR.** When an LLM agent's context window fills up, the standard fix is *compaction* — summarize the conversation so far, throw the originals away, keep going. But compaction loses information. We propose **Speculative Compaction (SC)**: after the summary is made, the original full-context model reviews what the new summary-only model does next, and injects targeted feedback for anything the summary missed. On SWE-bench Lite (dev) with Kimi-K2.6 at 64k context, SC raises resolution from **43.5% → 60.9% (+17.4pp)** while using **half the tokens per task**. The lift is real but model- and configuration-dependent — Qwen-Coder-30B shows a much smaller and inconsistent benefit across settings.
+> **TL;DR.** When an LLM agent's context fills up, the standard fix is *compaction* — summarize the conversation, drop the old turns, keep going. Compaction loses information. **Speculative Compaction (SC)** has the original full-context model review the post-compaction agent's first moves and inject targeted feedback. On SWE-bench Lite (dev) with Kimi-K2.6 at 64k context, SC raises resolution from **43.5% → 60.9% (+17.4pp)** while using **half the tokens per task**. The lift is real but model- and configuration-dependent.
 
-## The Problem with Compaction
+## The Problem
 
-Every long-running coding agent eventually hits the same wall: the context window fills up. The conventional response is *compaction* — call the LLM, ask it to write a self-contained summary of the conversation so far, drop the actual messages, and continue working from the summary alone.
-
-This works, but it's lossy. Consider a debugging session that goes like this:
-
-1. Agent reads the bug report.
-2. Agent inspects three files, narrowing down the problem.
-3. Agent tries fix A. It compiles but breaks an unrelated test.
-4. Agent backs out, tries fix B in a different file. Tests pass but now there's a regression.
-5. Agent realizes the actual issue is at a third location.
-6. Compaction fires. Summary says: *"investigated DurationField error message, identified the format string, considered several approaches."*
-7. Agent continues from the summary and... immediately tries fix A again, because nothing in the summary said *"don't try A — it breaks unrelated tests."*
-
-The summary preserved the *headline* of what happened but lost the *operational lessons* — the failed approaches, the red herrings, the specific reasons certain paths were ruled out. Re-reading the source code is cheap, but re-deriving "I already tried this and it broke X" requires re-running the experiment.
+Compaction works but it's lossy. A debugging agent might try fix A, fail, try fix B, fail, then realize the bug is somewhere else entirely. When compaction fires, the summary preserves "investigated DurationField error" but loses "I already tried fix A and it broke unrelated tests." Re-reading source code is cheap, but re-deriving operational lessons isn't.
 
 ## The Idea
 
-**Speculative Compaction** keeps the agent that built the summary in the loop after compaction. We call the agent with full prior context $M_1$ and the post-compaction agent $M_2$ (they're the same underlying model — just different conversation states).
+Call the agent with full prior context **M1** and the post-compaction agent **M2** (same model, different conversation states).
 
-The flow:
+1. Conversation fills up. The inner condenser produces summary **S**.
+2. M2 starts working from S.
+3. After M2 accumulates a small amount of new work (a "headroom" we set, e.g. 16k tokens), M1 — which still has the full prior conversation — reviews M2's recent moves.
+4. If M1 spots a divergence ("you're editing the wrong file"), it injects feedback as a note to M2.
+5. M2 continues with the correction.
 
-1. The conversation fills up. The standard inner condenser produces summary $S$.
-2. $M_2$ takes $S$ as its starting context and begins working.
-3. After $M_2$ accumulates a small amount of new work (a "headroom" we set, e.g. 16k tokens), $M_1$ — which still has the full pre-compaction conversation in its context — is asked to review $M_2$'s recent moves.
-4. If $M_1$ spots a divergence ("you're editing the wrong file", "you're trying approach A which already failed at turn 12"), it injects that feedback into $M_2$'s conversation as a note from a coworker.
-5. $M_2$ continues, now with the targeted correction.
+One extra LLM call per compaction. No agent loop changes.
 
-The whole thing fits inside a single existing OpenHands `CondenserBase` subclass. No agent loop changes. The cost is one extra LLM call per compaction.
+The framing in M1's prompt is intentionally personal:
 
-```
-                            inner-summarize
-   ┌────── M₁ context ──────┐ ─────────────► S
-   │  (full conversation)   │                │
-   └────────────────────────┘                ▼
-                                    ┌── M₂ context ──┐
-                                    │  S + new work  │
-                                    └───────┬────────┘
-                                            │ (headroom worth of new work)
-                                            ▼
-                            ┌──────────────────────────────────┐
-                            │ M₁ reviews M₂'s recent steps     │
-                            │ against its full prior context   │
-                            └─────────────┬────────────────────┘
-                                          │ feedback (or "on track")
-                                          ▼
-                                  M₂ continues working
-```
+> *"You've been working on a coding task and got partway through. Your supervisor just paired you with a coworker agent who will take over from here. The coworker received a summary of your progress, not the full conversation. Glance at their first few moves and advise them..."*
 
-The framing in the actual prompt to $M_1$ is intentionally personal:
-
-> "You've been working on a coding task and got partway through. Your supervisor just paired you with a coworker agent who will take over from here. The coworker received a summary of your progress, not the full conversation. Glance at their first few moves and advise them..."
-
-We found that meta-instructions like *"you are a code reviewer, analyze this transcript"* caused the model to lapse into description mode (*"the user has provided a complex mix of code snippets..."*). Treating $M_1$ as a hand-off advisor — a role it has training data for — produces specific, actionable feedback far more reliably.
+Treating M1 as a hand-off advisor — a role it has training data for — produces specific feedback. Meta-instructions like *"you are a code reviewer, analyze this transcript"* caused the model to lapse into description mode.
 
 ## Results
 
 ### SWE-bench Lite (dev) — Kimi-K2.6, 64k context
 
-On the 23-task dev split with Kimi-K2.6 at a 64k effective context:
+<table>
+<thead><tr><th>Method</th><th>Resolved</th><th>Tokens / task</th></tr></thead>
+<tbody>
+<tr><td>Std. compaction</td><td>43.5% (10/23)</td><td>4.1M</td></tr>
+<tr><td><b>Speculative Compaction</b></td><td><b>60.9% (14/23)</b></td><td><b>2.0M</b></td></tr>
+<tr><td>SC-Rewrite</td><td>52.2% (12/23)</td><td>2.4M</td></tr>
+</tbody>
+</table>
 
-| Method | Resolved | Tokens / task |
-|---|---|---|
-| Std. compaction | 43.5% (10/23) | 4.1M |
-| **Speculative Compaction** | **60.9% (14/23)** | **2.0M** |
-| SC-Rewrite | 52.2% (12/23) | 2.4M |
-
-**+17.4pp absolute** improvement, *and* about half the tokens per task — fewer turns spent rediscovering things the summary lost. SC-Rewrite (a variant that re-summarizes incorporating $M_1$'s feedback rather than injecting it as a message) sits between the two on both metrics.
+**+17.4pp absolute**, *and* about half the tokens per task — fewer turns spent rediscovering things the summary lost.
 
 ### LongBench-v2 — Kimi-K2.5, 32k context
 
-On the 93 longest LongBench-v2 documents, SC improved Kimi-K2.5 accuracy from **51% → 68% (+17pp)**. Document QA is the cleanest test bed for compaction loss: the answer lives only in the document, so anything dropped during summarization is unrecoverable.
+On the 93 longest LongBench-v2 documents, SC raised accuracy from **51% → 68% (+17pp)**. Document QA is the cleanest test bed: the answer lives only in the conversation, so anything dropped in summarization is unrecoverable.
 
-### Where it doesn't (consistently) help — Qwen-Coder-30B sweep
+### Where it doesn't consistently help — Qwen-Coder-30B sweep
 
 We ran a scaling sweep on the SWE-bench Lite *test* split (50 tasks) with Qwen3-Coder-30B-A3B-Instruct-FP8, varying context size and the minimum number of forced review cycles per task:
 
-| Context | min-comp | STD | SC | Δ |
-|---|---|---|---|---|
-| 131k | 1 | **40%** | 33% | −7pp |
-| 131k | 2 | 31% | **34%** | **+3pp** |
-| 131k | 4 | **33%** | 28% | −5pp |
-| 64k | 1 | **40%** | 34% | −6pp |
-| 32k | 2 | 34% | 34% | 0pp |
+<table>
+<thead><tr><th>Context</th><th>min-comp</th><th>STD</th><th>SC</th><th>Δ</th></tr></thead>
+<tbody>
+<tr><td>131k</td><td>1</td><td><b>40%</b></td><td>33%</td><td>−7pp</td></tr>
+<tr><td>131k</td><td>2</td><td>31%</td><td><b>34%</b></td><td><b>+3pp</b></td></tr>
+<tr><td>131k</td><td>4</td><td><b>33%</b></td><td>28%</td><td>−5pp</td></tr>
+<tr><td>64k</td><td>1</td><td><b>40%</b></td><td>34%</td><td>−6pp</td></tr>
+<tr><td>32k</td><td>2</td><td>34%</td><td>34%</td><td>0pp</td></tr>
+</tbody>
+</table>
 
-Across five Qwen settings, only one (131k, min-comp=2) shows a positive lift, and only by +3pp. Forcing too many review cycles (m=4) actively hurts; too few (m=1) and the mechanism never activates. Smaller contexts where compaction fires naturally don't recover the gains either.
-
-The Qwen result is a real finding, not a tuning failure. Across qualitatively similar configurations to the +17pp Kimi run, SC's lift is much smaller or negative on a different model.
+Only one of five settings shows a positive lift, and only by +3pp. A real finding, not a tuning failure.
 
 ## Why the Disparity?
 
-Looking at the actual feedback $M_1$ produced for both models tells the story.
+Looking at the actual feedback for both models tells the story.
 
-**Kimi (good lift):**
+**Kimi:**
 
 > *"The two failures in `test_skip_if_db_feature` and `test_skip_unless_db_feature` are pre-existing Python 3.12 unittest formatting issues unrelated to this change, so don't spend more time on them. You can stop grepping for additional references since you've already validated that explicit `None` overrides still work."*
 
-> *"Stop calling finish — write and run a minimal reproduction script using the exact multiline RawSQL `order_by` example from the issue to confirm the generated SQL retains all three clauses..."*
+**Qwen:**
 
-**Qwen (small lift):**
+> *"You've correctly identified and modified the main `DurationField` ... and updated the corresponding test."* (This review *endorsed* a violation of the explicit "do NOT modify test files" rule, costing SC the task.)
 
-> *"You've correctly identified and modified the main `DurationField` in `django/db/models/fields/__init__.py` and updated the corresponding test. ...ensure the test expectation matches the actual change made."* (This review *endorsed* a violation of the explicit "do NOT modify test files" task rule, costing SC the task.)
+Kimi distinguishes real bug-related failures from environmental noise and tells the agent to stop wasting cycles. Qwen is accurate about what happened but rarely adds new information; when it does, it sometimes endorses rule violations because the model defaults to "constructive coding assistant" rather than "strict reviewer."
 
-> *"Make sure your implementation is robust and handles edge cases like empty choices or malformed data gracefully."* (Generic filler when the agent was on track.)
+## Takeaways
 
-Kimi's reviews distinguish real bug-related failures from environmental noise, name specific test files, and tell the agent to stop wasting cycles. Qwen's reviews are accurate about what happened but rarely add new information; when they do, they sometimes endorse rule violations because the model defaults to "constructive coding assistant" rather than "strict reviewer."
-
-A cycle-by-cycle classification of all 98 Qwen SC reviews:
-
-- **92%** referenced a specific file/method/line (so the *form* was right)
-- **18%** included generic filler ("handle edge cases", "make sure to verify")
-- **11%** confused gate meta-feedback ("min-compactions") with task content
-- **4%** echoed task rules back instead of flagging real divergences
-
-The mechanism is firing correctly; the model in the reviewer seat is the bottleneck.
-
-## What This Means
-
-Two takeaways:
-
-1. **SC's value depends heavily on the reviewer model's instruction-following character.** A model that defaults to "let me critique this code" mode adds value. A model that defaults to "let me bless what I see" mode produces filler that doesn't unlock task wins.
-2. **The benchmark matters too.** SWE-bench tasks are mostly localized single-file fixes — agents can re-read the source file cheaply, so memory of *code* isn't really lost. What gets lost in compaction is *operational reasoning* (failed approaches, ruled-out paths). For SC to shine, the benchmark needs tasks where that operational reasoning matters AND can't be cheaply re-derived.
-
-We saw the same +17pp pattern on LongBench-v2 (where information lives only in the conversation), and the dev-set SWE-bench result with Kimi. Where SC shows weak results — Qwen across five SWE-bench settings — the failure modes are diagnosable: either the reviewer can't add new signal, or compaction barely fires in the first place (131k context with single-file tasks).
+- **SC's value depends on the reviewer model's instruction-following character.** A model that defaults to "critique this code" mode adds value. A model that defaults to "bless what I see" adds filler.
+- **The benchmark matters too.** SWE-bench tasks are mostly localized single-file fixes — agents can re-read source cheaply, so memory of *code* isn't really lost. What gets lost in compaction is *operational reasoning* (failed approaches, ruled-out paths). For SC to shine, the benchmark needs tasks where that reasoning matters and can't be cheaply re-derived. LongBench fits, SWE-bench partially fits, ProgramBench-style "reimplement from binary + docs" should fit best.
 
 ## What's Next
 
-- **Reproduce LongBench-v2** under the current OpenHands implementation. The legacy result was on a custom harness; bringing it under the same code path closes the loop.
-- **Try ProgramBench** ([programbench.com](https://programbench.com/)) — task is "reimplement this binary from scratch in Rust given only docs and the executable" with hundreds of behavioral tests for granular scoring. This is the regime where compaction has to fire many times and lost reasoning matters.
-- **Programmatic rule enforcement.** Models endorsing task-rule violations is a real failure. A deterministic check (did $M_2$ touch any file matching `tests/*.py`?) before the LLM review removes that failure mode entirely.
-- **Tighter, structured $M_1$ output** — force JSON or a single-deviation answer to remove the filler-pad-the-answer pressure.
+- Reproduce LongBench-v2 under the current OpenHands implementation.
+- Try [ProgramBench](https://programbench.com/) where compaction has to fire many times and lost reasoning matters.
+- Programmatic rule enforcement before LLM review (catch test-file edits deterministically).
+- Tighter, structured M1 output to remove the filler-pad-the-answer pressure.
 
 ## Citation
-
-The full paper is in preparation. For now:
 
 ```
 @misc{provenzano2026speculative,
@@ -153,8 +103,8 @@ The full paper is in preparation. For now:
 
 ## Acknowledgments
 
-This work was conducted at Virginia Tech under the supervision of [Dr. Tu Vu](https://tuvllms.github.io/). Compute provided by Virginia Tech ARC, Tinkercliffs, Falcon, and UMass Unity. Models accessed via the Tinkercliffs ARC LLM API and on-cluster vLLM serving Qwen3-Coder-30B-A3B-Instruct-FP8.
+Conducted at Virginia Tech under the supervision of [Dr. Tu Vu](https://tuvllms.github.io/). Compute provided by Virginia Tech ARC, Tinkercliffs, Falcon, and UMass Unity.
 
 ---
 
-_Feedback welcome — please reach out via [my homepage](https://noahpro99.github.io/) if you have questions or ideas._
+_Feedback welcome — please reach out via [my homepage](https://noahpro99.github.io/)._
