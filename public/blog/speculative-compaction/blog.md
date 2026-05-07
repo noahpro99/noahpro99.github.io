@@ -90,7 +90,7 @@ A scaling sweep on the SWE-bench Lite _test_ split (50 tasks) with Qwen3-Coder-3
 
 ## Acknowledgments
 
-Conducted at Virginia Tech under the supervision of [Dr. Tu Vu](https://tuvllms.github.io/). Compute provided by Virginia Tech ARC, Tinkercliffs, Falcon, and UMass Unity.
+Conducted at Virginia Tech under the supervision of [Dr. Tu Vu](https://tuvllms.github.io/). Compute provided by Virginia Tech ARC, and UMass Unity.
 
 ---
 
