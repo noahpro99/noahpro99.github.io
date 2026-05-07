@@ -24,7 +24,7 @@ One extra LLM call per compaction. No agent loop changes.
 
 ### Two variants
 
-1. **SC-Rewrite** (where the "speculative" in the name comes from, by analogy with speculative decoding). If $M_1$ finds corrections, it rewrites the compaction summary itself rather than injecting feedback into $M_2$'s conversation. $M_2$ restarts from the improved summary. Like speculative decoding: speculate a summary, verify, re-decode if wrong.
+1. **SC-Rewrite** (where the "speculative" in the name comes from, by analogy with speculative decoding). If $M_1$ finds corrections, it rewrites the compaction summary itself rather than injecting feedback into $M_2$'s conversation. $M_2$ restarts from the improved summary. The analogy: $M_2$ on the summary cheaply speculates work; $M_1$ on the full context verifies it's something it would do itself. If not, re-summarize and try again.
 2. **Multi-round feedback.** Instead of one review per compaction, $M_1$ checks in on $M_2$ several times as $M_2$ progresses. Useful for long tasks where divergence can compound.
 
 The framing in $M_1$'s prompt is intentionally personal:
