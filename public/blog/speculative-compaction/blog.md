@@ -12,34 +12,31 @@ Compaction works but it's lossy. A debugging agent might try fix A, fail, try fi
 
 ## The Idea
 
-Call the agent with full prior context **M1** and the post-compaction agent **M2** (same model, different conversation states).
+Call the agent with full prior context $M_1$ and the post-compaction agent $M_2$ (same model, different conversation states).
 
-1. Conversation fills up. The inner condenser produces summary **S**.
-2. M2 starts working from S.
-3. After M2 accumulates a small amount of new work (a "headroom" we set, e.g. 16k tokens), M1 — which still has the full prior conversation — reviews M2's recent moves.
-4. If M1 spots a divergence ("you're editing the wrong file"), it injects feedback as a note to M2.
-5. M2 continues with the correction.
+1. Conversation fills up. The inner condenser produces summary $S$.
+2. $M_2$ starts working from $S$.
+3. After $M_2$ accumulates a small amount of new work (a "headroom" we set, e.g. 16k tokens), $M_1$ — which still has the full prior conversation — reviews $M_2$'s recent moves.
+4. If $M_1$ spots a divergence ("you're editing the wrong file"), it injects feedback as a note to $M_2$.
+5. $M_2$ continues with the correction.
 
 One extra LLM call per compaction. No agent loop changes.
 
-The framing in M1's prompt is intentionally personal:
+The framing in $M_1$'s prompt is intentionally personal:
 
 > *"You've been working on a coding task and got partway through. Your supervisor just paired you with a coworker agent who will take over from here. The coworker received a summary of your progress, not the full conversation. Glance at their first few moves and advise them..."*
 
-Treating M1 as a hand-off advisor — a role it has training data for — produces specific feedback. Meta-instructions like *"you are a code reviewer, analyze this transcript"* caused the model to lapse into description mode.
+Treating $M_1$ as a hand-off advisor — a role it has training data for — produces specific feedback. Meta-instructions like *"you are a code reviewer, analyze this transcript"* caused the model to lapse into description mode.
 
 ## Results
 
 ### SWE-bench Lite (dev) — Kimi-K2.6, 64k context
 
-<table>
-<thead><tr><th>Method</th><th>Resolved</th><th>Tokens / task</th></tr></thead>
-<tbody>
-<tr><td>Std. compaction</td><td>43.5% (10/23)</td><td>4.1M</td></tr>
-<tr><td><b>Speculative Compaction</b></td><td><b>60.9% (14/23)</b></td><td><b>2.0M</b></td></tr>
-<tr><td>SC-Rewrite</td><td>52.2% (12/23)</td><td>2.4M</td></tr>
-</tbody>
-</table>
+| Method | Resolved | Tokens / task |
+|---|---|---|
+| Std. compaction | 43.5% (10/23) | 4.1M |
+| **Speculative Compaction** | **60.9% (14/23)** | **2.0M** |
+| SC-Rewrite | 52.2% (12/23) | 2.4M |
 
 **+17.4pp absolute**, *and* about half the tokens per task — fewer turns spent rediscovering things the summary lost.
 
@@ -51,16 +48,13 @@ On the 93 longest LongBench-v2 documents, SC raised accuracy from **51% → 68% 
 
 We ran a scaling sweep on the SWE-bench Lite *test* split (50 tasks) with Qwen3-Coder-30B-A3B-Instruct-FP8, varying context size and the minimum number of forced review cycles per task:
 
-<table>
-<thead><tr><th>Context</th><th>min-comp</th><th>STD</th><th>SC</th><th>Δ</th></tr></thead>
-<tbody>
-<tr><td>131k</td><td>1</td><td><b>40%</b></td><td>33%</td><td>−7pp</td></tr>
-<tr><td>131k</td><td>2</td><td>31%</td><td><b>34%</b></td><td><b>+3pp</b></td></tr>
-<tr><td>131k</td><td>4</td><td><b>33%</b></td><td>28%</td><td>−5pp</td></tr>
-<tr><td>64k</td><td>1</td><td><b>40%</b></td><td>34%</td><td>−6pp</td></tr>
-<tr><td>32k</td><td>2</td><td>34%</td><td>34%</td><td>0pp</td></tr>
-</tbody>
-</table>
+| Context | min-comp | STD | SC | Δ |
+|---|---|---|---|---|
+| 131k | 1 | **40%** | 33% | −7pp |
+| 131k | 2 | 31% | **34%** | **+3pp** |
+| 131k | 4 | **33%** | 28% | −5pp |
+| 64k | 1 | **40%** | 34% | −6pp |
+| 32k | 2 | 34% | 34% | 0pp |
 
 Only one of five settings shows a positive lift, and only by +3pp. A real finding, not a tuning failure.
 
@@ -88,7 +82,7 @@ Kimi distinguishes real bug-related failures from environmental noise and tells 
 - Reproduce LongBench-v2 under the current OpenHands implementation.
 - Try [ProgramBench](https://programbench.com/) where compaction has to fire many times and lost reasoning matters.
 - Programmatic rule enforcement before LLM review (catch test-file edits deterministically).
-- Tighter, structured M1 output to remove the filler-pad-the-answer pressure.
+- Tighter, structured $M_1$ output to remove the filler-pad-the-answer pressure.
 
 ## Citation
 

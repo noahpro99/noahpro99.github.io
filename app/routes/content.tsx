@@ -1,6 +1,10 @@
 import type { Route } from "./+types/content";
 import { useEffect, useState } from "react";
 import ReactMarkdown from "react-markdown";
+import remarkGfm from "remark-gfm";
+import remarkMath from "remark-math";
+import rehypeKatex from "rehype-katex";
+import "katex/dist/katex.min.css";
 import { getContentById } from "../config/content";
 import {
   LoadingSpinner,
@@ -172,6 +176,8 @@ export default function ContentPost({ params }: Route.ComponentProps) {
               {/* Markdown Content */}
               <div className="prose prose-sm prose-invert max-w-none">
                 <ReactMarkdown
+                  remarkPlugins={[remarkGfm, remarkMath]}
+                  rehypePlugins={[rehypeKatex]}
                   components={{
                     h1: ({ children }) => (
                       <h2 className="text-xl font-semibold text-white mt-8 mb-4">
@@ -226,6 +232,28 @@ export default function ContentPost({ params }: Route.ComponentProps) {
                       <blockquote className="border-l-4 border-coral pl-4 italic text-dim-gray mb-4 text-sm">
                         {children}
                       </blockquote>
+                    ),
+                    table: ({ children }) => (
+                      <div className="overflow-x-auto mb-4">
+                        <table className="min-w-full text-sm border-collapse">
+                          {children}
+                        </table>
+                      </div>
+                    ),
+                    thead: ({ children }) => (
+                      <thead className="border-b border-coral/40">
+                        {children}
+                      </thead>
+                    ),
+                    th: ({ children }) => (
+                      <th className="px-3 py-2 text-left font-semibold text-white">
+                        {children}
+                      </th>
+                    ),
+                    td: ({ children }) => (
+                      <td className="px-3 py-2 text-dim-gray border-b border-jet">
+                        {children}
+                      </td>
                     ),
                     a: ({ href, children }) => (
                       <a
