@@ -32,7 +32,7 @@ Treating $M_1$ as a hand-off advisor (a role it has training data for) produces 
 
 A natural alternative is to give $M_2$ a tool that grep's its pre-summary history on demand. We think proactive injection wins for two reasons:
 
-1. **Models are lazy with tools.** If the missing detail isn't blatantly relevant, $M_2$ won't bother to look, and the divergence happens precisely when $M_2$ doesn't realize something is missing. Pushing the correction in beats relying on $M_2$ to pull it.
+1. **Models are lazy with tools.** If the missing detail isn't blatantly relevant, $M_2$ won't bother to look, and the divergence happens precisely when $M_2$ doesn't realize something is missing. A proactive injection beats relying on $M_2$ to pull the correction itself.
 2. **The model is a fuzzy-find, not a grep.** $M_1$ over the full conversation is an excellent retriever; it surfaces relevance even when the query is implicit ("are they about to repeat a failed approach?"). A grep tool requires $M_2$ to know what string to search for. Most useful corrections aren't keyword-matchable.
 
 ## Results
