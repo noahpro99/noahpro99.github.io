@@ -7,7 +7,7 @@ export const allContent: ContentItem[] = [
   {
     id: "speculative-compaction",
     type: "blog",
-    title: "Speculative Compaction: Catching What Summaries Lose",
+    title: "Speculative Compaction",
     description:
       "When an LLM agent's context fills up, compaction summarizes and discards the old turns, losing operational reasoning along the way. Speculative Compaction has the original full-context model review the post-compaction agent's first moves and inject targeted feedback. +17pp on SWE-bench Lite and LongBench-v2 with Kimi-K2.6.",
     date: "May 2026",

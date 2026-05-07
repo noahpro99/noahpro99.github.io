@@ -1,4 +1,6 @@
-# Speculative Compaction: Catching What Summaries Lose
+# Speculative Compaction
+
+_Catching what summaries lose_
 
 [Noah Provenzano](https://noahpro99.github.io/), advised by [Dr. Tu Vu](https://tuvllms.github.io/), Virginia Tech
 
@@ -55,9 +57,9 @@ A scaling sweep on the SWE-bench Lite _test_ split (50 tasks) with Qwen3-Coder-3
 
 ## Takeaways
 
-- **The benchmark matters.** SC's pitch is "preserve reasoning lost in compaction," which only pays off when (a) compaction actually fires often and (b) the lost information is hard to re-derive. Most SWE-bench Lite tasks at 131k context fit comfortably without compacting, and even when they do compact, the agent can re-read source cheaply. So what gets lost is _operational reasoning_ (failed approaches, ruled-out paths), not _code_. LongBench (document QA, the answer lives only in the conversation) fits SC's assumption directly, and that's where we see the +17pp. ProgramBench-style "reimplement from binary + docs" should fit even better: hundreds of behavioral tests, long horizons, lots of forced compactions, and reasoning that genuinely cannot be re-derived from the workspace.
+- **The benchmark matters.** SC pays off only when compaction actually fires and the lost information is hard to re-derive. SWE-bench Lite at 131k fails both: most tasks don't fill context, and re-reading source is cheap. LongBench fits the pitch directly. ProgramBench-style "reimplement from binary + docs" should fit even better.
 
-- **SC only unlocks lift with a strong verifier.** The $M_1$ review has to actually _critique_ to add value. Kimi surfaces non-obvious issues (real failures vs Python-3.12 noise, repeated failed approaches, sloppy edits). Qwen-Coder-30B's reviews mostly bless what they see, occasionally endorse rule violations (it once approved a "do not modify test files" violation), and pad with generic edge-case advice. We think this is why Qwen struggles: it's a capable coder but not a strong enough critic. SC inherits its ceiling from whatever reasoning capacity the verifier brings. A model that can't generate new useful signal can't recover what compaction lost, and the extra calls become pure overhead.
+- **SC needs a strong verifier.** $M_1$ has to critique, not just describe. Kimi flags real failures and catches repeated mistakes; Qwen-Coder-30B blesses what it sees and pads with generic advice. Without a critic capable of generating new signal, the extra calls are pure overhead.
 
 ## What's Next
 
