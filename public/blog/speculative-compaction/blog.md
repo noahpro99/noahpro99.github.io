@@ -1,5 +1,3 @@
-# Speculative Compaction: Catching What Summaries Lose
-
 _May 2026 • Research_
 
 [Noah Provenzano](https://noahpro99.github.io/), advised by [Dr. Tu Vu](https://tuvllms.github.io/), Virginia Tech
