@@ -1,5 +1,5 @@
 import type { Route } from "./+types/content";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import ReactMarkdown from "react-markdown";
 import remarkGfm from "remark-gfm";
 import remarkMath from "remark-math";
@@ -7,6 +7,7 @@ import rehypeKatex from "rehype-katex";
 import { visit } from "unist-util-visit";
 import type { Root, Image, Text, Paragraph } from "mdast";
 import "katex/dist/katex.min.css";
+import { Check, Copy } from "lucide-react";
 import { getContentById } from "../config/content";
 import {
   LoadingSpinner,
@@ -15,6 +16,41 @@ import {
 } from "../components/shared";
 import { Breadcrumb } from "../components/Breadcrumb";
 import type { ContentItem } from "~/components/ContentCard";
+
+function CodeBlock({ children }: { children: React.ReactNode }) {
+  const ref = useRef<HTMLPreElement>(null);
+  const [copied, setCopied] = useState(false);
+
+  function copy() {
+    const text = ref.current?.querySelector("code")?.innerText ?? "";
+    navigator.clipboard.writeText(text).then(() => {
+      setCopied(true);
+      setTimeout(() => setCopied(false), 2000);
+    });
+  }
+
+  return (
+    <div className="relative mb-4">
+      <pre
+        ref={ref}
+        className="bg-jet rounded-lg p-3 overflow-x-auto scrollbar-thin"
+      >
+        {children}
+      </pre>
+      <button
+        onClick={copy}
+        className="absolute top-2 right-2 p-1.5 rounded bg-jet border border-coral/30 text-coral hover:text-white hover:border-coral transition-colors"
+        aria-label="Copy code"
+      >
+        {copied ? (
+          <Check className="w-3.5 h-3.5 text-coral" />
+        ) : (
+          <Copy className="w-3.5 h-3.5" />
+        )}
+      </button>
+    </div>
+  );
+}
 
 function remarkImageAttrs() {
   return (tree: Root) => {
@@ -228,14 +264,16 @@ export default function ContentPost({ params }: Route.ComponentProps) {
                         {children}
                       </ol>
                     ),
+                    pre: ({ children }) => (
+                      <CodeBlock>{children}</CodeBlock>
+                    ),
                     code: ({ className, children }) => {
-                      if (className?.includes("language-")) {
+                      const isBlock =
+                        className?.startsWith("language-") ||
+                        /\n/.test(String(children));
+                      if (isBlock) {
                         return (
-                          <pre className="bg-jet rounded-lg p-3 overflow-x-auto mb-4 scrollbar-thin">
-                            <code className="text-white text-xs">
-                              {children}
-                            </code>
-                          </pre>
+                          <code className="text-white text-xs">{children}</code>
                         );
                       }
                       return (
