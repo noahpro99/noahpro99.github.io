@@ -44,7 +44,7 @@ A natural alternative is to give $M_2$ a tool that grep's its pre-summary histor
 
 ## Implementation
 
-SC is a [`CondenserBase`](https://github.com/All-Hands-AI/OpenHands) subclass in [OpenHands](https://github.com/All-Hands-AI/OpenHands), drop-in compatible with any OpenHands agent. Each task runs in an apptainer SIF sandbox with the SWE-bench testbed mounted. Models accessed via Virginia Tech ARC's hosted API (Kimi-K2.6, gpt-oss-120b) and on-cluster vLLM (Qwen3-Coder-30B-A3B-Instruct-FP8).
+SC is harness-agnostic; it just needs a compaction hook to wedge $M_1$'s review into. For the results below, we implemented it as a [`CondenserBase`](https://github.com/All-Hands-AI/OpenHands) subclass in [OpenHands](https://github.com/All-Hands-AI/OpenHands), with each task running in an apptainer SIF sandbox over the SWE-bench testbed. Models were accessed via Virginia Tech ARC's hosted API (Kimi-K2.6, gpt-oss-120b) and on-cluster vLLM (Qwen3-Coder-30B-A3B-Instruct-FP8).
 
 ## Results
 
