@@ -130,12 +130,16 @@ export default function ContentPost({ params }: Route.ComponentProps) {
                     </span>
                   )}
                 </div>
-                <h1 className="text-2xl md:text-3xl font-bold text-white mb-3 leading-tight">
-                  {content.title}
-                </h1>
-                <p className="text-dim-gray text-sm leading-relaxed mb-4">
-                  {content.description}
-                </p>
+                {content.type !== "blog" && (
+                  <>
+                    <h1 className="text-2xl md:text-3xl font-bold text-white mb-3 leading-tight">
+                      {content.title}
+                    </h1>
+                    <p className="text-dim-gray text-sm leading-relaxed mb-4">
+                      {content.description}
+                    </p>
+                  </>
+                )}
 
                 {/* Content Links */}
                 <div className="flex gap-3">
@@ -180,9 +184,9 @@ export default function ContentPost({ params }: Route.ComponentProps) {
                   rehypePlugins={[rehypeKatex]}
                   components={{
                     h1: ({ children }) => (
-                      <h2 className="text-xl font-semibold text-white mt-8 mb-4">
+                      <h1 className="text-2xl md:text-3xl font-bold text-white mb-3 leading-tight">
                         {children}
-                      </h2>
+                      </h1>
                     ),
                     h2: ({ children }) => (
                       <h3 className="text-lg font-semibold text-white mt-6 mb-3">
