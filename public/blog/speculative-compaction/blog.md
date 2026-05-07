@@ -2,6 +2,8 @@
 
 _Catching what summaries lose_
 
+![Icon](./icon2.png){ width=20% float=right }
+
 [Noah Provenzano](https://noahpro99.github.io/), advised by [Dr. Tu Vu](https://tuvllms.github.io/), Virginia Tech
 
 > **TL;DR.** When an LLM agent's context fills up, the standard fix is _compaction_, summarize the conversation, drop the old turns, keep going. Compaction loses information. **Speculative Compaction (SC)** has the original full-context model review the post-compaction agent's first moves and inject targeted feedback. On SWE-bench Lite (dev) with Kimi-K2.6 at 64k context, SC raises resolution from **43.5% to 60.9% (+17.4pp)** while using **half the tokens per task**. The lift is real but model and configuration dependent.

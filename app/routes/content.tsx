@@ -4,6 +4,8 @@ import ReactMarkdown from "react-markdown";
 import remarkGfm from "remark-gfm";
 import remarkMath from "remark-math";
 import rehypeKatex from "rehype-katex";
+import { visit } from "unist-util-visit";
+import type { Root, Image, Text, Paragraph } from "mdast";
 import "katex/dist/katex.min.css";
 import { getContentById } from "../config/content";
 import {
@@ -13,6 +15,30 @@ import {
 } from "../components/shared";
 import { Breadcrumb } from "../components/Breadcrumb";
 import type { ContentItem } from "~/components/ContentCard";
+
+function remarkImageAttrs() {
+  return (tree: Root) => {
+    visit(tree, "paragraph", (node: Paragraph) => {
+      for (let i = 0; i < node.children.length - 1; i++) {
+        const img = node.children[i];
+        const txt = node.children[i + 1];
+        if (img.type !== "image" || txt.type !== "text") continue;
+        const match = (txt as Text).value.match(/^\s*\{([^}]+)\}/);
+        if (!match) continue;
+        const attrs = match[1];
+        const widthMatch = attrs.match(/width=(\d+%)/);
+        const floatMatch = attrs.match(/float=(left|right)/);
+        const image = img as Image;
+        image.data = image.data ?? {};
+        image.data.hProperties = image.data.hProperties ?? {};
+        const hp = image.data.hProperties as Record<string, string>;
+        if (widthMatch) hp.width = widthMatch[1];
+        if (floatMatch) hp.float = floatMatch[1];
+        (txt as Text).value = (txt as Text).value.slice(match[0].length);
+      }
+    });
+  };
+}
 
 export function meta({ params }: Route.MetaArgs) {
   const content = getContentById(params.id);
@@ -58,21 +84,7 @@ export default function ContentPost({ params }: Route.ComponentProps) {
       fetch(item.blogPath)
         .then((response) => response.text())
         .then((text) => {
-          // Process Pandoc-style image attributes
-          const processedText = text.replace(
-            /!\[([^\]]*)\]\(([^)]+)\)\{([^}]+)\}/g,
-            (match, alt, src, attrs) => {
-              // Extract width attribute
-              const widthMatch = attrs.match(/width=(\d+)%/);
-              if (widthMatch) {
-                const width = widthMatch[1];
-                // Store width in alt text with a special marker
-                return `![${alt}||width:${width}%](${src})`;
-              }
-              return `![${alt}](${src})`;
-            }
-          );
-          setMarkdownContent(processedText);
+          setMarkdownContent(text);
           setLoading(false);
         })
         .catch((error) => {
@@ -180,7 +192,7 @@ export default function ContentPost({ params }: Route.ComponentProps) {
               {/* Markdown Content */}
               <div className="prose prose-sm prose-invert max-w-none">
                 <ReactMarkdown
-                  remarkPlugins={[remarkGfm, remarkMath]}
+                  remarkPlugins={[remarkGfm, remarkMath, remarkImageAttrs]}
                   rehypePlugins={[rehypeKatex]}
                   components={{
                     h1: ({ children }) => (
@@ -269,21 +281,14 @@ export default function ContentPost({ params }: Route.ComponentProps) {
                         {children}
                       </a>
                     ),
-                    img: ({ src, alt, title }) => {
-                      // Parse width from processed alt text
-                      let width = undefined;
-                      let cleanAlt = alt;
+                    img: ({ src, alt, node }) => {
+                      const props = node?.properties ?? {};
+                      const width = props.width as string | undefined;
+                      const float = props.float as
+                        | "left"
+                        | "right"
+                        | undefined;
 
-                      if (alt && alt.includes("||width:")) {
-                        const parts = alt.split("||width:");
-                        cleanAlt = parts[0];
-                        const widthPart = parts[1];
-                        if (widthPart) {
-                          width = widthPart;
-                        }
-                      }
-
-                      // Handle relative paths for blog images
                       let resolvedSrc = src;
                       if (
                         src &&
@@ -291,7 +296,6 @@ export default function ContentPost({ params }: Route.ComponentProps) {
                         content.type === "blog" &&
                         content.blogPath
                       ) {
-                        // Extract the blog directory from the blogPath
                         const blogDir = content.blogPath.replace(
                           "/blog.md",
                           ""
@@ -299,15 +303,34 @@ export default function ContentPost({ params }: Route.ComponentProps) {
                         resolvedSrc = `${blogDir}/${src.slice(2)}`;
                       }
 
+                      if (float) {
+                        return (
+                          <img
+                            src={resolvedSrc}
+                            alt={alt ?? ""}
+                            className="rounded-lg h-auto"
+                            style={{
+                              float,
+                              width: width ?? "20%",
+                              maxWidth: "100%",
+                              margin:
+                                float === "right"
+                                  ? "0 0 1rem 1.5rem"
+                                  : "0 1.5rem 1rem 0",
+                            }}
+                          />
+                        );
+                      }
+
                       return (
                         <div className="my-6">
                           <img
                             src={resolvedSrc}
-                            alt={cleanAlt}
+                            alt={alt ?? ""}
                             className="rounded-lg mx-auto max-w-full h-auto"
                             style={
                               width
-                                ? { width: width, maxWidth: "100%" }
+                                ? { width, maxWidth: "100%" }
                                 : { maxWidth: "100%" }
                             }
                           />
