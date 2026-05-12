@@ -255,12 +255,12 @@ export default function ContentPost({ params }: Route.ComponentProps) {
                       </p>
                     ),
                     ul: ({ children }) => (
-                      <ul className="text-dim-gray space-y-1 mb-4 list-disc list-inside text-sm">
+                      <ul className="text-dim-gray space-y-1 mb-4 list-disc list-inside text-sm [&_li>p]:inline [&_li>p]:m-0">
                         {children}
                       </ul>
                     ),
                     ol: ({ children }) => (
-                      <ol className="text-dim-gray space-y-1 mb-4 list-decimal list-inside text-sm">
+                      <ol className="text-dim-gray space-y-1 mb-4 list-decimal list-inside text-sm [&_li>p]:inline [&_li>p]:m-0">
                         {children}
                       </ol>
                     ),
