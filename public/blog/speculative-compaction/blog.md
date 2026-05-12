@@ -88,7 +88,8 @@ A scaling sweep on the SWE-bench Lite _test_ split (50 tasks) with Qwen3-Coder-3
   title={Speculative Compaction},
   author={Provenzano, Noah and Sharma, Rituraj and Vu, Tu},
   year={2026},
-  note={Pre blog writeup}
+  note={Pre blog writeup},
+  url={https://noahpro99.github.io/content/speculative-compaction}
 }
 ```
 
