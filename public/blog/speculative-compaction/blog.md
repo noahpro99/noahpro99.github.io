@@ -4,7 +4,7 @@ _Catching what summaries lose_
 
 ![Icon](./icon2.png){ width=20% float=right }
 
-[Noah Provenzano](https://noahpro99.github.io/), advised by [Dr. Tu Vu](https://tuvllms.github.io/), Virginia Tech
+[Noah Provenzano](https://noahpro99.github.io/), [Rituraj Sharma](https://rituraj003.github.io/), advised by [Dr. Tu Vu](https://tuvllms.github.io/), Virginia Tech
 
 _May 12, 2026_
 
